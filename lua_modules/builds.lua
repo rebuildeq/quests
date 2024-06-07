@@ -9,6 +9,10 @@ local skills = {
 	shd = {
 		lifesap = { ID = 0 },
 		gougingskin = { ID = 2 },
+	},
+	rog = {
+		appraisal = { ID = 0 },
+		jarringstab = { ID = 20 },
 	}
 }
 
