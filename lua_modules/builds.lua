@@ -39,7 +39,7 @@ local skills = {
 		corruption = { ID = 0 },
 	},
 	wiz = {
-
+		weave = { ID = 0 },
 	},
 	mag = {
 
