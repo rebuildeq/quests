@@ -10,7 +10,7 @@ local skills = {
 		believe = { ID = 0 },
 	},
 	pal = {
-
+		rodcetsgift = { ID = 0 },
 	},
 	rng = {
 		reinforcedbowstring = { ID = 2 },
@@ -63,6 +63,10 @@ function builds.Init()
 			if type(_G[skill.Event.CommonDamage]) == "function" then
 				skill.CommonDamage = _G[skill.Event.CommonDamage]
 			end
+			if type(_G[skill.Event.HealDamage]) == "function" then
+				skill.HealDamage = _G[skill.Event.HealDamage]
+			end
+
 		end
 
 	end
@@ -92,6 +96,37 @@ function builds.OnModCommonDamage(e)
 				local rank = builds.Rank(e.attacker, skill.ID)
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, false, rank)
+				end
+			end
+		end
+	end
+end
+
+
+---@param e ModHealDamage
+function builds.OnModHealDamage(e)
+	if not e.self.valid or not e.caster.valid then
+		return e
+	end
+	-- builds require at least one client for build related triggers
+	if not e.self:IsClient() and not e.caster:IsClient() then
+		return e
+	end
+
+	for className, skillEntry in pairs(skills) do
+		if e.self:IsClient() and className == e.self:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.self, skill.ID)
+				if rank > 0 and skill.HealDamage then
+					skill.HealDamage(e, true, rank)
+				end
+			end
+		end
+		if e.caster:IsClient() and className == e.caster:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.caster, skill.ID)
+				if rank > 0 and skill.HealDamage then
+					skill.HealDamage(e, false, rank)
 				end
 			end
 		end
