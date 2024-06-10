@@ -28,7 +28,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	enemy:Damage(ally, damage, 0, Skill['1HBlunt'], false)
 	local mana_gain = 2 * rank
 	ally:SetMana(ally:GetMana() + mana_gain)
-	ally:Message(MT.FocusEffect, string.format("Spiritual Awakening dealt %d points of damage to %s and restored %d mana.", damage, enemy:GetCleanName(), damage / 2))
+	ally:Message(MT.FocusEffect, string.format("Verdant Renewal dealt %d points of damage to %s and restored %d mana.", damage, enemy:GetCleanName(), damage / 2))
 	return e
 end
 

@@ -20,7 +20,7 @@ local skills = {
 		gougingskin = { ID = 2 },
 	},
 	dru = {
-		spiritualawakening = { ID = 0 },
+		verdantrenewal = { ID = 0 },
 	},
 	mnk = {
 		intensifiedtraining = { ID = 0 },
@@ -33,7 +33,7 @@ local skills = {
 		jarringstab = { ID = 20 },
 	},
 	shm = {
-
+		spiritualawakening = { ID = 0 },
 	},
 	nec = {
 
