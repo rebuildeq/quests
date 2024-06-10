@@ -23,10 +23,10 @@ local skills = {
 		spiritualawakening = { ID = 0 },
 	},
 	mnk = {
-
+		intensifiedtraining = { ID = 0 },
 	},
 	brd = {
-
+		trainingofzek = { ID = 0 },
 	},
 	rog = {
 		appraisal = { ID = 0 },
