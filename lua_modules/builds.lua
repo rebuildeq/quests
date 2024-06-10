@@ -36,7 +36,7 @@ local skills = {
 		spiritualinfusion = { ID = 0 },
 	},
 	nec = {
-
+		corruption = { ID = 0 },
 	},
 	wiz = {
 
