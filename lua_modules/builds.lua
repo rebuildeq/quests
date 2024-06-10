@@ -20,7 +20,7 @@ local skills = {
 		gougingskin = { ID = 2 },
 	},
 	dru = {
-
+		spiritualawakening = { ID = 0 },
 	},
 	mnk = {
 
