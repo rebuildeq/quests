@@ -6,14 +6,53 @@ local skills = {
 	war = {
 		jarringstrike = { ID = 0 },
 	},
+	clr = {
+
+	},
+	pal = {
+
+	},
+	rng = {
+		reinforcedbowstring = { ID = 2 },
+	},
 	shd = {
 		lifesap = { ID = 0 },
 		gougingskin = { ID = 2 },
 	},
+	dru = {
+
+	},
+	mnk = {
+
+	},
+	brd = {
+
+	},
 	rog = {
 		appraisal = { ID = 0 },
 		jarringstab = { ID = 20 },
-	}
+	},
+	shm = {
+
+	},
+	nec = {
+
+	},
+	wiz = {
+
+	},
+	mag = {
+
+	},
+	enc = {
+
+	},
+	bst = {
+
+	},
+	ber = {
+
+	},
 }
 
 function builds.Init()
