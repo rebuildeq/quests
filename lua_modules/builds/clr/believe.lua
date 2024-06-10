@@ -12,7 +12,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	local builds = require('builds')
 
 
-	-- Add 400 mod proc that deals (level * 3 * 0.2) magic damage as well as a fleeting fury buff
+	-- The cleric gains a 300 mod proc that deals (level * 0.75 * <em data-base='0.2'>0.2</em>) magic damage<span class='perLevel'> per rank</span>, and half the damage is returned as health back to the cleric.
 
 	-- Only proc off of regular attacks (1hs, 1hb, piercing, etc)
 	local melee_skills = {0,1,2,3,7,20,22,28,36,37,51,74,76,77}
@@ -20,16 +20,14 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		return e
 	end
 
-	-- TODO: How to simulate a proc rate? And did Appraisal even benefit from ranks?
-	if !builds.Proc(400) then
+	if !builds.Proc(300) then
 		return e
 	end
 
-	ally:ApplySpellBuff(271) -- Fleeting Fury, verify same spell id on Rebuild
-	local damage = ally:GetLevel() * 0.6
-	enemy:Damage(ally, damage, 0, Skill['1HPiercing'], false)
-	ally:Message(MT.FocusEffect, string.format("Appraisal dealt %d points of damage to %s.", damage, enemy:GetCleanName()))
-
+	local damage = ally:GetLevel() * 0.75 * (rank * 0.2)
+	enemy:Damage(ally, damage, 0, Skill['1HBlunt'], false)
+	ally:HealDamage(damage / 2)
+	ally:Message(MT.FocusEffect, string.format("Believe dealt %d points of damage to %s and healed you for %d.", damage, enemy:GetCleanName(), damage / 2))
 	return e
 end
 

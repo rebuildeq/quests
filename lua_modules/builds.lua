@@ -7,7 +7,7 @@ local skills = {
 		jarringstrike = { ID = 0 },
 	},
 	clr = {
-
+		believe = { ID = 0 },
 	},
 	pal = {
 
@@ -118,5 +118,16 @@ function builds.Rank(self, skillID)
 	return 0
 end
 
+---@param mod integer # proc mod
+---@return boolean
+function builds.Proc(mod)
+	local chance = mod
+	local roll = math.random(1000)
+	if roll > chance then
+		return false
+	end
+
+	return true
+end
 
 return builds
