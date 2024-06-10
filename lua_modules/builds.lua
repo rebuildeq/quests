@@ -33,7 +33,7 @@ local skills = {
 		jarringstab = { ID = 20 },
 	},
 	shm = {
-		spiritualawakening = { ID = 0 },
+		spiritualinfusion = { ID = 0 },
 	},
 	nec = {
 
