@@ -66,9 +66,7 @@ function builds.Init()
 			if type(_G[skill.Event.HealDamage]) == "function" then
 				skill.HealDamage = _G[skill.Event.HealDamage]
 			end
-
 		end
-
 	end
 end
 
@@ -101,7 +99,6 @@ function builds.OnModCommonDamage(e)
 		end
 	end
 end
-
 
 ---@param e ModHealDamage
 function builds.OnModHealDamage(e)
@@ -153,16 +150,60 @@ function builds.Rank(self, skillID)
 	return 0
 end
 
+---@param self Mob
 ---@param mod integer # proc mod
+---@param hand number # hand
 ---@return boolean
-function builds.Proc(mod)
-	local chance = mod
-	local roll = math.random(1000)
-	if roll > chance then
+function builds.IsProcSuccess(self, mod, hand)
+
+	-- Mob::TryWeaponProc and Mob::GetProcChances influenced
+
+	local proc_chance = 0
+	local weapon_speed = 0
+	-- TODO: Get weapon speed by hand
+	if hand == Slot.Primary then
+		-- attack timer
+	end
+	if hand == Slot.Secondary then
+		-- attack_dw
+	end
+	if hand == Slot.Range then
+		-- range timer
+	end
+	if weapon_speed < RuleI.Get(Rule['MinWeaponSpeed']) then
+		weapon_speed = RuleI.Get(Rule['MinWeaponSpeed'])
+	end
+
+
+	proc_chance = ((mod + 100)/100)
+
+	local dex = self:GetDEX()
+
+	if RuleB.Get(Rule['AdjustProcPerMinute']) then
+		proc_chance = (weapon_speed * RuleR.Get(Rule['AvgProcsPerMinute']) / 60000)
+		proc_chance = proc_chance + (dex * RuleR.Get(Rule['ProcPerMinDexContrib']))
+	else
+		proc_chance = RuleR.Get(Rule['BaseProcChance']) + (dex / RuleR.Get(Rule['ProcDexDivideBy']))
+	end
+
+	eq.debug(string.format("Proc chance: %f", proc_chance))
+
+	if hand == Slot.Secondary then
+		proc_chance = proc_chance / 2
+	end
+
+	local chance = 	proc_chance * (100 + mod)/100
+
+	local roll = math.random(100)
+
+	eq.debug(string.format("Proc roll: %d vs chance: %d", roll, chance))
+
+	if roll < chance then
 		return false
 	end
 
 	return true
 end
 
+builds.Init()
 return builds
