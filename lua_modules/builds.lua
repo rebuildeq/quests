@@ -42,7 +42,7 @@ local skills = {
 		weave = { ID = 0 },
 	},
 	mag = {
-
+		arcanesurge = { ID = 0 },
 	},
 	enc = {
 
