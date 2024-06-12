@@ -5,6 +5,7 @@ local builds_path = "lua_modules/builds/"
 local skills = {
 	war = {
 		jarringstrike = { ID = 0 },
+		ironcladchallenge = { ID = 2 },
 	},
 	clr = {
 		believe = { ID = 0 },
