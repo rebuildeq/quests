@@ -10,3 +10,8 @@ function CommonDamage(e)
 	builds.OnModCommonDamage(e)
 end
 
+---@param e ModCheckHitChance
+function CheckHitChance(e)
+	local builds = require("builds")
+	builds.OnCheckHitChance(e)
+end

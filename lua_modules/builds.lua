@@ -25,9 +25,11 @@ local skills = {
 	},
 	dru = {
 		verdantrenewal = { ID = 0 },
+		onewithnature = { ID = 2 },
 	},
 	mnk = {
 		intensifiedtraining = { ID = 0 },
+		familiarity = { ID = 2 },
 	},
 	brd = {
 		trainingofzek = { ID = 0 },
@@ -77,6 +79,10 @@ function builds.Init()
 			if type(_G[skill.Event.Tick]) == "function" then
 				skill.Tick = _G[skill.Event.Tick]
 			end
+			if type(_G[skill.Event.CheckHitChance]) == "function" then
+				skill.CheckHitChance = _G[skill.Event.CheckHitChance]
+			end
+
 		end
 	end
 end
@@ -162,6 +168,51 @@ function builds.OnModHealDamage(e)
 	end
 end
 
+---@param e ModCheckHitChance
+function builds.OnCheckHitChance(e)
+	for className, skillEntry in pairs(skills) do
+		if e.self:IsClient() and className == e.self:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.self, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.CheckHitChance then
+					skill.CheckHitChance(e, true, rank)
+				end
+			end
+		end
+		if e.other:IsClient() and className == e.other:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.other, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.CheckHitChance then
+					skill.CheckHitChance(e, false, rank)
+				end
+			end
+		end
+
+		if e.other:IsNPC() and e.other:HasOwner() and e.other:GetOwner():IsClient() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.other:GetOwner(), skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.CheckHitChance then
+					skill.CheckHitChance(e, false, rank)
+				end
+			end
+		end
+
+		if e.self:IsNPC() and e.self:HasOwner() and e.self:GetOwner():IsClient() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.self:GetOwner(), skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.CheckHitChance then
+					skill.CheckHitChance(e, true, rank)
+				end
+			end
+		end
+	end
+end
+
+---@param self Client
 function builds.OnTick(self)
 	if not self:IsClient() then
 		return
