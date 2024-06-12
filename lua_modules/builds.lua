@@ -44,6 +44,7 @@ local skills = {
 	},
 	mag = {
 		arcanesurge = { ID = 0 },
+		hydrosophist = { ID = 2 },
 	},
 	enc = {
 		nightmare = { ID = 0 },
