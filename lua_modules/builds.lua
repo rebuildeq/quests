@@ -13,6 +13,7 @@ local skills = {
 		rodcetsgift = { ID = 0 },
 	},
 	rng = {
+		venomousvolley = { ID = 0 },
 		reinforcedbowstring = { ID = 2 },
 	},
 	shd = {
@@ -51,7 +52,8 @@ local skills = {
 		animalbond = { ID = 0 },
 	},
 	ber = {
-
+		frenziedstrike = { ID = 0 },
+		frenzyricochet = { ID = 2 },
 	},
 }
 
