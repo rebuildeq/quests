@@ -10,6 +10,7 @@ function skill.CommonDamage(e, is_my_spell, rank)
 	end
 	local ally = e.attacker
 	local enemy = e.self
+	local builds = require('builds')
 
 	local spell = eq.get_spell(e.spell_id)
 	if spell == nil then
@@ -52,7 +53,7 @@ function skill.CommonDamage(e, is_my_spell, rank)
 	ally:SetBucket("surge_cooldown", string.format("%d", next_cooldown))
 
 	local damage = ally:GetLevel() * (rank * 8)
-	ally:Message(MT.FocusEffect, string.format("Arcane Surge dealt %d damage to %s.", damage, e.self:GetCleanName()))
+	builds.Debug(ally, string.format("Arcane Surge dealt %d damage to %s.", damage, enemy:GetCleanName()))
 	enemy:Damage(ally, damage, spell:ID(), 0)
 	return e
 end

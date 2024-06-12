@@ -61,7 +61,7 @@ function skill.HealDamage(e, is_my_spell, rank)
 			target:CalculateDistance(member:GetX(), member:GetY(), member:GetZ()) <= distance then -- within range
 			member:HealDamage(heal_amount)
 			member:Message(MT.Spells, string.format("You were healed for %d points of damage by %s.", heal_amount, ally:GetCleanName()))
-			ally:Message(MT.FocusEffect, string.format("Rodcet's Gift healed %s for %d points of damage.", member:GetCleanName(), heal_amount))
+			builds.Debug(ally, string.format("Rodcet's Gift healed %s for %d points of damage.", member:GetCleanName(), heal_amount))
 		end
 	end
 

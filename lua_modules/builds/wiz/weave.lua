@@ -10,6 +10,7 @@ function skill.CommonDamage(e, is_my_spell, rank)
 	end
 	local ally = e.attacker
 	local enemy = e.self
+	local builds = require('builds')
 
 	local spell = eq.get_spell(e.spell_id)
 	if spell == nil then
@@ -74,7 +75,7 @@ function skill.CommonDamage(e, is_my_spell, rank)
 	-- "When you cast two different single target DD spells that are within 10 levels of your current level, a bonus (level * <em data-base='10'>10</em>) damage spell is applied to target<span class='perLevel'> per rank</span>.",
 
 	local damage = ally:GetLevel() * (rank * 10)
-	ally:Message(MT.FocusEffect, string.format("Weave dealt %d damage to %s.", damage, e.self:GetCleanName()))
+	builds.Debug(ally, string.format("Weave dealt %d damage to %s.", damage, enemy:GetCleanName()))
 	enemy:Damage(ally, damage, spell:ID(), 0)
 	return e
 end

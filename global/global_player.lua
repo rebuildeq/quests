@@ -1,12 +1,18 @@
 -- items: 67704, 72091, 62621, 62622, 62844, 62827, 62828, 62836, 62883, 62876, 47100, 62878, 62879
 
 local don = require("dragons_of_norrath")
+local builds = require("builds")
 
 ---@param e PlayerEventConsider
 function event_consider(e)
-    if con_npc(e) then return end
-    if con_player(e) then return end
-    if con_corpse(e) then return end
+
+    if con_npc(e) then return end -- lua_modules/consider.lua
+    if con_player(e) then return end -- lua_modules/consider.lua
+    if con_corpse(e) then return end -- lua_modules/consider.lua
+end
+
+---@param e PlayerEventCast
+function event_cast(e)
 end
 
 function event_enter_zone(e)

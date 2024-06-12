@@ -9,6 +9,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 	local ally = e.self
 	local enemy = e.attacker
+	local builds = require('builds')
 
 	if e.skill_used ~= 7 then
 		return e
@@ -17,7 +18,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	e.ignore_default = true
 	e.return_value = e.value * 0.1 * (5 * rank)
 
-	ally:Message(MT.FocusEffect, string.format("Reinforced Bowstring increased damage by %d.", enemy:GetCleanName(), e.return_value))
+	builds.Debug(ally, string.format("Reinforced Bowstring increased damage by %d.", e.return_value))
 	e.return_value = e.value + e.return_value
 end
 

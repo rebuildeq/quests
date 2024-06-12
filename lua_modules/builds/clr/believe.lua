@@ -27,7 +27,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	local damage = ally:GetLevel() * 0.75 * (rank * 0.2)
 	enemy:Damage(ally, damage, 0, Skill['1HBlunt'], false)
 	ally:HealDamage(damage / 2)
-	ally:Message(MT.FocusEffect, string.format("Believe dealt %d points of damage to %s and healed you for %d.", damage, enemy:GetCleanName(), damage / 2))
+	builds.Debug(ally, string.format("Believe dealt %d points of damage to %s and healed you for %d.", damage, enemy:GetCleanName(), damage / 2))
 	return e
 end
 

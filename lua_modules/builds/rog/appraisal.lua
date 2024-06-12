@@ -28,8 +28,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	ally:ApplySpellBuff(271) -- Fleeting Fury, verify same spell id on Rebuild
 	local damage = ally:GetLevel() * 0.6
 	enemy:Damage(ally, damage, 0, Skill['1HPiercing'], false)
-	ally:Message(MT.FocusEffect, string.format("Appraisal dealt %d points of damage to %s.", damage, enemy:GetCleanName()))
-
+	builds.Debug(ally, string.format("Appraisal dealt %d points of damage to %s.", damage, enemy:GetCleanName()))
 	return e
 end
 

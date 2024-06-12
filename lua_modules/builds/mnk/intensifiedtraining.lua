@@ -26,7 +26,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 
 	local damage = ally:GetLevel() * 1.25 * (rank * 0.2)
 	enemy:Damage(ally, damage, 0, Skill['1HBlunt'], false)
-	ally:Message(MT.FocusEffect, string.format("Intensified Training dealt %d points of damage to %s.", damage, enemy:GetCleanName()))
+	builds.Debug(ally, string.format("Intensified Training dealt %d points of damage to %s.", damage, enemy:GetCleanName()))
 	return e
 end
 

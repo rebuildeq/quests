@@ -12,6 +12,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 	local ally = e.self
 	local enemy = e.attacker
+	local builds = require('builds')
 
 	local slam_skills = {10,30}
 	if slam_skills[e.skill_used] == nil then
@@ -26,7 +27,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 
 	local stun_duration = 0.5 * rank
 	enemy:Stun(stun_duration)
-	ally:Message(MT.FocusEffect, string.format("Jarring Strike stunned %s for %d seconds.", enemy:GetCleanName(), stun_duration))
+	builds.Debug(ally, string.format("Jarring Strike stunned %s for %d seconds.", enemy:GetCleanName(), stun_duration))
 end
 
 return skill

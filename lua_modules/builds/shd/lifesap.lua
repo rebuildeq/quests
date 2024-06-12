@@ -12,6 +12,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 	local ally = e.self
 	local enemy = e.attacker
+	local builds = require('builds')
 
 	local melee_skills = {0,1,2,3,7,8,10,20,21,22,23,26,28,30,36,37,38,51,52,74,76,77}
 	if melee_skills[e.skill_used] == nil then
@@ -26,7 +27,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 
 	local heal_amount = e.value * (0.1 * rank)
 	ally:HealDamage(heal_amount)
-	ally:Message(MT.FocusEffect, string.format("Life Sap healed you for %d points of damage.", heal_amount))
+	builds.Debug(ally, string.format("Life Sap healed you for %d points of damage.", heal_amount))
 end
 
 return skill

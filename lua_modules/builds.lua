@@ -45,15 +45,17 @@ local skills = {
 		arcanesurge = { ID = 0 },
 	},
 	enc = {
-
+		nightmare = { ID = 0 },
 	},
 	bst = {
-
+		animalbond = { ID = 0 },
 	},
 	ber = {
 
 	},
 }
+
+local current_skill_id = 0
 
 function builds.Init()
 	for className, skillEntry in pairs(skills) do
@@ -84,6 +86,7 @@ function builds.OnModCommonDamage(e)
 		if e.self:IsClient() and className == e.self:GetClassName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.self, skill.ID)
+				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, true, rank)
 				end
@@ -92,6 +95,17 @@ function builds.OnModCommonDamage(e)
 		if e.attacker:IsClient() and className == e.attacker:GetClassName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.attacker, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.CommonDamage then
+					skill.CommonDamage(e, false, rank)
+				end
+			end
+		end
+
+		if e.attacker:IsNPC() and e.attacker:HasOwner() and e.attacker:GetOwner():IsClient() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.attacker:GetOwner(), skill.ID)
+				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, false, rank)
 				end
@@ -114,6 +128,7 @@ function builds.OnModHealDamage(e)
 		if e.self:IsClient() and className == e.self:GetClassName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.self, skill.ID)
+				current_skill_id = skill.ID
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, true, rank)
 				end
@@ -122,6 +137,7 @@ function builds.OnModHealDamage(e)
 		if e.caster:IsClient() and className == e.caster:GetClassName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.caster, skill.ID)
+				current_skill_id = skill.ID
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, false, rank)
 				end
@@ -148,6 +164,63 @@ function builds.Rank(self, skillID)
 		return rank
 	end
 	return 0
+end
+
+--- Send a debug message
+---@param self Mob
+---@param message string
+function builds.Debug(self, message)
+	local debug_string = self:GetBucket("build_debug")
+	if debug_string == "" then
+		return
+	end
+
+	if current_skill_id > string.len(debug_string) then
+		return
+	end
+
+	local is_enabled = tonumber(string.sub(debug_string, current_skill_id, current_skill_id))
+	if is_enabled == 0 then
+		return
+	end
+
+	self:Message(MT.FocusEffect, message)
+end
+
+--- Set a debug message enabled or not for a skill ID
+---@param self Mob
+---@param skillID integer
+---@param is_enabled boolean
+function builds.SetDebug(self, skillID, is_enabled)
+	local value = is_enabled and 1 or 0
+	local debug_string = self:GetBucket("build_debug")
+	if skillID > string.len(debug_string) then
+		return
+	end
+
+	local new_debug_string = ""
+	for i = 1, string.len(debug_string) do
+		if i == skillID then
+			new_debug_string = new_debug_string .. value
+		else
+			new_debug_string = new_debug_string .. string.sub(debug_string, i, i)
+		end
+	end
+
+	self:SetBucket("build_debug", new_debug_string)
+end
+
+--- Set All Debug Messages to a value
+--- @param self Mob
+--- @param is_enabled boolean
+function builds.SetDebugAll(self, is_enabled)
+	local value = is_enabled and 1 or 0
+	local new_debug_string = ""
+	for i = 1, 20 do
+		new_debug_string = new_debug_string .. value
+	end
+
+	self:SetBucket("build_debug", new_debug_string)
 end
 
 ---@param self Mob
