@@ -49,10 +49,9 @@ function skill.CommonDamage(e, is_my_spell, rank)
 		return e
 	end
 
-
 	ally:SetBucket("surge_cooldown", string.format("%d", next_cooldown))
 
-	local damage = ally:GetLevel() * (rank * 8)
+	local damage = ally:GetLevel() * (rank * 3)
 	builds.Debug(ally, string.format("Arcane Surge dealt %d damage to %s.", damage, enemy:GetCleanName()))
 	enemy:Damage(ally, damage, spell:ID(), 0)
 	return e

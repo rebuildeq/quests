@@ -70,6 +70,9 @@ function builds.Init()
 			if type(_G[skill.Event.HealDamage]) == "function" then
 				skill.HealDamage = _G[skill.Event.HealDamage]
 			end
+			if type(_G[skill.Event.Tick]) == "function" then
+				skill.Tick = _G[skill.Event.Tick]
+			end
 		end
 	end
 end
@@ -142,6 +145,24 @@ function builds.OnModHealDamage(e)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, false, rank)
+				end
+			end
+		end
+	end
+end
+
+function builds.OnTick(self)
+	if not self:IsClient() then
+		return
+	end
+
+	for className, skillEntry in pairs(skills) do
+		if className == self:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(self, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Tick then
+					skill.Tick(self, rank)
 				end
 			end
 		end
