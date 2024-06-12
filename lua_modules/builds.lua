@@ -9,9 +9,11 @@ local skills = {
 	},
 	clr = {
 		believe = { ID = 0 },
+		divinebash = { ID = 2 },
 	},
 	pal = {
 		rodcetsgift = { ID = 0 },
+		handofpiety = { ID = 2 },
 	},
 	rng = {
 		venomousvolley = { ID = 0 },
