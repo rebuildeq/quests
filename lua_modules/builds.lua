@@ -83,10 +83,6 @@ function builds.OnModCommonDamage(e)
 	if not e.self.valid or not e.attacker.valid then
 		return e
 	end
-	-- builds require at least one client for build related triggers
-	if not e.self:IsClient() and not e.attacker:IsClient() then
-		return e
-	end
 
 	for className, skillEntry in pairs(skills) do
 		if e.self:IsClient() and className == e.self:GetClassName() then
@@ -117,6 +113,17 @@ function builds.OnModCommonDamage(e)
 				end
 			end
 		end
+
+		if e.self:IsNPC() and e.self:HasOwner() and e.self:GetOwner():IsClient() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(e.self:GetOwner(), skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.CommonDamage then
+					skill.CommonDamage(e, true, rank)
+				end
+			end
+		end
+
 	end
 end
 

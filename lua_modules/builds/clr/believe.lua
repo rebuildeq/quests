@@ -10,6 +10,9 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	local ally = e.attacker
 	local enemy = e.self
 	local builds = require('builds')
+	if not ally:IsClient() then
+		return e
+	end
 
 
 	-- The cleric gains a 300 mod proc that deals (level * 0.75 * <em data-base='0.2'>0.2</em>) magic damage<span class='perLevel'> per rank</span>, and half the damage is returned as health back to the cleric.

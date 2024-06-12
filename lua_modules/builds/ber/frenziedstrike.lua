@@ -11,6 +11,10 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	local enemy = e.self
 	local builds = require('builds')
 
+	if not ally:IsClient() then
+		return e
+	end
+
 
 	-- All melee attacks gain a 300 mod proc that deals (level * 1.25 * <em data-base='0.2'>0.2</em>) magic damage per rank.",
 

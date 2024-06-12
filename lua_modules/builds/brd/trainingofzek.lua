@@ -10,6 +10,9 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	local ally = e.attacker
 	local enemy = e.self
 	local builds = require('builds')
+	if not ally:IsClient() then
+		return e
+	end
 
 
 	-- Increases melee damage by <em data-base='20'>20</em>%<span class='perLevel'> per rank</span>.",

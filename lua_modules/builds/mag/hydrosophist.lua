@@ -1,5 +1,38 @@
 local skill = {}
 
+---@param e ModCommonDamage
+---@param is_my_damage boolean -- is damage from the player
+---@param rank integer -- the rank of the skill
+function skill.CommonDamage(e, is_my_damage, rank)
+	local ally = e.self
+	local enemy = e.attacker
+	if is_my_damage then
+		ally = e.attacker
+		enemy = e.self
+	end
+	if not ally:IsPet() then
+		return e
+	end
+	local owner = ally:GetOwner()
+	if not owner:IsClient() then
+		return e
+	end
+	local builds = require('builds')
+	if is_my_damage then
+		local damage_reduction = 0.1 * rank
+		e.return_value = e.value - (e.value * damage_reduction)
+		e.ignore_default = true
+		builds.Debug(owner, string.format("Hydrosophist reduced outgoing damage to pet by %d.", e.value - e.return_value))
+		return e
+	end
+
+	local damage_boost = 0.05 * rank
+	e.return_value = e.value + (e.value * damage_boost)
+	e.ignore_default = true
+	builds.Debug(owner, string.format("Hydrosophist increased incoming to pet damage by %d.", e.return_value - e.value))
+	return e
+end
+
 ---@param self Client
 ---@param rank integer -- the rank of the skill
 function skill.Tick(self, rank)
