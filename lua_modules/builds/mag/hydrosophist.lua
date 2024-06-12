@@ -95,7 +95,7 @@ function skill.Tick(self, rank)
 
 	ally:SetBucket("hydrosophist_timer", string.format("%d", next_hydro))
 
-	local heal_amount = most_hurt_mob:GetMaxHP() * (rank * 0.1)
+	local heal_amount = pet:GetMaxHP() * (rank * 0.1)
 	most_hurt_mob:HealDamage(heal_amount)
 	most_hurt_mob:Message(MT.Spells, string.format("Hydrophist healed you for %d (%d%%) points of damage.", heal_amount, (rank * 0.1)))
 	builds.Debug(ally, string.format("Hydrophist healed %s for %d (%d%%) points of damage.", most_hurt_mob:GetCleanName(), heal_amount, (rank * 0.1)))
