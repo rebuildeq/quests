@@ -33,6 +33,7 @@ local skills = {
 	},
 	brd = {
 		trainingofzek = { ID = 0 },
+		healingtreble = { ID = 2 },
 	},
 	rog = {
 		appraisal = { ID = 0 },
@@ -225,6 +226,44 @@ function builds.OnTick(self)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.Tick then
 					skill.Tick(self, rank)
+				end
+			end
+		end
+	end
+end
+
+---@param e SpellEventSpellBuffTic
+function builds.OnSpellBuffTic(e)
+	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
+	if not caster or not caster.valid then
+		return e
+	end
+	for className, skillEntry in pairs(skills) do
+		if className == caster:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(caster, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Tick then
+					skill.SpellBuffTic(e, caster, rank)
+				end
+			end
+		end
+	end
+end
+
+---@param e ModCalcSpellEffectValue_formula
+function builds.OnCalcSpellEffectValue_formula(e)
+	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
+	if not caster or not caster.valid then
+		return e
+	end
+	for className, skillEntry in pairs(skills) do
+		if className == caster:GetClassName() then
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(caster, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Tick then
+					skill.SpellBuffTic(e, caster, rank)
 				end
 			end
 		end

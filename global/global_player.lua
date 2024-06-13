@@ -32,6 +32,11 @@ function event_timer(e)
 	end
 end
 
+---@param e SpellEventSpellBuffTic
+function event_spell_buff_tic(e)
+	builds.OnSpellBuffTic(e)
+end
+
 function mysterious_voice(e)
 	if not eq.is_lost_dungeons_of_norrath_enabled() then
 		return

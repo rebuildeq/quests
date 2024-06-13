@@ -1,0 +1,6 @@
+-- local builds = require("builds")
+-- ---@param e ModCalcSpellEffectValue_formula
+-- function CalcSpellEffectValue_formula(e)
+-- 	builds.OnCalcSpellEffectValue_formula(e)
+-- 	return e;
+-- end
