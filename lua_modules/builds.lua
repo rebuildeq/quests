@@ -66,6 +66,7 @@ local skills = {
 
 local current_skill_id = 0
 
+--- Initialize the builds module
 function builds.Init()
 	for className, skillEntry in pairs(skills) do
 		for skillName, skill in pairs(skillEntry) do
@@ -83,11 +84,11 @@ function builds.Init()
 			if type(_G[skill.Event.CheckHitChance]) == "function" then
 				skill.CheckHitChance = _G[skill.Event.CheckHitChance]
 			end
-
 		end
 	end
 end
 
+--- Triggered On ModCommonDamage
 ---@param e ModCommonDamage
 function builds.OnModCommonDamage(e)
 	if not e.self.valid or not e.attacker.valid then
@@ -137,6 +138,7 @@ function builds.OnModCommonDamage(e)
 	end
 end
 
+--- Triggered On ModHealDamage
 ---@param e ModHealDamage
 function builds.OnModHealDamage(e)
 	if not e.self.valid or not e.caster.valid then
@@ -169,6 +171,7 @@ function builds.OnModHealDamage(e)
 	end
 end
 
+--- Triggered On CheckHitChance
 ---@param e ModCheckHitChance
 function builds.OnCheckHitChance(e)
 	for className, skillEntry in pairs(skills) do
@@ -213,6 +216,7 @@ function builds.OnCheckHitChance(e)
 	end
 end
 
+--- Triggered On Tick
 ---@param self Client
 function builds.OnTick(self)
 	if not self:IsClient() then
@@ -232,6 +236,7 @@ function builds.OnTick(self)
 	end
 end
 
+--- Triggered On SpellBuffTic
 ---@param e SpellEventSpellBuffTic
 function builds.OnSpellBuffTic(e)
 	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
@@ -251,6 +256,7 @@ function builds.OnSpellBuffTic(e)
 	end
 end
 
+--- Triggered On CalcSpellEffectValue_formula
 ---@param e ModCalcSpellEffectValue_formula
 function builds.OnCalcSpellEffectValue_formula(e)
 	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
@@ -270,6 +276,7 @@ function builds.OnCalcSpellEffectValue_formula(e)
 	end
 end
 
+--- Gets the rank of a skill
 ---@param self Mob
 ---@param skillID integer
 ---@return integer
@@ -279,6 +286,10 @@ function builds.Rank(self, skillID)
 	end
 
 	local build = self:GetBucket("build")
+	if build == "" then
+		build = string.rep("0", 53)
+		self:SetBucket("build", build)
+	end
 	if skillID > string.len(build) then
 		return 0
 	end
@@ -347,6 +358,7 @@ function builds.SetDebugAll(self, is_enabled)
 	self:SetBucket("build_debug", new_debug_string)
 end
 
+--- IsProcSuccess returns true if the proc is successful
 ---@param self Mob
 ---@param mod integer # proc mod
 ---@param hand number # hand
@@ -401,6 +413,90 @@ function builds.IsProcSuccess(self, mod, hand)
 
 	return true
 end
+
+--- Get the number of unspent build points
+---@param level number
+---@param build string
+---@return number
+function builds.UnspentPoints(level, build)
+	local totalSpent = 0
+    for i = 1, 53 do
+        local points = tonumber(string.sub(build, i, i))
+        if points and points >= 1 and points <= 5 then
+            totalSpent = totalSpent + points
+        end
+    end
+    if totalSpent >= level then
+        return 0
+    end
+    return level - totalSpent
+end
+
+--- Triggered when a player enters a zone
+---@param e PlayerEventEnterZone
+function builds.OnEnterZone(e)
+	local build = e.self:GetBucket("build")
+	if build == "" then
+		build = string.rep("0", 53)
+		e.self:SetBucket("build", build)
+	end
+	local unspent_points = builds.UnspentPoints(e.self:GetLevel(), build)
+	if unspent_points > 0 then
+		e.self:Message(MT.Experience, string.format("You have unspent build points. Visit %s to spend them.", eq.say_link("#builds")))
+	end
+end
+
+--- Triggered when a player uses the #builds command
+---@param e PlayerEventCommand
+function builds.OnBuildCommand(e)
+	local build = e.self:GetBucket("build")
+	if build == "" then
+		build = string.rep("0", 53)
+		e.self:SetBucket("build", build)
+	end
+	local unspent_points = builds.UnspentPoints(e.self:GetLevel(), build)
+	local unspent_message = ""
+	if unspent_points > 0 then
+		unspent_message = string.format("<c \"#FFDF00\">You have %u point%s available to spend.</c><br>", unspent_points, unspent_points == 1 and "" or "s")
+	end
+
+	local window_title = string.format("<table align=\"center\" width=\"100%%\"><tr><td><a href=\"http://rebuildeq.com/builds/%s/?session=%s\">Click To Review Your Build</a></td></tr></table>", e.self:GetClassName(), builds.Session(e.self))
+	local window_text = window_title .. unspent_message
+	eq.popup(window_title, window_text)
+end
+
+--- Triggered when a player uses the #builds reset command
+---@param e PlayerEventCommand
+function builds.OnBuildResetCommand(e)
+	e.self:SetBucket("build", string.rep("0", 53))
+	e.self:Message(MT.Experience, "Your build has been reset.")
+end
+
+--- Session returns a session for builds
+---@param self Mob
+---@returns string
+function builds.Session(self)
+	local session = self:GetBucket("build_session")
+	if session == "" then
+		session = randomString(16)
+		self:SetBucket("build_session", session)
+	end
+	return session
+end
+
+function randomString(length)
+    local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    local result = {}
+    local charsetLength = #charset
+
+    for i = 1, length do
+        local randomIndex = math.random(1, charsetLength)
+        table.insert(result, charset:sub(randomIndex, randomIndex))
+    end
+
+    return table.concat(result)
+end
+
 
 builds.Init()
 return builds
