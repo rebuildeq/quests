@@ -2,6 +2,24 @@
 local affinity = require("affinity")
 local race_name = require("race_name")
 
+--- Returns mob's affinity type name
+---@param affinity_type number
+---@return string
+function Mob:AffinityName(affinity_type)
+	if affinity_type == affinity.WATER then
+		return "Water"
+	elseif affinity_type == affinity.FIRE then
+		return "Fire"
+	elseif affinity_type == affinity.EARTH then
+		return "Earth"
+	elseif affinity_type == affinity.AIR then
+		return "Air"
+	elseif affinity_type == affinity.SPIRIT then
+		return "Spirit"
+	end
+	return "None"
+end
+
 --- Returns value multiplied by affinity modifiers against enemy
 ---@param value number # damage value
 ---@param enemy Mob # enemy mob
