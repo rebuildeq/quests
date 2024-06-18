@@ -2,6 +2,62 @@
 local affinity = require("affinity")
 local race_name = require("race_name")
 
+--- Returns value multiplied by affinity modifiers against enemy
+---@param value number # damage value
+---@param enemy Mob # enemy mob
+---@return number # modified damage value
+function Mob:AffinityDamage(value, enemy)
+	local my_affinity = self:AffinityOffense()
+	local enemy_affinity = enemy:AffinityDefense()
+
+	if my_affinity == affinity.SPIRIT then
+		if enemy_affinity == affinity.AIR then
+			return value * 0.5
+		end
+		if enemy_affinity == affinity.WATER then
+			return value * 1.5
+		end
+		return value
+	end
+	if my_affinity == affinity.WATER then
+		if enemy_affinity == affinity.SPIRIT then
+			return value * 0.5
+		end
+		if enemy_affinity == affinity.FIRE then
+			return value * 1.5
+		end
+		return value
+	end
+	if my_affinity == affinity.FIRE then
+		if enemy_affinity == affinity.WATER then
+			return value * 0.5
+		end
+		if enemy_affinity == affinity.EARTH then
+			return value * 1.5
+		end
+		return value
+	end
+	if my_affinity == affinity.EARTH then
+		if enemy_affinity == affinity.FIRE then
+			return value * 0.5
+		end
+		if enemy_affinity == affinity.AIR then
+			return value * 1.5
+		end
+		return value
+	end
+	if my_affinity == affinity.AIR then
+		if enemy_affinity == affinity.EARTH then
+			return value * 0.5
+		end
+		if enemy_affinity == affinity.SPIRIT then
+			return value * 1.5
+		end
+		return value
+	end
+	return value
+end
+
 ---@param deity number
 ---@return number # 0: none, 1: spirit (magic), 2: fire, 3: water (cold), 4: (poison), 5: air (disease)
 function deityAffinity(deity)
