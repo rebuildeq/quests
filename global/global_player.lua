@@ -2,13 +2,14 @@
 
 local don = require("dragons_of_norrath")
 local builds = require("builds")
+local consider = require("consider")
 
 ---@param e PlayerEventConsider
 function event_consider(e)
 
-    if con_npc(e) then return end -- lua_modules/consider.lua
-    if con_player(e) then return end -- lua_modules/consider.lua
-    if con_corpse(e) then return end -- lua_modules/consider.lua
+    if consider.con_npc(e) then return end -- lua_modules/consider.lua
+    if consider.con_player(e) then return end -- lua_modules/consider.lua
+    if consider.con_corpse(e) then return end -- lua_modules/consider.lua
 end
 
 ---@param e PlayerEventCast

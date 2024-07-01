@@ -1,4 +1,7 @@
-local race = {}
+
+local mob_ext_card = {}
+
+local race = require("race_name")
 
 ---@ type RaceEntry[]
 local tags = {
@@ -57,10 +60,12 @@ local tags = {
 
 
 --- Returns an array of cards that this NPC can drop.
+---@param self Mob
 ---@return RaceEntry[]
-function Mob:CardDrops()
+function mob_ext_card.CardDrops(self)
 	local loot_list = {}
 	local mob_name = self:GetCleanName()
+
 	for tag, i in ipairs(tags) do
 		if i.ID == 100100 and (self:GetRace() == 195 or self:GetRace() == 19 or self:GetRace() == 49 or self:GetNPCTypeID() == 96073 or self:GetRace() == 184 or self:GetNPCTypeID() == 96089) then loot_list[i.ID] = i end
 		if i.ID == 100101 and self:GetBodyType() == BT.Insect then loot_list[i.ID] = i end --Insect Card
@@ -83,20 +88,20 @@ function Mob:CardDrops()
 		if i.ID == 100118 and (self:GetRace() == 28 or self:GetRace() == 456) then loot_list[i.ID] = i end --Fungus Card
 		if i.ID == 100119 and (self:GetRace() == 40 or self:GetRace() == 433 or self:GetRace() == 137) then loot_list[i.ID] = i end --Goblin Card
 		if i.ID == 100120 and (self:GetRace() == 21) then loot_list[i.ID] = i end --Evil Eye Card
-		if i.ID == 100121 and (self:GetRace() == race.HUMAN or self:GetRace() == 44 or self:GetRace() == 71) then loot_list[i.ID] = i end --Human Card
-		if i.ID == 100122 and self:GetRaceName() == race.BARBARIAN then loot_list[i.ID] = i end --Barbarian Card
-		if i.ID == 100123 and self:GetRace() == race.ERUDITE then loot_list[i.ID] = i end --Erudite Card
-		if i.ID == 100124 and self:GetRace() == race.WOOD_ELF then loot_list[i.ID] = i end --Wood Elf Card
-		if i.ID == 100125 and self:GetRace() == race.HIGH_ELF then loot_list[i.ID] = i end --High Elf Card
-		if i.ID == 100126 and self:GetRace() == race.DARK_ELF then loot_list[i.ID] = i end --Dark Elf Card
-		if i.ID == 100127 and self:GetRace() == race.HALF_ELF then loot_list[i.ID] = i end --Half Elf Card
-		if i.ID == 100128 and self:GetRace() == race.DWARF then loot_list[i.ID] = i end --Dwarf Card
-		if i.ID == 100129 and self:GetRace() == race.TROLL then loot_list[i.ID] = i end --Troll Card
-		if i.ID == 100130 and self:GetRace() == race.OGRE then loot_list[i.ID] = i end --Ogre Card
-		if i.ID == 100131 and self:GetRace() == race.HALFLING then loot_list[i.ID] = i end --Halfling Card
-		if i.ID == 100132 and self:GetRace() == race.GNOME then loot_list[i.ID] = i end --Gnome Card
-		if i.ID == 100133 and (self:GetRace() == race.FROGLOK or self:GetRace() == 26 or self:GetRace() == 27 ) then loot_list[i.ID] = i end --Froglok Card
-		if i.ID == 100134 and (self:GetRace() == race.INVISIBLE_MAN or self:GetRace() == race.DERVISH or self:GetRace() == 431) then loot_list[i.ID] = i end --Shadowed Man Card
+		if i.ID == 100121 and (self:GetRace() == race.Human or self:GetRace() == 44 or self:GetRace() == 71) then loot_list[i.ID] = i end --Human Card
+		if i.ID == 100122 and self:GetRaceName() == race.Barbarian then loot_list[i.ID] = i end --Barbarian Card
+		if i.ID == 100123 and self:GetRace() == race.Erudite then loot_list[i.ID] = i end --Erudite Card
+		if i.ID == 100124 and self:GetRace() == race.WoodElf then loot_list[i.ID] = i end --Wood Elf Card
+		if i.ID == 100125 and self:GetRace() == race.HighElf then loot_list[i.ID] = i end --High Elf Card
+		if i.ID == 100126 and self:GetRace() == race.DarkElf then loot_list[i.ID] = i end --Dark Elf Card
+		if i.ID == 100127 and self:GetRace() == race.HalfElf then loot_list[i.ID] = i end --Half Elf Card
+		if i.ID == 100128 and self:GetRace() == race.Dwarf then loot_list[i.ID] = i end --Dwarf Card
+		if i.ID == 100129 and self:GetRace() == race.Troll then loot_list[i.ID] = i end --Troll Card
+		if i.ID == 100130 and self:GetRace() == race.Ogre then loot_list[i.ID] = i end --Ogre Card
+		if i.ID == 100131 and self:GetRace() == race.Halfling then loot_list[i.ID] = i end --Halfling Card
+		if i.ID == 100132 and self:GetRace() == race.Gnome then loot_list[i.ID] = i end --Gnome Card
+		if i.ID == 100133 and (self:GetRace() == race.Froglok or self:GetRace() == 26 or self:GetRace() == 27 ) then loot_list[i.ID] = i end --Froglok Card
+		if i.ID == 100134 and (self:GetRace() == race.Invisible_Man or self:GetRace() == race.Dervish or self:GetRace() == 431) then loot_list[i.ID] = i end --Shadowed Man Card
 		if i.ID == 100135 and (self:GetRace() == 38 or self:GetRace() == 440 or self:GetRace() == 450 ) then loot_list[i.ID] = i end --Spider Card
 		if i.ID == 100136 and (self:GetRace() == 22) then loot_list[i.ID] = i end --Beetle card
 		if i.ID == 100137 and (self:GetRace() == 37) then loot_list[i.ID] = i end --Snake card
@@ -114,8 +119,9 @@ function Mob:CardDrops()
 end
 
 --- Returns a string of tags a NPC can drop
+---@param self Mob
 ---@return string
-function Mob:Tags()
+function mob_ext_card.Tags(self)
 	local loot_list = self:CardDrops()
 	local tag_string = ""
 	for tag, i in pairs(loot_list) do
@@ -127,3 +133,5 @@ function Mob:Tags()
 	tag = tag_string:sub(1, -3)
 	return tag
 end
+
+return mob_ext_card

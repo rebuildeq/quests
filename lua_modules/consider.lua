@@ -1,8 +1,9 @@
+local consider = {}
 local affinity = require("affinity")
 
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
-function con_npc(e)
+function consider.con_npc(e)
 	local target = eq.get_entity_list():GetMobID(e.entity_id)
 
     if not target.valid then
@@ -38,19 +39,19 @@ function con_npc(e)
 		spawnGroupMsg = string.format("and is part of spawngroup %d", sp2)
     end
 	local tag_string = target:Tags()
-	if tag_string ~= "" then
-		tag_string = "[" .. tag_string .. "]"
+	if tag_string == "" then
+		tag_string = "None"
 	end
 
 
 
-    e.self:Message(MT.White, string.format("%s [%s] (%s) is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), tag_string, npc:AffinityName(npc:AffinityDefense()), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
+    e.self:Message(MT.White, string.format("%s {%s} (%s) is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), tag_string, npc:AffinityName(npc:AffinityDefense()), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
 	return true
 end
 
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
-function con_player(e)
+function consider.con_player(e)
 	local target = eq.get_entity_list():GetMobID(e.entity_id)
 
     if not target.valid then
@@ -61,19 +62,19 @@ function con_player(e)
     end
 
 	local tag_string = target:Tags()
-	if tag_string ~= "" then
-		tag_string = "[" .. tag_string .. "]"
+	if tag_string == "" then
+		tag_string = "None"
 	end
 
 
     local client = target:CastToClient()
-    e.self:Message(MT.White, string.format("%s [%s] (%s Defense, %s Offense) is a player", target:GetCleanName(), tag_string, target:AffinityName(target:AffinityDefense()), target:AffinityName(target:AffinityOffense())));
+    e.self:Message(MT.White, string.format("%s {%s} (%s Defense, %s Offense) is a player", target:GetCleanName(), tag_string, target:AffinityName(target:AffinityDefense()), target:AffinityName(target:AffinityOffense())));
     return true
 end
 
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
-function con_corpse(e)
+function consider.con_corpse(e)
 	local target = eq.get_entity_list():GetMobID(e.entity_id)
 
     if not target.valid then
@@ -85,3 +86,5 @@ function con_corpse(e)
     e.self:Message(MT.White, string.format("%s is a corpse with id ", target:GetCleanName(), target:GetID()));
     return true
 end
+
+return consider

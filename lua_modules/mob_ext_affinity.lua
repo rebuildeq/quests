@@ -1,11 +1,13 @@
+local mob_ext_affinity = {}
 
 local affinity = require("affinity")
 local race_name = require("race_name")
 
 --- Returns mob's affinity type name
+---@param self Mob
 ---@param affinity_type number
 ---@return string
-function Mob:AffinityName(affinity_type)
+function mob_ext_affinity.AffinityName(self, affinity_type)
 	if affinity_type == affinity.WATER then
 		return "Water"
 	elseif affinity_type == affinity.FIRE then
@@ -21,10 +23,11 @@ function Mob:AffinityName(affinity_type)
 end
 
 --- Returns value multiplied by affinity modifiers against enemy
+---@param self Mob
 ---@param value number # damage value
 ---@param enemy Mob # enemy mob
 ---@return number # modified damage value
-function Mob:AffinityDamage(value, enemy)
+function mob_ext_affinity.AffinityDamage(self, value, enemy)
 	local my_affinity = self:AffinityOffense()
 	local enemy_affinity = enemy:AffinityDefense()
 
@@ -130,14 +133,15 @@ function deityAffinity(deity)
 	if deity == 216 then
 		return affinity.AIR -- veeshan air
 	end
-	return 0
+	return affinity.WATER
 end
 
 
 ---@return number # 0: none, 1: spirit (magic), 2: fire, 3: water (cold), 4: (poison), 5: air (disease)
-function Mob:AffinityDefense()
+---@param self Mob
+function mob_ext_affinity.AffinityDefense(self)
 	local client = self:CastToClient()
-	if client ~= nil and client.valid then
+	if self:IsClient() and client ~= nil and client.valid then
 		-- TODO: add augs that change defensive affinity
 		return deityAffinity(client:GetDeity())
 	end
@@ -660,6 +664,9 @@ function npc_affinity(zone_id, race_id, texture_id)
 		return ZoneAffinity[zone_id].Affinity
 	end
 
+	eq.debug("affinity not found")
+
 	return affinity.WATER
 end
 
+return mob_ext_affinity
