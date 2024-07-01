@@ -64,3 +64,23 @@ end
 function Mob:AffinityDefense()
 	return mob_ext_affinity.AffinityDefense(self);
 end
+
+---@return string
+function Mob:GetClassShortName()
+	if self:GetClass() == 1 then return "war" end
+	if self:GetClass() == 2 then return "clr" end
+	if self:GetClass() == 3 then return "pal" end
+	if self:GetClass() == 4 then return "rng" end
+	if self:GetClass() == 5 then return "shd" end
+	if self:GetClass() == 6 then return "dru" end
+	if self:GetClass() == 7 then return "mnk" end
+	if self:GetClass() == 8 then return "brd" end
+	if self:GetClass() == 9 then return "rog" end
+	if self:GetClass() == 10 then return "shm" end
+	if self:GetClass() == 11 then return "nec" end
+	if self:GetClass() == 12 then return "wiz" end
+	if self:GetClass() == 13 then return "mag" end
+	if self:GetClass() == 14 then return "enc" end
+	if self:GetClass() == 15 then return "bst" end
+	if self:GetClass() == 16 then return "ber" end
+end

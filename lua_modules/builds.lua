@@ -70,19 +70,20 @@ local current_skill_id = 0
 function builds.Init()
 	for className, skillEntry in pairs(skills) do
 		for skillName, skill in pairs(skillEntry) do
+
 			local skill_path = className .. "/" .. skillName
 			skill.Event = require(builds_path .. skill_path)
-			if type(_G[skill.Event.CommonDamage]) == "function" then
-				skill.CommonDamage = _G[skill.Event.CommonDamage]
+			if type(skill.Event.CommonDamage) == "function" then
+				skill.CommonDamage = skill.Event.CommonDamage
 			end
-			if type(_G[skill.Event.HealDamage]) == "function" then
-				skill.HealDamage = _G[skill.Event.HealDamage]
+			if type(skill.Event.HealDamage) == "function" then
+				skill.HealDamage = skill.Event.HealDamage
 			end
-			if type(_G[skill.Event.Tick]) == "function" then
-				skill.Tick = _G[skill.Event.Tick]
+			if type(skill.Event.Tick) == "function" then
+				skill.Tick = skill.Event.Tick
 			end
-			if type(_G[skill.Event.CheckHitChance]) == "function" then
-				skill.CheckHitChance = _G[skill.Event.CheckHitChance]
+			if type(skill.Event.CheckHitChance) == "function" then
+				skill.CheckHitChance = skill.Event.CheckHitChance
 			end
 		end
 	end
@@ -95,19 +96,23 @@ function builds.OnModCommonDamage(e)
 		return e
 	end
 
+
 	for className, skillEntry in pairs(skills) do
-		if e.self:IsClient() and className == e.self:GetClassName() then
+
+		-- I'm attacking a enemy
+		if e.attacker:IsClient() and className == e.attacker:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.self, skill.ID)
+				local rank = builds.Rank(e.attacker, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, true, rank)
 				end
 			end
 		end
-		if e.attacker:IsClient() and className == e.attacker:GetClassName() then
+		-- An enemy is attacking me
+		if e.self:IsClient() and className == e.self:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.attacker, skill.ID)
+				local rank = builds.Rank(e.self, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, false, rank)
@@ -150,7 +155,7 @@ function builds.OnModHealDamage(e)
 	end
 
 	for className, skillEntry in pairs(skills) do
-		if e.self:IsClient() and className == e.self:GetClassName() then
+		if e.self:IsClient() and className == e.self:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.self, skill.ID)
 				current_skill_id = skill.ID
@@ -159,7 +164,7 @@ function builds.OnModHealDamage(e)
 				end
 			end
 		end
-		if e.caster:IsClient() and className == e.caster:GetClassName() then
+		if e.caster:IsClient() and className == e.caster:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.caster, skill.ID)
 				current_skill_id = skill.ID
@@ -175,7 +180,7 @@ end
 ---@param e ModCheckHitChance
 function builds.OnCheckHitChance(e)
 	for className, skillEntry in pairs(skills) do
-		if e.self:IsClient() and className == e.self:GetClassName() then
+		if e.self:IsClient() and className == e.self:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.self, skill.ID)
 				current_skill_id = skill.ID
@@ -184,7 +189,7 @@ function builds.OnCheckHitChance(e)
 				end
 			end
 		end
-		if e.other:IsClient() and className == e.other:GetClassName() then
+		if e.other:IsClient() and className == e.other:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.other, skill.ID)
 				current_skill_id = skill.ID
@@ -224,7 +229,7 @@ function builds.OnTick(self)
 	end
 
 	for className, skillEntry in pairs(skills) do
-		if className == self:GetClassName() then
+		if className == self:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(self, skill.ID)
 				current_skill_id = skill.ID
@@ -244,7 +249,7 @@ function builds.OnSpellBuffTic(e)
 		return e
 	end
 	for className, skillEntry in pairs(skills) do
-		if className == caster:GetClassName() then
+		if className == caster:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(caster, skill.ID)
 				current_skill_id = skill.ID
@@ -264,7 +269,7 @@ function builds.OnCalcSpellEffectValue_formula(e)
 		return e
 	end
 	for className, skillEntry in pairs(skills) do
-		if className == caster:GetClassName() then
+		if className == caster:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(caster, skill.ID)
 				current_skill_id = skill.ID
@@ -460,7 +465,7 @@ function builds.OnBuildCommand(e)
 		unspent_message = string.format("<c \"#FFDF00\">You have %u point%s available to spend.</c><br>", unspent_points, unspent_points == 1 and "" or "s")
 	end
 
-	local text_header = string.format("<table align=\"center\" width=\"100%%\"><tr><td><a href=\"http://rebuildeq.com/builds/%s/?session=%s\">Click To Review Your Build</a></td></tr></table>", e.self:GetClassName(), builds.Session(e.self))
+	local text_header = string.format("<table align=\"center\" width=\"100%%\"><tr><td><a href=\"http://rebuildeq.com/builds/%s/?session=%s\">Click To Review Your Build</a></td></tr></table>", e.self:GetClassShortName(), builds.Session(e.self))
 	local window_text = text_header .. unspent_message
 	eq.popup("RebuildEQ Builds", window_text)
 	e.self:Message(MT.Experience, "You have unspent build points. Visit " .. eq.say_link("#builds") .. " to spend them.")
