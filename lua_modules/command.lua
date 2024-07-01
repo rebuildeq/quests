@@ -8,6 +8,7 @@ commands["endurance"] = { 50,  require(commands_path .. "endurance") };
 commands["lockouts"]  = { 0,   require(commands_path .. "lockouts") };
 commands["timeleft"]  = { 0,   require(commands_path .. "time_left") };
 commands["builds"] 	  = { 0,   require(commands_path .. "builds") };
+commands["build"] 	  = { 0,   require(commands_path .. "builds") };
 
 function eq.DispatchCommands(e)
 	local command = commands[e.command];

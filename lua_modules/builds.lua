@@ -460,9 +460,10 @@ function builds.OnBuildCommand(e)
 		unspent_message = string.format("<c \"#FFDF00\">You have %u point%s available to spend.</c><br>", unspent_points, unspent_points == 1 and "" or "s")
 	end
 
-	local window_title = string.format("<table align=\"center\" width=\"100%%\"><tr><td><a href=\"http://rebuildeq.com/builds/%s/?session=%s\">Click To Review Your Build</a></td></tr></table>", e.self:GetClassName(), builds.Session(e.self))
-	local window_text = window_title .. unspent_message
-	eq.popup(window_title, window_text)
+	local text_header = string.format("<table align=\"center\" width=\"100%%\"><tr><td><a href=\"http://rebuildeq.com/builds/%s/?session=%s\">Click To Review Your Build</a></td></tr></table>", e.self:GetClassName(), builds.Session(e.self))
+	local window_text = text_header .. unspent_message
+	eq.popup("RebuildEQ Builds", window_text)
+	e.self:Message(MT.Experience, "You have unspent build points. Visit " .. eq.say_link("#builds") .. " to spend them.")
 end
 
 --- Triggered when a player uses the #builds reset command
@@ -471,6 +472,53 @@ function builds.OnBuildResetCommand(e)
 	e.self:SetBucket("build", string.rep("0", 53))
 	e.self:Message(MT.Experience, "Your build has been reset.")
 end
+
+
+
+--- Triggered when a player uses the #builds reset command
+---@param e PlayerEventCommand
+function builds.OnBuildTargetResetCommand(e)
+
+	local target = e.self:GetTarget():CastToClient()
+	if not target.valid then
+		e.self:Message(MT.Red, "Invalid target.")
+		return
+	end
+	if not target:IsClient() then
+		e.self:Message(MT.Red, "Target is not a player.")
+		return
+	end
+	if target:Admin() > e.self:Admin() then
+		e.self:Message(MT.Red, "Access level not high enough to change target build.")
+		return
+	end
+
+	target:SetBucket("build", string.rep("0", 53))
+	e.self:Message(MT.Experience, string.format("Your target (%s) build has been reset.", target:GetCleanName()))
+end
+
+
+
+--- Triggered when a player uses the #builds reset command
+---@param e PlayerEventCommand
+function builds.OnBuildInspectCommand(e)
+	local build = e.self:GetBucket("build")
+	if build == "" then
+		build = string.rep("0", 53)
+		e.self:SetBucket("build", build)
+	end
+
+	local unspent_points = builds.UnspentPoints(e.self:GetLevel(), build)
+	local unspent_message = ""
+	if unspent_points > 0 then
+		unspent_message = string.format("<c \"#FFDF00\">%s has %u point%s available to spend.</c><br>", target:GetCleanName(), unspent_points, unspent_points == 1 and "" or "s")
+	end
+
+	local window_title = string.format("<table align=\"center\" width=\"100%%\"><tr><td><a href=\"http://rebuildeq.com/builds/%s/?session=%s\">Click To Review %s's Build</a></td></tr></table>", target:GetCleanName(), builds.Session(target), target:GetCleanName())
+	local window_text = window_title .. unspent_message
+	eq.popup(window_title, window_text)
+end
+
 
 --- Session returns a session for builds
 ---@param self Mob
