@@ -1,5 +1,7 @@
 local skill = {}
 
+local race = require("race_name")
+
 ---@param e ModCommonDamage
 ---@param is_my_damage boolean -- is damage from the player
 ---@param rank integer -- the rank of the skill
@@ -49,16 +51,18 @@ function skill.Tick(self, rank)
 		return
 	end
 
-	if pet:GetRaceName() ~= "Water Elemental" then
+	if pet:GetBaseRace() ~= race.WaterElemental and pet:GetBaseRace() ~= race.Elemental then
 		return
 	end
 
-	local hydro_timer = ally:GetBucket("hydrosophist_timer")
+	local hydro_timer = tonumber(ally:GetBucket("hydrosophist_timer"))
+	if hydro_timer == nil then
+		hydro_timer = 0
+	end
 	local next_hydro = os.time() + 18
 	if hydro_timer > os.time() then
 		return
 	end
-
 
 	local most_hurt_mob = nil
 	local most_hurt_mob_hp = 100
@@ -95,10 +99,13 @@ function skill.Tick(self, rank)
 
 	ally:SetBucket("hydrosophist_timer", string.format("%d", next_hydro))
 
-	local heal_amount = pet:GetMaxHP() * (rank * 0.1)
+	local heal_amount = pet:GetMaxHP() * (rank * 0.02)
 	most_hurt_mob:HealDamage(heal_amount)
-	most_hurt_mob:Message(MT.Spells, string.format("Hydrophist healed you for %d (%d%%) points of damage.", heal_amount, (rank * 0.1)))
-	builds.Debug(ally, string.format("Hydrophist healed %s for %d (%d%%) points of damage.", most_hurt_mob:GetCleanName(), heal_amount, (rank * 0.1)))
+	most_hurt_mob:Message(MT.Spells, string.format("Hydrophist (%d) healed you for %d points of damage.", rank, heal_amount))
+	if most_hurt_mob:GetID() == ally:GetID() then
+		return
+	end
+	builds.Debug(ally, string.format("Hydrophist (%d) healed %s for %d points of damage.", rank, most_hurt_mob:GetCleanName(), heal_amount))
 end
 
 return skill
