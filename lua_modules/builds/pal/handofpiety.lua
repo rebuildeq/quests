@@ -22,7 +22,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		return e
 	end
 
-	if !builds.IsProcSuccess(ally, 100, Slot.Primary) then
+	if not builds.IsProcSuccess(ally, 100, Slot.Primary) then
 		return e
 	end
 

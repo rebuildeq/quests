@@ -21,7 +21,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 
 	-- TODO: How to simulate a proc rate? And did Appraisal even benefit from ranks?
-	if !builds.IsProcSuccess(ally, 400, Slot.Primary) then
+	if not builds.IsProcSuccess(ally, 400, Slot.Primary) then
 		return e
 	end
 
