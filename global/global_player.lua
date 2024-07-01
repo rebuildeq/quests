@@ -1,13 +1,41 @@
 -- items: 67704, 72091, 62621, 62622, 62844, 62827, 62828, 62836, 62883, 62876, 47100, 62878, 62879
 
 local don = require("dragons_of_norrath")
+local builds = require("builds")
 
+---@param e PlayerEventConsider
+function event_consider(e)
+
+    if con_npc(e) then return end -- lua_modules/consider.lua
+    if con_player(e) then return end -- lua_modules/consider.lua
+    if con_corpse(e) then return end -- lua_modules/consider.lua
+end
+
+---@param e PlayerEventCast
+function event_cast(e)
+end
+
+---@param e PlayerEventEnterZone
 function event_enter_zone(e)
+	eq.set_timer("build", 6000)
 	mysterious_voice(e)
+	builds.OnEnterZone(e)
 
-	if eq.is_lost_dungeons_of_norrath_enabled() and eq.get_zone_short_name() == "lavastorm" and e.self:GetGMStatus() >= 80 then 
+	if eq.is_lost_dungeons_of_norrath_enabled() and eq.get_zone_short_name() == "lavastorm" and e.self:GetGMStatus() >= 80 then
 		e.self:Message(MT.DimGray, "There are GM commands available for Dragons of Norrath, use " .. eq.say_link("#don") .. " to get started")
 	end
+end
+
+---@param e PlayerEventTimer
+function event_timer(e)
+	if e.timer == "build" then
+		builds.OnTick(e.self)
+	end
+end
+
+---@param e SpellEventSpellBuffTic
+function event_spell_buff_tic(e)
+	builds.OnSpellBuffTic(e)
 end
 
 function mysterious_voice(e)
@@ -125,7 +153,7 @@ function event_combine_success(e)
 	elseif(e.recipe_id ==13412) then
 		eq.set_global("ranger_epic","3",5,"F");
 		if(eq.get_zone_short_name()=="jaggedpine") then
-			e.self:Message(MT.Yellow,"The seed grows rapidly the moment you push it beneath the soil. It appears at first as a mere shoot, but within moments grows into a stout sapling and then into a gigantic tree. The tree is one you've never seen before. It is the coloration and thick bark of a redwood with the thick bole indicative of the species. The tree is, however, far too short and has spindly branches sprouting from it with beautiful flowers that you would expect on a dogwood. You take all of this in at a glance. It takes you a moment longer to realize that the tree is moving.");			
+			e.self:Message(MT.Yellow,"The seed grows rapidly the moment you push it beneath the soil. It appears at first as a mere shoot, but within moments grows into a stout sapling and then into a gigantic tree. The tree is one you've never seen before. It is the coloration and thick bark of a redwood with the thick bole indicative of the species. The tree is, however, far too short and has spindly branches sprouting from it with beautiful flowers that you would expect on a dogwood. You take all of this in at a glance. It takes you a moment longer to realize that the tree is moving.");
 			eq.spawn2(181222, 0, 0, e.self:GetX()+3,e.self:GetY()+3,e.self:GetZ(),0); -- NPC: Red_Dogwood_Treant
 		else
 			e.self:Message(MT.Yellow,"The soil conditions prohibit the seed from taking hold");
@@ -146,7 +174,7 @@ function event_combine_success(e)
 		e.self:Message(MT.Yellow,'Very Good. Now we must attune the cage to the specific element we wish to free. You will need two items, one must protect from the element and the other must be able to absorb an incredible amount of that element. This is not a simple task. You must first discover the nature of the spirit that you wish to free and then find such items that will allow you to redirect its power. You must know that each spirit represents a specific area within their element and that is what you must focus on, not their element specifically. For example, Grinbik was an earth spirit, but his area of power was fertility. Senvial was a spirit of Water, but his power was in mist and fog.');
 		eq.set_global("ranger_epic","8",5,"F");
 	elseif(e.recipe_id ==19916) then
-		e.self:Message(MT.Yellow,"The Red Dogwood Treant speaks to you from within your sword. 'Well done. This should allow me to free a spirit with power over cold and ice. Now you need to find the power that binds the spirit and unleash it where that spirit is bound.'");	
+		e.self:Message(MT.Yellow,"The Red Dogwood Treant speaks to you from within your sword. 'Well done. This should allow me to free a spirit with power over cold and ice. Now you need to find the power that binds the spirit and unleash it where that spirit is bound.'");
 	elseif(e.recipe_id ==19917) then
 		if(eq.get_zone_short_name()=="anguish") then
 			eq.spawn2(317113, 0, 0, e.self:GetX(),e.self:GetY(),e.self:GetZ(),0); -- NPC: #Oshimai_Spirit_of_the_High_Air
@@ -156,15 +184,15 @@ function event_combine_success(e)
 		e.self:AddEXP(25000);
 		e.self:AddAAPoints(5);
 		e.self:Ding();
-		e.self:Message(MT.Yellow,'You have gained 5 ability points!');	
+		e.self:Message(MT.Yellow,'You have gained 5 ability points!');
 		eq.set_global("paladin_epic","8",5,"F");
 		e.self:Message(MT.Gray,"As the four soulstones come together, a soft blue light eminates around the dark sword. The soulstones find themselves at home within the sword. A flash occurs and four voices in unison speak in your mind, 'Thank you for saving us and giving us a purpose again. You are truly our savior and our redeemer, and we shall serve you from now on. Thank you, noble knight!")
-	--bard 1.5 final	
+	--bard 1.5 final
 	elseif(e.recipe_id == 19882) then
 		e.self:AddEXP(25000);
 		e.self:AddAAPoints(5);
 		e.self:Ding();
-		e.self:Message(MT.Yellow,'You have gained 5 ability points!');	
+		e.self:Message(MT.Yellow,'You have gained 5 ability points!');
 		eq.set_global("bard15","6",5,"F");
 	--druid 1.5 feerrott
 	elseif(e.recipe_id == 19888) then
@@ -180,8 +208,8 @@ function event_combine_success(e)
 	elseif(e.recipe_id ==19892) then
 		e.self:AddAAPoints(5);
 		e.self:Ding();
-		e.self:Message(MT.Yellow,'You have gained 5 ability points!');	
-		eq.set_global("druid_epic","8",5,"F");	
+		e.self:Message(MT.Yellow,'You have gained 5 ability points!');
+		eq.set_global("druid_epic","8",5,"F");
 		e.self:SendMarqueeMessage(MT.Yellow, 510, 1, 100, 10000, "You plant the Mind Crystal and the Seed of Living Brambles in the pot. The pot grows warm and immediately you see a vine sprouting from the soil. The vine continues to grow at a tremendous rate. Brambles grow into the heart of the crystal where the core impurity is and split it. They continue to grow at an astounding speed and soon burst the pot and form the Staff of Living Brambles");
 	--druid 2.0 sub final
 	elseif(e.recipe_id ==19908) then
@@ -197,20 +225,20 @@ function event_combine_success(e)
 			e.self:SummonItem(62879); -- Item: Everburning Jagged Tree Limb
 		end
 	--druid 2.0 final
-	elseif(e.recipe_id ==19909) then	
+	elseif(e.recipe_id ==19909) then
 		e.self:AddEXP(50000);
 		e.self:AddAAPoints(10);
 		e.self:Ding();
-		e.self:Message(MT.Yellow,'You have gained 10 ability points!');	
-		eq.set_global("druid_epic","13",5,"F");	
+		e.self:Message(MT.Yellow,'You have gained 10 ability points!');
+		eq.set_global("druid_epic","13",5,"F");
 		--e.self:SendMarqueeMessage(MT.Yellow, 510, 1, 100, 10000, "You plant the Mind Crystal and the Seed of Living Brambles in the pot. The pot grows warm and immediately you see a vine sprouting from the soil. The vine continues to grow at a tremendous rate. Brambles grow into the heart of the crystal where the core impurity is and split it. They continue to grow at an astounding speed and soon burst the pot and form the Staff of Living Brambles");
 	--warrior 2.0
-	elseif(e.recipe_id ==19902) then	
+	elseif(e.recipe_id ==19902) then
 		e.self:AddEXP(50000);
 		e.self:AddAAPoints(10);
 		e.self:Ding();
-		e.self:Message(MT.Yellow,'You have gained 10 ability points!');	
-		eq.set_global("warrior_epic","21",5,"F");		
+		e.self:Message(MT.Yellow,'You have gained 10 ability points!');
+		eq.set_global("warrior_epic","21",5,"F");
 	-- CLR 2.0
 	elseif (e.recipe_id == 19893) then
 		e.self:Message(MT.Red, "Omat should probably see this.");
@@ -318,7 +346,7 @@ end
 14 /*13875*/ SkillConjuration,
 15 /*13876*/ SkillDefense,
 16 /*13877*/ SkillDisarm,
-17 /*13878*/ SkillDisarmTraps, 
+17 /*13878*/ SkillDisarmTraps,
 18 /*13879*/ SkillDivination,
 19 /*13880*/ SkillDodge,
 20 /*13881*/ SkillDoubleAttack,
@@ -341,7 +369,7 @@ end
 36 /*13900*/ Skill1HPiercing,        // Changed in RoF2(05-10-2013)
 37 /*13903*/ SkillRiposte,
 38 /*13904*/ SkillRoundKick,
-39 /*13905*/ SkillSafeFall, 
+39 /*13905*/ SkillSafeFall,
 40 /*13906*/ SkillSenseHeading, X
 41 /*13908*/ SkillSinging,
 42 /*13909*/ SkillSneak,
@@ -369,7 +397,7 @@ end
 64 /*13887*/ SkillFletching, X
 65 /*13873*/ SkillBrewing, X
 66 /*13860*/ SkillAlcoholTolerance, X
-67 /*13868*/ SkillBegging, 
+67 /*13868*/ SkillBegging,
 68 /*13892*/ SkillJewelryMaking, X
 69 /*13901*/ SkillPottery, X
 70 /*13898*/ SkillPercussionInstruments,
@@ -417,7 +445,6 @@ test_items = {
     [Class.BEASTLORD]		= {38126, 38146}, -- Beastlord
     [Class.BERSERKER]		= {38315, 38332}, -- Berserker
 }
- 
 function event_test_buff(e)
     if (e.self:GetLevel() < 25) then
         e.self:SetLevel(25)
