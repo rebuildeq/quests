@@ -24,7 +24,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		ent.damage = ent.damage - hate_reduction -- Assuming ent.damage is hate amount
 	end
 
-	builds.Debug(ally, string.format("Jarring Stab reduced your hate by your enemies by %d.", hate_reduction))
+	builds.Debug(ally, string.format("Jarring Stab (%d) reduced your hate by your enemies by %d.", rank, hate_reduction))
 	return e
 end
 

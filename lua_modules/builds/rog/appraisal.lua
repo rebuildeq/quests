@@ -16,19 +16,27 @@ function skill.CommonDamage(e, is_my_damage, rank)
 
 	-- Only proc off of regular attacks (1hs, 1hb, piercing, etc)
 	local melee_skills = {0,1,2,3,7,20,22,28,36,37,51,74,76,77}
-	if melee_skills[e.skill_used] == nil then
+
+	local passed_check = false
+	for i, curskill in ipairs(melee_skills) do
+		if curskill == e.skill_used then
+			passed_check = true
+			break
+		end
+	end
+	if not passed_check then
 		return e
 	end
 
-	-- TODO: How to simulate a proc rate? And did Appraisal even benefit from ranks?
+	-- TODO: Appraisal doesn't currently benefit from ranks
 	if not builds.IsProcSuccess(ally, 400, Slot.Primary) then
-		return e
+	  return e
 	end
 
-	ally:ApplySpellBuff(271) -- Fleeting Fury, verify same spell id on Rebuild
+	ally:ApplySpellBuff(271) -- Fleeting Fury
 	local damage = ally:GetLevel() * 0.6
-	enemy:Damage(ally, damage, 0, Skill['1HPiercing'], false)
-	builds.Debug(ally, string.format("Appraisal dealt %d points of damage to %s.", damage, enemy:GetCleanName()))
+	enemy:Damage(ally, damage, 0, Skill['Evocation'], false) -- Evocation so appraisal doesn't proc itself
+	builds.Debug(ally, string.format("Appraisal (%d) dealt %d points of damage to %s.", rank, damage, enemy:GetCleanName()))
 	return e
 end
 

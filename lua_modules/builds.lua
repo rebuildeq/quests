@@ -390,9 +390,10 @@ function builds.IsProcSuccess(self, mod, hand)
 	if hand == Slot.Range then
 		-- range timer
 	end
-	if weapon_speed < RuleI.Get(Rule['MinWeaponSpeed']) then
-		weapon_speed = RuleI.Get(Rule['MinWeaponSpeed'])
-	end
+	-- TODO: Add MinWeaponSpeed rule
+	-- if weapon_speed < RuleI.Get(Rule['MinWeaponSpeed']) then
+	-- 	weapon_speed = RuleI.Get(Rule['MinWeaponSpeed'])
+	-- end
 
 
 	proc_chance = ((mod + 100)/100)
