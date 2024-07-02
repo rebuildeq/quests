@@ -75,6 +75,7 @@ function builds.Init()
 			skill.Event = require(builds_path .. skill_path)
 			if type(skill.Event.CommonDamage) == "function" then
 				skill.CommonDamage = skill.Event.CommonDamage
+				--eq.debug("Added CommonDamage for " .. skillName)
 			end
 			if type(skill.Event.HealDamage) == "function" then
 				skill.HealDamage = skill.Event.HealDamage
@@ -99,12 +100,14 @@ function builds.OnModCommonDamage(e)
 
 	for className, skillEntry in pairs(skills) do
 
-		-- I'm attacking a enemy
+		-- I'm attacking an enemy
 		if e.attacker:IsClient() and className == e.attacker:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.attacker, skill.ID)
 				current_skill_id = skill.ID
+				--eq.debug("Check CommonDamage of " .. skillName .. " rank " .. rank)
 				if rank > 0 and skill.CommonDamage then
+					--eq.debug("attacker->CommonDamage of " .. skillName .. " rank " .. rank)
 					skill.CommonDamage(e, true, rank)
 				end
 			end
@@ -115,26 +118,29 @@ function builds.OnModCommonDamage(e)
 				local rank = builds.Rank(e.self, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
+					--eq.debug("self->CommonDamage of " .. skillName .. " rank " .. rank)
 					skill.CommonDamage(e, false, rank)
 				end
 			end
 		end
 
-		if e.attacker:IsNPC() and e.attacker:HasOwner() and e.attacker:GetOwner():IsClient() then
+		if e.attacker:IsNPC() and e.attacker:HasOwner() and e.attacker:GetOwner():IsClient() and className == e.attacker:GetOwner():GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.attacker:GetOwner(), skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
+					--eq.debug("attacker->petCommonDamage of " .. skillName .. " rank " .. rank)
 					skill.CommonDamage(e, false, rank)
 				end
 			end
 		end
 
-		if e.self:IsNPC() and e.self:HasOwner() and e.self:GetOwner():IsClient() then
+		if e.self:IsNPC() and e.self:HasOwner() and e.self:GetOwner():IsClient() and className == e.self:GetOwner():GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(e.self:GetOwner(), skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
+					--eq.debug("self->petCommonDamag of " .. skillName .. " rank " .. rank)
 					skill.CommonDamage(e, true, rank)
 				end
 			end
@@ -299,7 +305,7 @@ function builds.Rank(self, skillID)
 		return 0
 	end
 
-	local rank = tonumber(string.sub(build, skillID, skillID))
+	local rank = tonumber(string.sub(build, skillID+1, skillID+1))
 	if rank then
 		return rank
 	end
