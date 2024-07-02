@@ -1,4 +1,9 @@
+
+---@param e NPCEventSpawn
 function event_spawn(e)
+
+	e.self:AddCardDrops()
+
     -- peq_halloween
     if (eq.is_content_flag_enabled("peq_halloween")) then
         -- exclude mounts and pets

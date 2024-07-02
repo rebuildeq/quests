@@ -119,3 +119,50 @@ end
 function NPC:AffinityDefense()
 	return mob_ext_affinity.AffinityDefense(self);
 end
+
+
+--- Add cards to an NPC
+function NPC:AddCardDrops()
+	local drops = self:CardDrops()
+	if drops == nil then
+		return
+	end
+	--eq.debug("NPC " .. self:GetCleanName() .. " is adding card drops, has " .. #drops .. " drops")
+
+	for _, drop in ipairs(drops) do
+		local roll = math.random(1, drop.Chance)
+		--eq.debug("NPC " .. self:GetCleanName() .. " rolled " .. roll .. " out of " .. drop.Chance .. " for card drop " .. drop.ID)
+		if roll == 1 then
+			self:AddItem(drop.ID, 1)
+			eq.debug("NPC " .. self:GetCleanName() .. " added card drop " .. drop.ID)
+		end
+	end
+	-- local max_pool = 0
+	-- local loot_table = {}
+	-- local last_weight = 0
+	-- for _, drop in ipairs(drops) do
+	-- 	last_weight = drop.Weight
+	-- 	max_pool = max_pool + drop.Weight
+	-- 	loot_table[max_pool] = drop.ID
+	-- end
+	-- local counter = 0
+	-- local loot_assigned = 0
+	-- local num_drops = math.floor(self:GetLevel() / 10) + 1
+	-- while loot_assigned < num_drops and counter < 50 do
+	-- 	counter = counter + 1
+	-- 	local roll = math.random(max_pool)
+	-- 	for weight, card_id in pairs(loot_table) do
+	-- 		if roll <= weight then
+	-- 			self:AddItem(card_id, 1)
+	-- 			loot_assigned = loot_assigned + 1
+	-- 		end
+	-- 		if loot_assigned >= num_drops then
+	-- 			return
+	-- 		end
+	-- 		if counter > 50 then
+	-- 			eq.debug("NPC " .. self:GetCleanName() .. " failed to assign all card drops.")
+	-- 		end
+	-- 	end
+	-- end
+
+end
