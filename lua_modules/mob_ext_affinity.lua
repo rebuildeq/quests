@@ -151,7 +151,11 @@ function mob_ext_affinity.AffinityDefense(self)
 		return affinity.NONE
 	end
 
-	return npc_affinity(eq.get_zone_id(), npc:GetRace(), npc:GetTexture())
+
+
+
+
+	return npc_affinity(npc, eq.get_zone_id(), npc:GetBaseRace(), npc:GetTexture())
 end
 
 function Mob:AffinityOffense()
@@ -166,7 +170,7 @@ function Mob:AffinityOffense()
 		return affinity.NONE
 	end
 
-	return npc_affinity(eq.get_zone_id(), npc:GetRace(), npc:GetTexture())
+	return npc_affinity(npc, eq.get_zone_id(), npc:GetRace(), npc:GetTexture())
 end
 
 
@@ -196,26 +200,26 @@ local ZoneAffinity = {
 	[Zone.beastdomain] = {Affinity = affinity.AIR},
 	[Zone.befallen] = {Affinity = affinity.SPIRIT},
 	[Zone.befallenb] = {Affinity = affinity.SPIRIT},
-	[Zone.beholder] = {Affinity = affinity.WATER},
-	[Zone.bertoxtemple] = {Affinity = affinity.WATER},
-	[Zone.blackburrow] = {Affinity = affinity.WATER},
+	[Zone.beholder] = {Affinity = affinity.EARTH},
+	[Zone.bertoxtemple] = {Affinity = affinity.EARTH},
+	[Zone.blackburrow] = {Affinity = affinity.FIRE},
 	[Zone.blacksail] = {Affinity = affinity.WATER},
-	[Zone.bloodfields] = {Affinity = affinity.WATER},
-	[Zone.bloodmoon] = {Affinity = affinity.WATER},
+	[Zone.bloodfields] = {Affinity = affinity.FIRE},
+	[Zone.bloodmoon] = {Affinity = affinity.FIRE},
 	[Zone.bothunder] = {Affinity = affinity.WATER},
-	[Zone.breedinggrounds] = {Affinity = affinity.WATER},
-	[Zone.brellsarena] = {Affinity = affinity.WATER},
-	[Zone.brellsrest] = {Affinity = affinity.WATER},
-	[Zone.brellstemple] = {Affinity = affinity.WATER},
-	[Zone.broodlands] = {Affinity = affinity.WATER},
+	[Zone.breedinggrounds] = {Affinity = affinity.EARTH},
+	[Zone.brellsarena] = {Affinity = affinity.EARTH},
+	[Zone.brellsrest] = {Affinity = affinity.EARTH},
+	[Zone.brellstemple] = {Affinity = affinity.EARTH},
+	[Zone.broodlands] = {Affinity = affinity.AIR},
 	[Zone.buriedsea] = {Affinity = affinity.WATER},
-	[Zone.burningwood] = {Affinity = affinity.WATER},
+	[Zone.burningwood] = {Affinity = affinity.FIRE},
 	[Zone.butcher] = {Affinity = affinity.EARTH},
 	[Zone.cabeast] = {Affinity = affinity.WATER},
 	[Zone.cabwest] = {Affinity = affinity.WATER},
 	[Zone.cauldron] = {Affinity = affinity.WATER},
-	[Zone.causeway] = {Affinity = affinity.WATER},
-	[Zone.cazicthule] = {Affinity = affinity.WATER},
+	[Zone.causeway] = {Affinity = affinity.FIRE},
+	[Zone.cazicthule] = {Affinity = affinity.FIRE},
 	[Zone.chambersa] = {Affinity = affinity.WATER},
 	[Zone.chambersb] = {Affinity = affinity.WATER},
 	[Zone.chambersc] = {Affinity = affinity.WATER},
@@ -223,36 +227,36 @@ local ZoneAffinity = {
 	[Zone.chamberse] = {Affinity = affinity.WATER},
 	[Zone.chambersf] = {Affinity = affinity.WATER},
 	[Zone.chapterhouse] = {Affinity = affinity.WATER},
-	[Zone.charasis] = {Affinity = affinity.WATER},
+	[Zone.charasis] = {Affinity = affinity.SPIRIT},
 	[Zone.chardok] = {Affinity = affinity.EARTH},
-	[Zone.chardokb] = {Affinity = affinity.SPIRIT},
-	[Zone.citymist] = {Affinity = affinity.WATER},
-	[Zone.cityofbronze] = {Affinity = affinity.WATER},
-	[Zone.clz] = {Affinity = affinity.WATER},
+	[Zone.chardokb] = {Affinity = affinity.EARTH},
+	[Zone.citymist] = {Affinity = affinity.EARTH},
+	[Zone.cityofbronze] = {Affinity = affinity.AIR},
+	[Zone.clz] = {Affinity = affinity.AIR},
 	[Zone.cobaltscar] = {Affinity = affinity.WATER},
 	[Zone.codecay] = {Affinity = affinity.SPIRIT},
 	[Zone.commonlands] = {Affinity = affinity.FIRE},
 	[Zone.commons] = {Affinity = affinity.FIRE},
-	[Zone.convorteum] = {Affinity = affinity.WATER},
-	[Zone.coolingchamber] = {Affinity = affinity.WATER},
+	[Zone.convorteum] = {Affinity = affinity.FIRE},
+	[Zone.coolingchamber] = {Affinity = affinity.AIR},
 	[Zone.corathus] = {Affinity = affinity.WATER},
 	[Zone.corathusa] = {Affinity = affinity.WATER},
 	[Zone.corathusb] = {Affinity = affinity.WATER},
 	[Zone.crescent] = {Affinity = affinity.WATER},
 	[Zone.crushbone] = {Affinity = affinity.AIR},
-	[Zone.cryptofshade] = {Affinity = affinity.WATER},
-	[Zone.crystal] = {Affinity = affinity.WATER},
+	[Zone.cryptofshade] = {Affinity = affinity.SPIRIT},
+	[Zone.crystal] = {Affinity = affinity.EARTH},
 	[Zone.crystallos] = {Affinity = affinity.WATER},
-	[Zone.crystalshard] = {Affinity = affinity.WATER},
+	[Zone.crystalshard] = {Affinity = affinity.EARTH},
 	[Zone.cshome] = {Affinity = affinity.WATER},
-	[Zone.dalnir] = {Affinity = affinity.WATER},
-	[Zone.dawnshroud] = {Affinity = affinity.WATER},
-	[Zone.deadbone] = {Affinity = affinity.WATER},
-	[Zone.delvea] = {Affinity = affinity.WATER},
-	[Zone.delveb] = {Affinity = affinity.WATER},
+	[Zone.dalnir] = {Affinity = affinity.EARTH},
+	[Zone.dawnshroud] = {Affinity = affinity.SPIRIT},
+	[Zone.deadbone] = {Affinity = affinity.SPIRIT},
+	[Zone.delvea] = {Affinity = affinity.EARTH},
+	[Zone.delveb] = {Affinity = affinity.EARTH},
 	[Zone.devastation] = {Affinity = affinity.WATER},
 	[Zone.devastationa] = {Affinity = affinity.WATER},
-	[Zone.direwind] = {Affinity = affinity.WATER},
+	[Zone.direwind] = {Affinity = affinity.FIRE},
 	[Zone.discord] = {Affinity = affinity.WATER},
 	[Zone.discordtower] = {Affinity = affinity.WATER},
 	[Zone.drachnidhive] = {Affinity = affinity.FIRE},
@@ -654,11 +658,52 @@ local ZoneAffinity = {
 	[Zone.zhisza] = {Affinity = affinity.WATER},
 }
 
+--- Get NPC affinity
+---@param npc NPC # NPC
 ---@param zone_id number # zone ID
 ---@param race_id number # race ID
 ---@param texture_id number # texture ID
-function npc_affinity(zone_id, race_id, texture_id)
+---@return number # affinity
+function npc_affinity(npc, zone_id, race_id, texture_id)
 	if zone_id == Zone.sebilis and race_id == race_name.Dragon then return affinity.EARTH end -- Trakanon
+
+	local drops = npc:CardDrops()
+	if race_id == race_name.Aviak or race_id == race_name.Aviak2 then return affinity.AIR end
+	if race_id == race_name.Brownie or race_id == race_name.Brownie2 then return affinity.EARTH end
+	if race_id == race_name.Centaur or race_id == race_name.Centaur2 then return affinity.WATER end
+	if race_id == race_name.Golem or race_id == race_name.Golem2 then return affinity.EARTH end
+	if race_id == race_name.Giant then
+		if texture_id == 0 then return affinity.AIR end -- cyclops
+		if texture_id == 1 then return affinity.FIRE end -- djinn
+		if texture_id == 2 then return affinity.AIR end -- cyclops
+		if texture_id == 3 then return affinity.EARTH end -- hill
+		if texture_id == 4 then return affinity.WATER end -- ice
+		if texture_id == 5 then return affinity.FIRE end -- sand
+	end
+	if race_id == race_name.Trakanon then return affinity.EARTH end
+	if race_id == race_name.VenrilSathir then return affinity.SPIRIT end
+	if race_id == race_name.EvilEye then return affinity.SPIRIT end
+	if race_id == race_name.Beetle then return affinity.EARTH end
+	if race_id == race_name.Kerran then return affinity.AIR end
+	if race_id == race_name.Fish then return affinity.WATER end -- 24
+
+
+	if race_id == race_name.LavaDragon then
+		if texture_id == 0 then return affinity.FIRE end -- fire
+		if texture_id == 1 then return affinity.WATER end -- ice
+		if texture_id == 2 then return affinity.AIR end -- blue
+		if texture_id == 3 then return affinity.AIR end -- blue
+		if texture_id == 4 then return affinity.AIR end -- gray
+		if texture_id == 5 then return affinity.AIR end -- gray
+		if texture_id == 6 then return affinity.EARTH end -- green
+		if texture_id == 7 then return affinity.SPIRIT end -- teal
+		if texture_id == 8 then return affinity.SPIRIT end -- teal
+		if texture_id == 9 then return affinity.SPIRIT end -- black
+		if texture_id == 10 then return affinity.SPIRIT end -- black
+		if texture_id == 11 then return affinity.EARTH end -- bronze
+		return affinity.AIR
+	end
+	if race_id == race_name.DragonSkeleton then return affinity.EARTH end
 
 	if ZoneAffinity[zone_id] ~= nil then
 		return ZoneAffinity[zone_id].Affinity
