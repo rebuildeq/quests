@@ -64,6 +64,10 @@ function skill.Tick(self, rank)
 		return
 	end
 
+	if pet:GetHPRatio() < 50 then
+		return
+	end
+
 	local most_hurt_mob = nil
 	local most_hurt_mob_hp = 100
 
@@ -77,7 +81,6 @@ function skill.Tick(self, rank)
 		most_hurt_mob = ally
 		most_hurt_mob_hp = ally:GetHPRatio()
 	end
-
 
 	local group = ally:GetGroup()
 	if group.valid then
@@ -100,11 +103,13 @@ function skill.Tick(self, rank)
 	ally:SetBucket("hydrosophist_timer", string.format("%d", next_hydro))
 
 	local heal_amount = pet:GetMaxHP() * (rank * 0.02)
+	pet:Damage(pet, heal_amount, 0, 0, false, 0) -- hurt pet
 	most_hurt_mob:HealDamage(heal_amount)
 	most_hurt_mob:Message(MT.Spells, string.format("Hydrophist (%d) healed you for %d points of damage.", rank, heal_amount))
 	if most_hurt_mob:GetID() == ally:GetID() then
 		return
 	end
+
 	builds.Debug(ally, string.format("Hydrophist (%d) healed %s for %d points of damage.", rank, most_hurt_mob:GetCleanName(), heal_amount))
 end
 

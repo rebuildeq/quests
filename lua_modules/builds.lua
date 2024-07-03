@@ -557,6 +557,27 @@ function randomString(length)
     return table.concat(result)
 end
 
+---@param caster Mob
+---@param target Mob
+---@param mod integer
+---@param resist_type integer
+---@param level_override boolean
+---@return integer
+function builds.ResistSpell(caster, target, mod, resist_type, level_override)
+	if caster == nil or not caster.valid then
+		return 100
+	end
+	if target:GetSpecialAbility(SpecialAbility.immune_casting_from_range) > 0 and not target:CombatRange(caster) then
+		return 0
+	end
+
+	if target:GetSpecialAbility(SpecialAbility.immune_magic) > 0 then
+		return 0
+	end
+
+
+	return 100
+end
 
 builds.Init()
 return builds
