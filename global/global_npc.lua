@@ -1,6 +1,13 @@
 
+local ability = require("ability")
+
 ---@param e NPCEventSpawn
 function event_spawn(e)
+
+	-- local a = ability.Ability(e.self)
+	-- if a ~= nil then
+	-- 	eq.set_timer("ability", 1000 * a.TickFrequency)
+	-- end
 
 	e.self:AddCardDrops()
 
@@ -33,4 +40,12 @@ function event_spawn(e)
             e.self:ChangeGender(2);
         end
     end
+end
+
+
+---@param e NPCEventTimer
+function event_timer(e)
+	if e.timer == "ability" then
+		ability.OnTick(e.self)
+	end
 end
