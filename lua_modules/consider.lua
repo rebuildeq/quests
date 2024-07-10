@@ -1,10 +1,12 @@
 local consider = {}
 local affinity = require("affinity")
+local ability = require("ability")
 
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
 function consider.con_npc(e)
 	local target = eq.get_entity_list():GetMobID(e.entity_id)
+
 
     if not target.valid then
         return false
@@ -13,6 +15,17 @@ function consider.con_npc(e)
         return false
     end
     local npc = target:CastToNPC()
+
+
+	if e.self:Admin() > 80 then
+		local abilities = ability.Abilities(npc)
+		local ai_name = npc:GetBucket(string.format("ability_%d_%d_ai", eq.get_zone_id(), npc:GetID()))
+		local ability_string = ""
+		for _, a in ipairs(abilities) do
+			ability_string = ability_string .. a.Ability.Name .. " "
+		end
+		e.self:Message(MT.White, string.format("(GM): %s has AI of %s and abilities: %s", npc:GetCleanName(), ai_name, ability_string))
+	end
 
 	local rare_flag = "normal"
 	if npc:IsRareSpawn() then
@@ -42,8 +55,6 @@ function consider.con_npc(e)
 	if tag_string == "" then
 		tag_string = "None"
 	end
-
-
 
     e.self:Message(MT.White, string.format("%s {%s} (%s) is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), tag_string, npc:AffinityName(npc:AffinityDefense()), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
 	return true

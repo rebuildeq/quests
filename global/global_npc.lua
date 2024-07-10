@@ -4,11 +4,6 @@ local ability = require("ability")
 ---@param e NPCEventSpawn
 function event_spawn(e)
 
-	-- local a = ability.Ability(e.self)
-	-- if a ~= nil then
-	-- 	eq.set_timer("ability", 1000 * a.TickFrequency)
-	-- end
-
 	e.self:AddCardDrops()
 
     -- peq_halloween
@@ -42,10 +37,26 @@ function event_spawn(e)
     end
 end
 
+---@param e NPCEventCombat
+function event_combat(e)
+	eq.debug("on aggro")
+	local a, signal_frequency = ability.OnNPCAggro(e.self)
+	if a ~= nil and signal_frequency > 0 then
+		eq.debug("triggering timer at " .. signal_frequency .. " seconds for NPC " .. e.self:GetCleanName())
+		eq.set_timer("ability_timer", signal_frequency * 1000)
+	end
+end
+
+---@param e NPCEventDeath
+function event_death(e)
+	ability.Flush(e.self)
+end
+
 
 ---@param e NPCEventTimer
 function event_timer(e)
-	if e.timer == "ability" then
+	if e.timer == "ability_timer" then
+		eq.debug("triggering timer for NPC " .. e.self:GetCleanName())
 		ability.OnTick(e.self)
 	end
 end

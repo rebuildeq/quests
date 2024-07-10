@@ -1,153 +1,148 @@
+--- Abilities are stored in a capacity of ability_count, buckets like ability_0, ability_1, etc
 local ability = {}
-local race = require("race_name")
 
----@class Ability
----@field Name string -- The name of the ability
----@field TickFrequency integer -- How often the ability should be triggered in seconds
----@field CastTime integer -- How long the ability should take to cast in seconds
----@field Check fun(self: NPC): boolean -- Check if the ability should be used
----@field OnAbilityStart fun(self: NPC) -- Triggered when the ability starts
----@field OnAbilityInterrupt fun(self: NPC) -- Triggered when the ability is interrupted
----@field OnAbilityFinish fun(self: NPC) -- Triggered when the ability finishes
----@field OnCommonDamage fun(e: ModCommonDamage, is_attacker: boolean): ModCommonDamage -- Triggered on common damage
-
----@type Ability[]
-local abilities = {
-	["Strengthen"] = { -- 30% damage boost
-		Name = "Strengthen",
-		TickFrequency = 6,
-		CastTime = 6,
-		Check = function(self)
-			if self:GetBaseRace() == race.Dragon then return true end
-			return false
-		end,
-		OnAbilityStart = function(self)
-			self:Emote("begins to gather strength from it's surroundings")
-		end,
-		OnAbilityInterrupt = function(self)
-			local interrupter_name = self:GetBucket("ability_interrupter")
-			if interrupter_name == "" then
-				return
-			end
-			self:Emote(string.format("stops gathering strength, as it was interrupted by %s", interrupter_name))
-		end,
-		OnAbilityFinish = function(self)
-			self:Emote("gathers strength from it's surroundings")
-		end,
-		OnCommonDamage = function(e, is_attacker)
-			if not is_attacker then
-				return e
-			end
-			if e.value <= 0 then
-				return e
-			end
-			local damage_boost = 0.3
-			e.value = e.value + (e.value * damage_boost)
-			e.ignore_default = true
-			return e
-		end,
-	},
-}
-
----@class AbilityAI
----@field Check fun(self: NPC): boolean -- Check if the AI should be used
----@field IsValidTime fun(self: NPC, a:Ability): boolean -- Check if the AI should be used
-
----@type AbilityAI[]
-local ability_ais = {
-	["Smart"] = {
-		Check = function(self)
-			local roll = math.random(1, 100)
-			if roll < 20 then return false end
-			if self:GetLevel() < 30 then return false end
-			return false
-		end,
-		IsValidTime = function(self, a)
-			if a.name == "Strengthen" then return true end
-			return false
-		end
-	},
-	["Coward"] = {
-	},
-	["Ego"] = {
-	},
-	["Adept"] = {
-	},
-	["Engaging"] = {
-	},
-	["Insane"] = {
-	},
-	["Neutral"] = {
-	}
-}
+local ability_db = require("ability_db")
 
 --- Return an ability name assigned to an NPC, if any
 ---@param self NPC
----@return Ability?
-function ability.Ability(self)
-	local ability_name = self:GetBucket("ability")
-	if ability_name ~= "" then
-		return abilities[ability_name]
+---@return Ability[]?, integer
+function ability.OnNPCAggro(self)
+	--eq.debug("OnNPCAggro")
+
+	local ability_count = 0
+	local ability_max_count = ability_db.Count(self)
+	ability_count = 0
+	local frequency = 10000
+
+	local is_enhanced = self:GetBucket("enhanced") ~= ""
+	for ability_name, a in pairs(ability_db.Abilities) do
+		if a.Check ~= nil and a.Check(self) then
+			ability_count = ability_count + 1
+			--eq.debug("Giving ability" .. ability_name .. " to " .. self:GetCleanName())
+			self:SetBucket(string.format("ability_%d_%d_%d_name", eq.get_zone_id(), self:GetID(), ability_count), tostring(ability_name))
+			self:SetBucket(string.format("ability_%d_%d_%d_cooldown", eq.get_zone_id(), self:GetID(), ability_count), tostring(a.CooldownInit(is_enhanced)))
+			--eq.debug("ability " .. ability_name .. " assigned to " .. self:GetCleanName())
+			if frequency > a.SignalFrequency then
+				frequency = a.SignalFrequency
+			end
+		end
+		if ability_count >= ability_max_count then
+			break
+		end
 	end
-	for ability_name, a in pairs(abilities) do
-		if a.Check(self) then
-			for ai_name, ai in pairs(ability_ais) do
-				if ai.Check(self) then
-					self:SetBucket("ability_ai", tostring(ai_name))
-					self:SetBucket("ability", tostring(ability_name))
-					local ability_cooldown = 0
-					ability_cooldown = os.time() + math.random(30, 120)
-					if self:GetBucket("enhanced") ~= "" then
-						ability_cooldown = os.time() + math.random(20, 40)
-					else
-					end
-					self:SetBucket("ability_cooldown", tostring(ability_cooldown))
-					return a
-				end
+	if ability_count == 0 then
+		return nil, 0
+	end
+	for ai_name, ai in pairs(ability_db.AbilityAIs) do
+		if ai.Check ~= nil and ai.Check(self) then
+			self:SetBucket(string.format("ability_%d_%d_ai", eq.get_zone_id(), self:GetID()), tostring(ai_name))
+		end
+	end
+	self:SetBucket(string.format("ability_%d_%d_count", eq.get_zone_id(), self:GetID()), tostring(ability_count))
+	return ability.Abilities(self), frequency
+end
+
+--- Return the number of abilities assigned to an NPC
+---@param self NPC
+---@return integer
+function ability.AbilityCount(self)
+	local count = tonumber(self:GetBucket(string.format("ability_%d_%d_count", eq.get_zone_id(), self:GetID())))
+	return count or 0
+end
+
+---@class AbilityCache
+---@field Name string
+---@field Ability Ability
+---@field Cooldown integer
+
+--- Return an array of abilities assigned to an NPC
+---@param self NPC
+---@return AbilityCache[]
+function ability.Abilities(self)
+	local abilities = {}
+
+	local ability_count = ability.AbilityCount(self)
+	if ability_count == nil or ability_count == 0 then
+		return abilities
+	end
+	--eq.debug("abilities NPC has " .. ability_count .. " abilities")
+	for i = 1, ability_count do
+		local ability_name = self:GetBucket(string.format("ability_%d_%d_%d_name", eq.get_zone_id(), self:GetID(), i))
+		if ability_name ~= "" then
+			--eq.debug("Ability " .. i .. " is " .. ability_name)
+			abilities[i] = {}
+			abilities[i].Name = ability_name
+			abilities[i].Ability = ability_db.Abilities[ability_name]
+			abilities[i].Cooldown = tonumber(self:GetBucket(string.format("ability_%d_%d_%d__cooldown", eq.get_zone_id(), self:GetID(), i)))
+			if abilities[i].Cooldown == nil then
+				abilities[i].Cooldown = 0
 			end
 		end
 	end
-	return nil
+	return abilities
 end
 
 --- Triggered on tick
 ---@param self NPC
 function ability.OnTick(self)
-	local name = self:GetBucket("ability")
-	if name == "" then
-		return
-	end
-	local a = abilities[name]
+	--eq.debug("ontick")
+	local abilities = ability.Abilities(self)
+	--eq.debug("NPC has " .. #abilities .. " abilities")
+	for i, ae in ipairs(abilities) do
+		--eq.debug("Ability " .. ae.Name)
 
-	local ability_casting_cooldown = tonumber(self:GetBucket("ability_casting_cooldown"))
-	if ability_casting_cooldown ~= nil then
-		if ability_casting_cooldown > os.time() then
-			return
+		local a = ae.Ability
+		if ae.Cooldown < os.time() then
+			ability.tick(self, i, a)
 		end
-
-		a.OnAbilityFinish(self)
-		self:DeleteBucket("ability_casting_cooldown")
-		return
 	end
+end
 
+--- Triggered on ability tick
+---@param self NPC
+---@param index integer
+---@param a Ability
+function ability.tick(self, index, a)
 	if a == nil then
 		return
 	end
-	local ai_name = self:GetBucket("ability_ai")
+
+	local ability_casting_cooldown = tonumber(self:GetBucket(string.format("ability_%d_%d_casting_cooldown", eq.get_zone_id(), self:GetID())))
+	local casting_name = self:GetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), self:GetID()))
+	if ability_casting_cooldown ~= nil and casting_name ~= "" and casting_name == a.Name then
+		if ability_casting_cooldown > os.time() then
+			--eq.debug("still casting..")
+			return
+		end
+		--eq.debug("done casting")
+
+		a.OnAbilityFinish(self)
+		self:DeleteBucket(string.format("ability_%d_%d_casting_cooldown", eq.get_zone_id(), self:GetID()))
+		self:DeleteBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), self:GetID()))
+		return
+	end
+
+	if not self:IsEngaged() then
+		return
+	end
+
+	local ai_name = self:GetBucket(string.format("ability_%d_%d_ai", eq.get_zone_id(), self:GetID()))
 	if ai_name == "" then
 		return
 	end
-	local ai = ability_ais[ai_name]
+	local ai = ability_db.AbilityAIs[ai_name]
 	if ai == nil then
 		return
 	end
-	local is_enhanced = self:GetBucket("enhanced") ~= ""
+	local is_enhanced = self:GetBucket(string.format("%d_%d_enhanced", eq.get_zone_id(), self:GetID())) ~= ""
 
-	local ability_cooldown = tonumber(self:GetBucket("ability_cooldown"))
+	local ability_cooldown = tonumber(self:GetBucket(string.format("ability_%d_%d_%d_cooldown", eq.get_zone_id(), self:GetID(), index)))
 	if ability_cooldown == nil then
 		ability_cooldown = 0
 	end
+
 	if ability_cooldown > os.time() then
+		--eq.debug(string.format("On cooldown (%d seconds remain)", ability_cooldown - os.time()))
 		return
 	end
 
@@ -161,8 +156,9 @@ function ability.OnTick(self)
 	if is_enhanced then
 		ability_cooldown = os.time() + math.random(24, 48)
 	end
-	self:SetBucket("ability_cooldown", tostring(ability_cooldown))
-	self:SetBucket("ability_casting_cooldown", tostring(os.time() + a.CastTime))
+	self:SetBucket(string.format("ability_%d_%d_%d_cooldown", eq.get_zone_id(), self:GetID(), index), tostring(ability_cooldown))
+	self:SetBucket(string.format("ability_%d_%d_casting_cooldown", eq.get_zone_id(), self:GetID()), tostring(os.time() + a.CastTime))
+	self:SetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), self:GetID()), tostring(a.Name))
 	a.OnAbilityStart(self)
 	self:Stun(a.CastTime * 1000)
 	self:DoAnim(42)
@@ -172,49 +168,56 @@ end
 ---@param self NPC
 ---@param caster Mob
 function ability.OnInterrupt(self, caster)
-	local name = self:GetBucket("ability")
-	if name == "" then
+	local casting_name = self:GetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), self:GetID()))
+	if casting_name == "" then
 		return
 	end
-	local a = abilities[name]
+	local a = ability_db.Abilities[casting_name]
 	if a == nil then
 		return
 	end
-	local ability_casting_cooldown = tonumber(self:GetBucket("ability_casting_cooldown"))
-	if ability_casting_cooldown == nil then
-		return
-	end
-	if ability_casting_cooldown < os.time() then
-		return
-	end
-	self:SetBucket("ability_interrupter", mob:GetCleanName())
-	a.OnAbilityInterrupt(self)
+	a.OnAbilityInterrupt(self, mob:GetCleanName())
 	self:UnStun()
-	self:DeleteBucket("ability_casting_cooldown")
+	self:DeleteBucket(string.format("ability_%d_%d_casting_cooldown", eq.get_zone_id(), self:GetID()))
+	self:DeleteBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), self:GetID()))
 end
 
 --- @param e ModCommonDamage
 --- @return ModCommonDamage
 function ability.OnCommonDamage(e)
 	if e.self:IsNPC() then
-		local name = e.self:GetBucket("ability")
-		if name == "" then
+		local ability_name = e.self:GetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), e.self:GetID()))
+		if ability_name == "" then
 			return e
 		end
-		local a = abilities[name]
+		local a = ability_db.Abilities[ability_name]
 		if a == nil then
 			return e
 		end
 		return a.OnCommonDamage(e, false)
 	end
-	local name = e.attacker:GetBucket("ability")
-	if name == "" then
+	local ability_name = e.attacker:GetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), e.self:GetID()))
+	if ability_name == "" then
 		return e
 	end
-	local a = abilities[name]
+	local a = ability_db.Abilities[ability_name]
 	if a == nil then
 		return e
 	end
 	return a.OnCommonDamage(e, true)
 end
+
+--- Triggered on NPC death
+---@param self NPC
+function ability.Flush(self)
+	if not self:IsNPC() then
+		return
+	end
+	local ability_count = ability.AbilityCount(self)
+	if ability_count == 0 then
+		return
+	end
+	self:DeleteBucket(string.format("ability_%d_%d_count", eq.get_zone_id(), self:GetID()))
+end
+
 return ability
