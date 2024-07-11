@@ -2,6 +2,18 @@ local ability_db = {}
 
 local race = require("race_name")
 
+ability_db.EMIT_RED = 		0xFFFF0000
+ability_db.EMIT_GREEN = 	0xFF00FF00
+ability_db.EMIT_BLUE = 		0xFF0000FF
+ability_db.EMIT_YELLOW = 	0xFFFFFF00
+ability_db.EMIT_WHITE = 	0xFFFFFFFF
+ability_db.EMIT_LIGHTBLUE = 0xFF00FFFF
+ability_db.EMIT_GREY = 		0xFF505050
+ability_db.EMIT_BLACK = 	0xFF000000
+ability_db.EMIT_WHITE = 	0xFFFFFFFF
+ability_db.EMIT_RESET = 	0x00000000
+
+
 ---@class Ability
 ---@field Name string -- The name of the ability
 ---@field SignalFrequency integer -- How often the ability should be triggered in seconds
@@ -10,7 +22,7 @@ local race = require("race_name")
 ---@field OnAbilityStart fun(self: NPC) -- Triggered when the ability starts
 ---@field OnAbilityInterrupt fun(self: NPC, interrupter_name: string) -- Triggered when the ability is interrupted
 ---@field OnAbilityFinish fun(self: NPC) -- Triggered when the ability finishes
----@field OnCommonDamage fun(e: ModCommonDamage, is_attacker: boolean): ModCommonDamage -- Triggered on common damage
+---@field OnCommonDamage fun(e: ModCommonDamage, is_attacker: boolean, ability_value: integer): ModCommonDamage -- Triggered on common damage
 ---@field CooldownInit fun(is_enhanced: boolean): integer -- The cooldown of the ability
 
 ---@type Ability[]
@@ -27,21 +39,30 @@ ability_db.Abilities = {
 		end,
 		OnAbilityStart = function(self)
 			self:Emote("begins to gather strength from it's surroundings")
+			self:SendBeginCast(5684, 0);
+			ability_db.emit(self, ability_db.EMIT_BLUE)
 		end,
 		OnAbilityInterrupt = function(self, interrupter_name)
 			self:Emote(string.format("stops gathering strength, as it was interrupted by %s", interrupter_name))
+			ability_db.emit(self, ability_db.EMIT_RESET)
 		end,
 		OnAbilityFinish = function(self)
 			self:Emote("gathers strength from it's surroundings")
+			self:SendBeginCast(5684, 0);
+			ability_db.emit(self, ability_db.EMIT_RESET)
 		end,
-		OnCommonDamage = function(e, is_attacker)
+		OnCommonDamage = function(e, is_attacker, ability_value)
 			if not is_attacker then
 				return e
 			end
 			if e.value <= 0 then
 				return e
 			end
-			local damage_boost = 0.3
+			if ability_value <= 0 then
+				return e
+			end
+
+			local damage_boost = ability_value * 0.1
 			e.value = e.value + (e.value * damage_boost)
 			e.ignore_default = true
 			return e
@@ -124,5 +145,22 @@ function ability_db.Count(self)
 	return math.random(1, 10)
 end
 
+
+-- emit will send a color to all clients to change it's label
+---@param self Mob
+---@param color integer
+function ability_db.emit(self, color)
+	local opCode = 0x6969
+	eq.debug(string.format("Emitting packet 0x%X to id %d color 0x%X", opCode, self:GetID(), color))
+	local pack = Packet(0x6969, 8, true) -- prime a packet, size of 2, buffered, with opcode 6969
+	pack:WriteInt16(self:GetID()) -- send the entity id
+	pack:WriteInt32(color) -- send the color, maybe 1 = red, 2 = blue, or whatever
+	local clients = eq.get_entity_list():GetClientList() -- get all clients
+	for client in clients.entries do
+		if self:CalculateDistance(client:GetX(), client:GetY(), client:GetZ()) < 100 then -- if the client is within 100 units
+			client:QueuePacket(pack) -- send the packet
+		end
+	end
+end
 
 return ability_db

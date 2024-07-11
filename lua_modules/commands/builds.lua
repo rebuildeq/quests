@@ -1,4 +1,5 @@
 local builds_pkg = require("builds")
+local ability_db = require("ability_db")
 
 ---@param e PlayerEventCommand
 local function builds(e)
@@ -12,6 +13,7 @@ local function builds(e)
 	if subsubcommand == nil then
 		subsubcommand = ""
 	end
+
 	if subcommand == "reset" then
 		builds_pkg.OnBuildResetCommand(e)
 		return
@@ -67,6 +69,14 @@ local function builds(e)
 		return
 	end
 	-- admin flags
+
+	if subcommand == "foo" then
+		if e.self:GetTarget() ~= nil then
+				ability_db.emit(e.self:GetTarget(), ability_db.EMIT_RED) -- BB
+			return
+		end
+		ability_db.emit(e.self, 0x0000FFFF) -- BB
+	end
 
 	if subcommand == "set" then
 		if subsubcommand == "" or subsubcommand == nil then

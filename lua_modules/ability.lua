@@ -185,26 +185,26 @@ end
 --- @param e ModCommonDamage
 --- @return ModCommonDamage
 function ability.OnCommonDamage(e)
+	local result = e
 	if e.self:IsNPC() then
-		local ability_name = e.self:GetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), e.self:GetID()))
-		if ability_name == "" then
-			return e
+		local npc = e.self:CastToNPC()
+		local abilities = ability.Abilities(npc)
+		for i, ae in ipairs(abilities) do
+			--eq.debug("Ability " .. ae.Name)
+
+			local a = ae.Ability
+			local ability_value = tonumber(e.self:GetBucket(string.format("ability_%d_%d_%d_value", eq.get_zone_id(), e.self:GetID(), i)))
+			if ability_value ~= nil then
+				local new_result = a.OnCommonDamage(e, false, ability_value)
+				if new_result ~= nil and new_result.ignore_default then
+					result.ignore_default = true
+					if new_result.value > result.value then
+						result.value = new_result.value
+					end
+				end
+			end
 		end
-		local a = ability_db.Abilities[ability_name]
-		if a == nil then
-			return e
-		end
-		return a.OnCommonDamage(e, false)
 	end
-	local ability_name = e.attacker:GetBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), e.self:GetID()))
-	if ability_name == "" then
-		return e
-	end
-	local a = ability_db.Abilities[ability_name]
-	if a == nil then
-		return e
-	end
-	return a.OnCommonDamage(e, true)
 end
 
 --- Triggered on NPC death
@@ -219,5 +219,6 @@ function ability.Flush(self)
 	end
 	self:DeleteBucket(string.format("ability_%d_%d_count", eq.get_zone_id(), self:GetID()))
 end
+
 
 return ability

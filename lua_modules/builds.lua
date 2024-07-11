@@ -520,6 +520,11 @@ function builds.OnBuildInspectCommand(e)
 		e.self:SetBucket("build", build)
 	end
 
+	local target = e.self:GetTarget()
+	if not target.valid then
+		target = e.self
+	end
+
 	local unspent_points = builds.UnspentPoints(e.self:GetLevel(), build)
 	local unspent_message = ""
 	if unspent_points > 0 then
