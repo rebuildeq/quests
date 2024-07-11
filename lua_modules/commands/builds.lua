@@ -76,6 +76,31 @@ local function builds(e)
 			return
 		end
 		ability_db.emit(e.self, 0x0000FFFF) -- BB
+		return
+	end
+
+	if subcommand == "compass" then
+		eq.debug("sending compass packet")
+		local pack = Packet(0x3e0e, 28, true) -- 28 bytes
+		pack:WriteInt32(e.self:GetID()) -- client_id
+		pack:WriteInt32(1) -- 1 entry
+		pack:WriteInt16(eq.get_zone_id()) -- dz_zone_id is current ID
+		pack:WriteInt16(0) -- dz_instance_id
+		pack:WriteInt32(5) -- quest (green)
+		pack:WriteFloat(0.0) -- y
+		pack:WriteFloat(0.0) -- x
+		pack:WriteFloat(0.0) -- z
+		e.self:QueuePacket(pack) -- send packet
+		return
+	end
+
+	if subcommand == "compassoff" then
+		eq.debug("sending compass packet")
+		local pack = Packet(0x3e0e, 28, true) -- 28 bytes
+		pack:WriteInt32(e.self:GetID()) -- client_id
+		pack:WriteInt32(0) -- 1 entry
+		e.self:QueuePacket(pack) -- send packet
+		return
 	end
 
 	if subcommand == "set" then
