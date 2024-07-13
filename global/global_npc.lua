@@ -40,11 +40,10 @@ end
 
 ---@param e NPCEventCombat
 function event_combat(e)
-	eq.debug("on aggro")
-	local a, signal_frequency = ability.OnNPCAggro(e.self)
-	if a ~= nil and signal_frequency > 0 then
-		eq.set_timer("ability_timer", signal_frequency * 1000)
-	end
+	-- local a, signal_frequency = ability.OnNPCAggro(e.self)
+	-- if a ~= nil and signal_frequency > 0 then
+	-- 	eq.set_timer("ability_timer", signal_frequency * 1000)
+	-- end
 end
 
 ---@param e NPCEventDeath
