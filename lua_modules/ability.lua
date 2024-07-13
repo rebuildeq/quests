@@ -221,8 +221,9 @@ function ability.Flush(self)
 	if not self:IsNPC() then
 		return
 	end
-	local ability_count = ability.AbilityCount(self)
-	if ability_count == 0 then
+
+	local ability_count = tonumber(self:GetEntityBucket("ability_count"))
+	if ability_count == nil or ability_count == 0 then
 		return
 	end
 	self:DeleteEntityBucket("ability_count")
