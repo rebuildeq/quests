@@ -84,27 +84,37 @@ end
 
 --- Triggered on tick
 ---@param self NPC
+---@return integer # next tick to trigger in seconds
 function ability.OnTick(self)
 	--eq.debug("ontick")
+	local next_tick = 30
 	local abilities = ability.Abilities(self)
 	--eq.debug("NPC has " .. #abilities .. " abilities")
 	for i, ae in ipairs(abilities) do
 		--eq.debug("Ability " .. ae.Name)
 
 		local a = ae.Ability
+		if next_tick > ae.Cooldown then
+			next_tick = ae.Cooldown
+		end
 		if ae.Cooldown < os.time() then
-			ability.tick(self, i, a)
+			local new_tick = ability.tick(self, i, a, ae.Cooldown)
+			if new_tick < next_tick then
+				next_tick = new_tick
+			end
 		end
 	end
+	return next_tick
 end
 
 --- Triggered on ability tick
 ---@param self NPC
 ---@param index integer
 ---@param a Ability
-function ability.tick(self, index, a)
+---@return integer # next tick to trigger in seconds
+function ability.tick(self, index, a, next_tick)
 	if a == nil then
-		return
+		return next_tick
 	end
 
 	local ability_casting_cooldown = tonumber(self:GetBucket(string.format("ability_%d_%d_casting_cooldown", eq.get_zone_id(), self:GetID())))
@@ -112,27 +122,27 @@ function ability.tick(self, index, a)
 	if ability_casting_cooldown ~= nil and casting_name ~= "" and casting_name == a.Name then
 		if ability_casting_cooldown > os.time() then
 			--eq.debug("still casting..")
-			return
+			return next_tick
 		end
 		--eq.debug("done casting")
 
 		a.OnAbilityFinish(self)
 		self:DeleteBucket(string.format("ability_%d_%d_casting_cooldown", eq.get_zone_id(), self:GetID()))
 		self:DeleteBucket(string.format("ability_%d_%d_casting_name", eq.get_zone_id(), self:GetID()))
-		return
+		return next_tick
 	end
 
 	if not self:IsEngaged() then
-		return
+		return next_tick
 	end
 
 	local ai_name = self:GetBucket(string.format("ability_%d_%d_ai", eq.get_zone_id(), self:GetID()))
 	if ai_name == "" then
-		return
+		return next_tick
 	end
 	local ai = ability_db.AbilityAIs[ai_name]
 	if ai == nil then
-		return
+		return next_tick
 	end
 	local is_enhanced = self:GetBucket(string.format("%d_%d_enhanced", eq.get_zone_id(), self:GetID())) ~= ""
 
@@ -143,12 +153,12 @@ function ability.tick(self, index, a)
 
 	if ability_cooldown > os.time() then
 		--eq.debug(string.format("On cooldown (%d seconds remain)", ability_cooldown - os.time()))
-		return
+		return next_tick
 	end
 
 	-- ability ready to be casted, check if AI decides not to
 	if not ai.IsValidTime(self, a) then
-		return
+		return next_tick
 	end
 
 	-- time to cast!
@@ -162,6 +172,7 @@ function ability.tick(self, index, a)
 	a.OnAbilityStart(self)
 	self:Stun(a.CastTime * 1000)
 	self:DoAnim(42)
+	return ability_cooldown
 end
 
 --- Triggered on ability interrupt hitting a mob

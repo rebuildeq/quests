@@ -1,5 +1,6 @@
-
 local ability = require("ability")
+local guildmaster = require("guildmaster")
+local autoscribe = require("autoscribe")
 
 ---@param e NPCEventSpawn
 function event_spawn(e)
@@ -56,7 +57,17 @@ end
 ---@param e NPCEventTimer
 function event_timer(e)
 	if e.timer == "ability_timer" then
+		eq.stop_timer(e.timer)
 		eq.debug("triggering timer for NPC " .. e.self:GetCleanName())
-		ability.OnTick(e.self)
+		local next_timer = ability.OnTick(e.self)
+		if next_timer > 0 then
+			eq.set_timer("ability_timer", next_timer * 1000)
+		end
 	end
+end
+
+---@param e NPCEventSay
+function event_say(e)
+	guildmaster.OnSay(e)
+	autoscribe.OnSay(e)
 end
