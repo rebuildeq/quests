@@ -84,3 +84,26 @@ function Mob:GetClassShortName()
 	if self:GetClass() == 15 then return "bst" end
 	if self:GetClass() == 16 then return "ber" end
 end
+
+--- Sets a bucket value that is scoped to an specific entity
+---@param base_key string
+---@param value string
+function Mob:SetEntityBucket(base_key, value)
+	local key = string.format("%s_%d_%d_%d", base_key, eq.get_zone_id(), eq.get_zone_instance_id(), self:GetID());
+	self:SetBucket(key, value);
+end
+
+--- Gets a bucket value that is scoped to an specific entity
+---@param base_key string
+---@return string
+function Mob:GetEntityBucket(base_key)
+	local key = string.format("%s_%d_%d_%d", base_key, eq.get_zone_id(), eq.get_zone_instance_id(), self:GetID());
+	return self:GetBucket(key);
+end
+
+--- Deletes a bucket value that is scoped to an specific entity
+---@param base_key string
+function Mob:DeleteEntityBucket(base_key)
+	local key = string.format("%s_%d_%d_%d", base_key, eq.get_zone_id(), eq.get_zone_instance_id(), self:GetID());
+	self:DeleteBucket(key);
+end

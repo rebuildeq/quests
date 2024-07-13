@@ -43,7 +43,6 @@ function event_combat(e)
 	eq.debug("on aggro")
 	local a, signal_frequency = ability.OnNPCAggro(e.self)
 	if a ~= nil and signal_frequency > 0 then
-		eq.debug("triggering timer at " .. signal_frequency .. " seconds for NPC " .. e.self:GetCleanName())
 		eq.set_timer("ability_timer", signal_frequency * 1000)
 	end
 end
@@ -60,6 +59,8 @@ function event_timer(e)
 		eq.stop_timer(e.timer)
 		eq.debug("triggering timer for NPC " .. e.self:GetCleanName())
 		local next_timer = ability.OnTick(e.self)
+
+		eq.debug("next timer at " .. next_timer .. " seconds for NPC " .. e.self:GetCleanName())
 		if next_timer > 0 then
 			eq.set_timer("ability_timer", next_timer * 1000)
 		end

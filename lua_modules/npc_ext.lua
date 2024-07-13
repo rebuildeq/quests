@@ -167,3 +167,23 @@ function NPC:AddCardDrops()
 
 end
 
+
+--- Sets a bucket value that is scoped to an specific entity
+---@param base_key string
+---@param value string
+function NPC:SetEntityBucket(base_key, value)
+	return self:CastToMob():SetBucket(base_key, value);
+end
+
+--- Gets a bucket value that is scoped to an specific entity
+---@param base_key string
+---@return string
+function NPC:GetEntityBucket(base_key)
+	return self:CastToMob():GetBucket(base_key);
+end
+
+--- Deletes a bucket value that is scoped to an specific entity
+---@param base_key string
+function NPC:DeleteEntityBucket(base_key)
+	return self:CastToMob():DeleteBucket(base_key);
+end
