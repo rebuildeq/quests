@@ -22,6 +22,7 @@ local skills = {
 	shd = {
 		lifesap = { ID = 0 },
 		gougingskin = { ID = 2 },
+		zevfeersfeast = { ID = 8},
 	},
 	dru = {
 		verdantrenewal = { ID = 0 },
