@@ -1,16 +1,17 @@
 local skill = {}
 
+local builds = require('builds')
+
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if not is_my_damage then
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.attacker
-	local enemy = e.self
-	local builds = require('builds')
-	if not ally:IsClient() then
+	if not attacker:IsClient() then
 		return e
 	end
 
@@ -24,11 +25,11 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		return e
 	end
 
-	local hatelist = ally:GetHateList()
+	local hatelist = attacker:GetHateList()
 	for ent in hatelist.entries do
-		if not ent:IsMezzed() and ent:CalculateDistance(ally:GetX(), ally:GetY(), ally:GetZ()) <= 15 then -- within range
-			enemy:Damage(ally, e.value, 0, Skill['2HBlunt'], false)
-			builds.Debug(ally, string.format("Frenzy Ricochet dealt %d points of damage to %s.", e.value, enemy:GetCleanName()))
+		if not ent:IsMezzed() and ent:CalculateDistance(attacker:GetX(), attacker:GetY(), attacker:GetZ()) <= 15 then -- within range
+			defender:Damage(attacker, e.value, 0, Skill['2HBlunt'], false)
+			builds.Debug(origin, string.format("Frenzy Ricochet dealt %d points of damage to %s.", e.value, defender:GetCleanName()))
 			return e
 		end
 	end

@@ -525,18 +525,18 @@ spell_levels[93] = 1
 spell_levels[94] = 4
 spell_levels[9980] = 71
 
+local builds = require('builds')
+
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if not is_my_damage then
-		-- only triggers when player casts a spell
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.attacker
-	local enemy = e.self
-	local builds = require('builds')
-	if not ally:IsClient() then
+	if not attacker:IsClient() then
 		return e
 	end
 
@@ -569,7 +569,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	local my_level = e.self:GetLevel()
 
 
-	local spell_level = 0 -- TODO: Get spell level of spell? May need to get all wiz spells add them manually
+	local spell_level = 0 -- TODO: Get spell level of spell? May need to get all wiz spells add them manuattacker
 
 	if spell_levels[spell:ID()] == nil then
 		-- only spells that are in the list
@@ -583,7 +583,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		return e
 	end
 
-	local surge_cooldown = tonumber(ally:GetBucket("surge_cooldown"))
+	local surge_cooldown = tonumber(attacker:GetBucket("surge_cooldown"))
 	if surge_cooldown == nil then
 		surge_cooldown = 0
 	end
@@ -594,11 +594,11 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		return e
 	end
 
-	ally:SetBucket("surge_cooldown", string.format("%d", next_cooldown))
+	attacker:SetBucket("surge_cooldown", string.format("%d", next_cooldown))
 
-	local damage = ally:GetLevel() * (rank * 3)
-	builds.Debug(ally, string.format("Arcane Surge (%d) dealt %d damage to %s.", rank, damage, enemy:GetCleanName()))
-	enemy:Damage(ally, damage, spell:ID(), 0)
+	local damage = attacker:GetLevel() * (rank * 3)
+	builds.Debug(attacker, string.format("Arcane Surge (%d) dealt %d damage to %s.", rank, damage, defender:GetCleanName()))
+	defender:Damage(origin, damage, spell:ID(), 0)
 	return e
 end
 

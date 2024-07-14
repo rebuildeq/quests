@@ -1,19 +1,16 @@
 local skill = {}
 
----@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
----@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if not is_my_damage then
-		return e
-	end
-	local ally = e.attacker
-	local enemy = e.self
-	local builds = require('builds')
-	if not ally:IsClient() then
-		return e
-	end
+local builds = require('builds')
 
+---@param e ModCommonDamage
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
+---@param rank integer -- the rank of the skill
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
+		return e
+	end
 
 	-- Increases melee damage by <em data-base='20'>20</em>%<span class='perLevel'> per rank</span>.",
 
@@ -24,7 +21,7 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 
 	e.return_value = e.value * (rank * 0.2)
-	builds.Debug(ally, string.format("Training of Zek increased damage by %d.", e.return_value))
+	builds.Debug(attacker, string.format("Training of Zek increased damage by %d.", e.return_value))
 	e.return_value = e.return_value + e.value
 	return e
 end

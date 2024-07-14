@@ -1,15 +1,15 @@
 local skill = {}
+local builds = require('builds')
 
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if not is_my_damage then
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-
-	local ally = e.attacker
-	local builds = require('builds')
 
 	-- When the rogue successfully backstabs an enemy, all enemies that are
 	-- hated by the rogue have a reduction of (0.2 * damage) hate per rank.
@@ -19,12 +19,12 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 
 	local hate_reduction = e.value * 0.2
-	local hatelist = ally:GetHateList()
+	local hatelist = attacker:GetHateList()
 	for ent in hatelist.entries do
 		ent.damage = ent.damage - hate_reduction -- Assuming ent.damage is hate amount
 	end
 
-	builds.Debug(ally, string.format("Jarring Stab (%d) reduced your hate by your enemies by %d.", rank, hate_reduction))
+	builds.Debug(origin, string.format("Jarring Stab (%d) reduced your hate by your enemies by %d.", rank, hate_reduction))
 	return e
 end
 

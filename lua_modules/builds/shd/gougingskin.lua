@@ -1,38 +1,35 @@
 local skill = {}
+local builds = require('builds')
 
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-
-	if is_my_damage then
-		return e
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() == attacker:GetID() then
+		return e -- only when attacker is someone else
 	end
-
 	if e.value <= 0 then
 		return e
 	end
 
-	local ally = e.self
-	local enemy = e.attacker
-	local builds = require('builds')
-
-	if ally:GetTarget() == nil or not ally:GetTarget().valid then
+	if defender:GetTarget() == nil or not defender:GetTarget().valid then
 		return e
 	end
 	local target_id = e.self:GetTarget():GetID()
 
-	if target_id ~= enemy:GetID() then
+	if target_id ~= attacker:GetID() then
 		return e
 	end
-	if target_id == ally:GetID() then
+	if target_id == defender:GetID() then
 		return e
 	end
 
 	local damage = 4 * rank
 
-	enemy:Damage(ally, damage, 0, Skill['Conjuration'], false)
-	builds.Debug(ally, string.format("Gouging Skin (%d) dealt %d points of damage to %s.", rank, damage, enemy:GetCleanName()))
+	attacker:Damage(defender, damage, 0, Skill['Conjuration'], false)
+	builds.Debug(origin, string.format("Gouging Skin (%d) dealt %d points of damage to %s.", rank, damage, attacker:GetCleanName()))
 end
 
 return skill

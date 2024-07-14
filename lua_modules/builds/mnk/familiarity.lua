@@ -1,17 +1,17 @@
 local skill = {}
 
+local builds = require('builds')
+
 ---@param e ModCheckHitChance
----@param is_my_hit boolean -- is hit from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer - the rank of the skill
-function CheckHitChance(e, is_my_hit, rank)
-	if not is_my_hit then
+function CheckHitChance(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.other
-	local enemy = e.self
-	local builds = require('builds')
-
-	local acc_bonus = tonumber(enemy:GetBucket(string.format("%d_familiarity", ally:CastToClient():CharacterID())))
+	local acc_bonus = tonumber(defender:GetBucket(string.format("%d_familiarity", attacker:CastToClient():CharacterID())))
 	if acc_bonus == 0 then
 		return e
 	end
@@ -19,25 +19,24 @@ function CheckHitChance(e, is_my_hit, rank)
 	local old_hit = e.hit.tohit
 	e.IgnoreDefault = true
 	e.hit.tohit = e.hit.tohit * (acc_bonus * 0.01)
-	builds.Debug(ally, string.format("Familiarity increased accuracy from %d to %d.", old_hit, e.hit.tohit))
+	builds.Debug(origin, string.format("Familiarity increased accuracy from %d to %d.", old_hit, e.hit.tohit))
 	return e
 end
 
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if not is_my_damage then
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.attacker
-	local enemy = e.self
-	local builds = require('builds')
-	if not ally:IsClient() then
+	if not attacker:IsClient() then
 		return e
 	end
 
-	local acc_bonus = tonumber(enemy:GetBucket(string.format("%d_familiarity", ally:CastToClient():CharacterID())))
+	local acc_bonus = tonumber(defender:GetBucket(string.format("%d_familiarity", attacker:CastToClient():CharacterID())))
 	local acc_original_bonus = acc_bonus
 	acc_bonus = acc_bonus + rank
 	local acc_max = rank * 10
@@ -45,10 +44,10 @@ function skill.CommonDamage(e, is_my_damage, rank)
 		acc_bonus = acc_max
 	end
 	if acc_bonus ~= acc_original_bonus then
-		enemy:SetBucket(string.format("%d_familiarity", ally:CastToClient():CharacterID()), acc_bonus)
+		defender:SetBucket(string.format("%d_familiarity", attacker:CastToClient():CharacterID()), acc_bonus)
 	end
 
-	builds.Debug(ally, string.format("Familiarity increased accuracy to %d/%d.", acc_bonus, acc_max))
+	builds.Debug(origin, string.format("Familiarity increased accuracy to %d/%d.", acc_bonus, acc_max))
 	return e
 end
 

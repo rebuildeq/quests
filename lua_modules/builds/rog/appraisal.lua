@@ -1,21 +1,24 @@
 local skill = {}
+local builds = require('builds')
 
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if not is_my_damage then
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.attacker
-	local enemy = e.self
-	local builds = require('builds')
 
 
 	-- Add 400 mod proc that deals (level * 3 * 0.2) magic damage as well as a fleeting fury buff
 
 	-- Only proc off of regular attacks (1hs, 1hb, piercing, etc)
-	local melee_skills = {0,1,2,3,7,20,22,28,36,37,51,74,76,77}
+	local melee_skills = {[0]=1,[1]=1,[2]=1,[3]=1,[7]=1,[20]=1,[22]=1,[28]=1,[36]=1,[37]=1,[51]=1,[74]=1,[76]=1,[77]=1}
+	if melee_skills[e.skill_used] == nil then
+		return e
+	end
 
 	local passed_check = false
 	for i, curskill in ipairs(melee_skills) do
@@ -29,14 +32,14 @@ function skill.CommonDamage(e, is_my_damage, rank)
 	end
 
 	-- TODO: Appraisal doesn't currently benefit from ranks
-	if not builds.IsProcSuccess(ally, 400, Slot.Primary) then
+	if not builds.IsProcSuccess(attacker, 400, Slot.Primary) then
 	  return e
 	end
 
-	ally:ApplySpellBuff(271) -- Fleeting Fury
-	local damage = ally:GetLevel() * 0.6
-	enemy:Damage(ally, damage, 0, Skill['Evocation'], false) -- Evocation so appraisal doesn't proc itself
-	builds.Debug(ally, string.format("Appraisal (%d) dealt %d points of damage to %s.", rank, damage, enemy:GetCleanName()))
+	attacker:ApplySpellBuff(271) -- Fleeting Fury
+	local damage = attacker:GetLevel() * 0.6
+	defender:Damage(attacker, damage, 0, Skill['Evocation'], false) -- Evocation so appraisal doesn't proc itself
+	builds.Debug(attacker, string.format("Appraisal (%d) dealt %d points of damage to %s.", rank, damage, defender:GetCleanName()))
 	return e
 end
 

@@ -1,22 +1,24 @@
 local skill = {}
 
+local builds = require('builds')
+
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	if is_my_damage then
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.self
-	local enemy = e.attacker
-	local builds = require('builds')
-	if not ally:IsClient() then
+
+	if not attacker:IsClient() then
 		return e
 	end
 
 	local mana_gain = e.value * 0.02 * rank
-	ally:SetMana(ally:GetMana() + mana_gain)
-	builds.Debug(ally, string.format("One With Nature restored %d mana.", enemy:GetCleanName(), mana_gain))
+	attacker:SetMana(attacker:GetMana() + mana_gain)
+	builds.Debug(origin, string.format("One With Nature restored %d mana.", defender:GetCleanName(), mana_gain))
 	return e
 end
 

@@ -1,21 +1,16 @@
 local skill = {}
 
----@param e ModHealDamage
----@param is_my_spell boolean -- is healing from the player
----@param rank integer -- the rank of the skill
-function skill.HealDamage(e, is_my_spell, rank)
-	if not is_my_spell then
-		-- only triggers when player casts a spell
-		return e
-	end
-	local target = e.self
-	local builds = require('builds')
+local builds = require('builds')
 
-	if not e.caster:IsClient() then
-		-- caster must be a client
+---@param e ModHealDamage
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
+---@param rank integer -- the rank of the skill
+function skill.HealDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.caster:CastToClient()
 
 	local spell = eq.get_spell(e.spell_id)
 	if spell == nil then
@@ -35,9 +30,9 @@ function skill.HealDamage(e, is_my_spell, rank)
 		return e
 	end
 
-	-- Single target healing spells now spread to allies within <em data-base="10">10</em>m of the healed target, healing them for <em data-base="2">2</em>% the original heal amount<span class="perLevel"> per rank</span>.'
+	-- Single defender healing spells now spread to allies within <em data-base="10">10</em>m of the healed defender, healing them for <em data-base="2">2</em>% the original heal amount<span class="perLevel"> per rank</span>.'
 
-	local group = ally:GetGroup()
+	local group = attacker:GetGroup()
 	if not group.valid then
 		-- only works in group
 		return e
@@ -57,11 +52,11 @@ function skill.HealDamage(e, is_my_spell, rank)
 	for i = 1, members do
 		local member = group:GetMember(i)
 		if member.valid and
-			member.GetID ~= target:GetID() and -- don't heal the target
-			target:CalculateDistance(member:GetX(), member:GetY(), member:GetZ()) <= distance then -- within range
+			member.GetID ~= defender:GetID() and -- don't heal the defender
+			defender:CalculateDistance(member:GetX(), member:GetY(), member:GetZ()) <= distance then -- within range
 			member:HealDamage(heal_amount)
-			member:Message(MT.Spells, string.format("You were healed for %d points of damage by %s.", heal_amount, ally:GetCleanName()))
-			builds.Debug(ally, string.format("Rodcet's Gift healed %s for %d points of damage.", member:GetCleanName(), heal_amount))
+			member:Message(MT.Spells, string.format("You were healed for %d points of damage by %s.", heal_amount, attacker:GetCleanName()))
+			builds.Debug(origin, string.format("Rodcet's Gift healed %s for %d points of damage.", member:GetCleanName(), heal_amount))
 		end
 	end
 

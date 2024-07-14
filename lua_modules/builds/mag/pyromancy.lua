@@ -1,45 +1,54 @@
 local skill = {}
 
 local race = require("race_name")
+local builds = require('builds')
 
 ---@param e ModCommonDamage
----@param is_my_damage boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_damage, rank)
-	local ally = e.self
-	local enemy = e.attacker
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	local is_my_damage = origin:GetID() == attacker:GetID()
+
 	if is_my_damage then
-		ally = e.attacker
-		enemy = e.self
-	end
-	if not ally:IsPet() then
-		return e
-	end
-	local owner = ally:GetOwner()
-	if not owner:IsClient() then
-		return e
-	end
-	local builds = require('builds')
-	if is_my_damage then
+		if not attacker:IsPet() then
+			return e
+		end
+		if not attacker:GetOwner() or not attacker:GetOwner():IsClient() then
+			return e
+		end
+		if attacker:GetOwner():GetID() ~= origin:GetID() then
+			return e
+		end
 		local damage_increase = 0.1 * rank
 		e.return_value = e.value + (e.value * damage_increase)
 		e.ignore_default = true
-		builds.Debug(owner, string.format("Pyromancy (%d) increased outgoing damage from pet by %d.", rank, e.value - e.return_value))
+		builds.Debug(origin, string.format("Pyromancy (%d) increased outgoing damage from pet by %d.", rank, e.value - e.return_value))
+		return e
+	end
+
+
+	if not defender:IsPet() then
+		return e
+	end
+	if not defender:GetOwner() or not defender:GetOwner():IsClient() then
+		return e
+	end
+	if defender:GetOwner():GetID() ~= origin:GetID() then
 		return e
 	end
 
 	local damage_boost = 0.1 * rank
 	e.return_value = e.value + (e.value * damage_boost)
 	e.ignore_default = true
-	builds.Debug(owner, string.format("Pyromancy (%d) increased incoming to pet damage by %d.", rank, e.return_value - e.value))
+	builds.Debug(origin, string.format("Pyromancy (%d) increased incoming to pet damage by %d.", rank, e.return_value - e.value))
 	return e
 end
 
 ---@param self Client
 ---@param rank integer -- the rank of the skill
 function skill.Tick(self, rank)
-	local builds = require('builds')
-
 	local ally = self
 
 	if not ally:HasPet() then

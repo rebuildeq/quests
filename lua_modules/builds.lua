@@ -94,89 +94,99 @@ end
 --- Triggered On ModCommonDamage
 ---@param e ModCommonDamage
 function builds.OnModCommonDamage(e)
-	if not e.self.valid or not e.attacker.valid then
-		return e
-	end
-
+	local origin = nil
+	local attacker = e.attacker
+	local defender = e.self
 
 	for className, skillEntry in pairs(skills) do
-
-		-- I'm attacking an enemy
-		if e.attacker:IsClient() and className == e.attacker:GetClassShortName() then
+		if attacker:IsClient() and className == attacker:GetClassShortName() then
+			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.attacker, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
-				--eq.debug("Check CommonDamage of " .. skillName .. " rank " .. rank)
 				if rank > 0 and skill.CommonDamage then
-					--eq.debug("attacker->CommonDamage of " .. skillName .. " rank " .. rank)
-					skill.CommonDamage(e, true, rank)
+					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-		-- An enemy is attacking me
-		if e.self:IsClient() and className == e.self:GetClassShortName() then
+		if defender:IsClient() and className == defender:GetClassShortName() then
+			origin = defender
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.self, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
-					--eq.debug("self->CommonDamage of " .. skillName .. " rank " .. rank)
-					skill.CommonDamage(e, false, rank)
+					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-
-		if e.attacker:IsNPC() and e.attacker:HasOwner() and e.attacker:GetOwner():IsClient() and className == e.attacker:GetOwner():GetClassShortName() then
+		if attacker:IsNPC() and attacker:HasOwner() and attacker:GetOwner():IsClient() and className == attacker:GetOwner():GetClassShortName() then
+			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.attacker:GetOwner(), skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
-					--eq.debug("attacker->petCommonDamage of " .. skillName .. " rank " .. rank)
-					skill.CommonDamage(e, false, rank)
+					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-
-		if e.self:IsNPC() and e.self:HasOwner() and e.self:GetOwner():IsClient() and className == e.self:GetOwner():GetClassShortName() then
+		if defender:IsNPC() and defender:HasOwner() and defender:GetOwner():IsClient() and className == defender:GetOwner():GetClassShortName() then
+			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.self:GetOwner(), skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CommonDamage then
-					--eq.debug("self->petCommonDamag of " .. skillName .. " rank " .. rank)
-					skill.CommonDamage(e, true, rank)
+					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-
 	end
 end
 
 --- Triggered On ModHealDamage
 ---@param e ModHealDamage
 function builds.OnModHealDamage(e)
-	if not e.self.valid or not e.caster.valid then
-		return e
-	end
-	-- builds require at least one client for build related triggers
-	if not e.self:IsClient() and not e.caster:IsClient() then
-		return e
-	end
+	local origin = nil
+	local attacker = e.caster
+	local defender = e.self
 
 	for className, skillEntry in pairs(skills) do
-		if e.self:IsClient() and className == e.self:GetClassShortName() then
+		if attacker:IsClient() and className == attacker:GetClassShortName() then
+			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.self, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.HealDamage then
-					skill.HealDamage(e, true, rank)
+					skill.HealDamage(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-		if e.caster:IsClient() and className == e.caster:GetClassShortName() then
+		if defender:IsClient() and className == defender:GetClassShortName() then
+			origin = defender
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.caster, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.HealDamage then
-					skill.HealDamage(e, false, rank)
+					skill.HealDamage(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+		if attacker:IsNPC() and attacker:HasOwner() and attacker:GetOwner():IsClient() and className == attacker:GetOwner():GetClassShortName() then
+			origin = attacker:GetOwner()
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.HealDamage then
+					skill.HealDamage(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+		if defender:IsNPC() and defender:HasOwner() and defender:GetOwner():IsClient() and className == defender:GetOwner():GetClassShortName() then
+			origin = defender:GetOwner()
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.HealDamage then
+					skill.HealDamage(e, origin, attacker, defender, rank)
 				end
 			end
 		end
@@ -186,42 +196,49 @@ end
 --- Triggered On CheckHitChance
 ---@param e ModCheckHitChance
 function builds.OnCheckHitChance(e)
+
+	local origin = nil
+	local attacker = e.self
+	local defender = e.other
+
 	for className, skillEntry in pairs(skills) do
-		if e.self:IsClient() and className == e.self:GetClassShortName() then
+		if attacker:IsClient() and className == attacker:GetClassShortName() then
+			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.self, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CheckHitChance then
-					skill.CheckHitChance(e, true, rank)
+					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-		if e.other:IsClient() and className == e.other:GetClassShortName() then
+		if defender:IsClient() and className == defender:GetClassShortName() then
+			origin = defender
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.other, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CheckHitChance then
-					skill.CheckHitChance(e, false, rank)
+					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-
-		if e.other:IsNPC() and e.other:HasOwner() and e.other:GetOwner():IsClient() then
+		if attacker:IsNPC() and attacker:HasOwner() and attacker:GetOwner():IsClient() and className == attacker:GetOwner():GetClassShortName() then
+			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.other:GetOwner(), skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CheckHitChance then
-					skill.CheckHitChance(e, false, rank)
+					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
 			end
 		end
-
-		if e.self:IsNPC() and e.self:HasOwner() and e.self:GetOwner():IsClient() then
+		if defender:IsNPC() and defender:HasOwner() and defender:GetOwner():IsClient() and className == defender:GetOwner():GetClassShortName() then
+			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(e.self:GetOwner(), skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.CheckHitChance then
-					skill.CheckHitChance(e, true, rank)
+					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
 			end
 		end
@@ -248,45 +265,131 @@ function builds.OnTick(self)
 	end
 end
 
+
 --- Triggered On SpellBuffTic
 ---@param e SpellEventSpellBuffTic
 function builds.OnSpellBuffTic(e)
-	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
-	if not caster or not caster.valid then
-		return e
-	end
+	local origin = nil
+	local attacker = eq.get_entity_list():GetClientByID(e.caster_id)
+	local defender = e.target
 	for className, skillEntry in pairs(skills) do
-		if className == caster:GetClassShortName() then
+		if attacker:IsClient() and className == attacker:GetClassShortName() then
+			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(caster, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
 				if rank > 0 and skill.Tick then
-					skill.SpellBuffTic(e, caster, rank)
+					skill.Tick(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+		if defender:IsClient() and className == defender:GetClassShortName() then
+			origin = defender
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Tick then
+					skill.Tick(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+		if attacker:IsNPC() and attacker:HasOwner() and attacker:GetOwner():IsClient() and className == attacker:GetOwner():GetClassShortName() then
+			origin = attacker:GetOwner()
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Tick then
+					skill.Tick(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+		if defender:IsNPC() and defender:HasOwner() and defender:GetOwner():IsClient() and className == defender:GetOwner():GetClassShortName() then
+			origin = defender:GetOwner()
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Tick then
+					skill.Tick(e, origin, attacker, defender, rank)
 				end
 			end
 		end
 	end
 end
 
---- Triggered On CalcSpellEffectValue_formula
----@param e ModCalcSpellEffectValue_formula
-function builds.OnCalcSpellEffectValue_formula(e)
-	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
-	if not caster or not caster.valid then
-		return e
-	end
+--- Triggered On Tick
+---@param e SpellEventSpellEffect
+function builds.OnSpellEffect(e)
+	local origin = nil
+	local attacker = eq.get_entity_list():GetClientByID(e.caster_id)
+	local defender = e.target
+
 	for className, skillEntry in pairs(skills) do
-		if className == caster:GetClassShortName() then
+		if attacker:IsClient() and className == attacker:GetClassShortName() then
+			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
-				local rank = builds.Rank(caster, skill.ID)
+				local rank = builds.Rank(origin, skill.ID)
 				current_skill_id = skill.ID
-				if rank > 0 and skill.Tick then
-					skill.SpellBuffTic(e, caster, rank)
+				if rank > 0 and skill.Event.SpellEffect then
+					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+
+		if defender:IsClient() and className == defender:GetClassShortName() then
+			origin = defender
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Event.SpellEffect then
+					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+
+		if attacker:IsNPC() and attacker:HasOwner() and attacker:GetOwner():IsClient() and className == attacker:GetOwner():GetClassShortName() then
+			origin = attacker:GetOwner()
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Event.SpellEffect then
+					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+				end
+			end
+		end
+
+		if defender:IsNPC() and defender:HasOwner() and defender:GetOwner():IsClient() and className == defender:GetOwner():GetClassShortName() then
+			origin = defender:GetOwner()
+			for skillName, skill in pairs(skillEntry) do
+				local rank = builds.Rank(origin, skill.ID)
+				current_skill_id = skill.ID
+				if rank > 0 and skill.Event.SpellEffect then
+					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
 			end
 		end
 	end
 end
+
+
+-- --- Triggered On CalcSpellEffectValue_formula
+-- ---@param e ModCalcSpellEffectValue_formula
+-- function builds.OnCalcSpellEffectValue_formula(e)
+-- 	local caster = eq.get_entity_list():GetClientByID(e.caster_id)
+-- 	if not caster or not caster.valid then
+-- 		return e
+-- 	end
+-- 	for className, skillEntry in pairs(skills) do
+-- 		if className == caster:GetClassShortName() then
+-- 			for skillName, skill in pairs(skillEntry) do
+-- 				local rank = builds.Rank(caster, skill.ID)
+-- 				current_skill_id = skill.ID
+-- 				if rank > 0 and skill.Tick then
+-- 					skill.SpellBuffTic(e, caster, rank)
+-- 				end
+-- 			end
+-- 		end
+-- 	end
+-- end
 
 --- Gets the rank of a skill
 ---@param self Mob

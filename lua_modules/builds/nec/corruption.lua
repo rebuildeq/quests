@@ -1,16 +1,15 @@
 local skill = {}
+local builds = require('builds')
 
 ---@param e ModCommonDamage
----@param is_my_spell boolean -- is damage from the player
+---@param origin Client
+---@param attacker Mob
+---@param defender Mob
 ---@param rank integer -- the rank of the skill
-function skill.CommonDamage(e, is_my_spell, rank)
-	if not is_my_spell then
-		-- only triggers when player casts a spell
+function skill.CommonDamage(e, origin, attacker, defender, rank)
+	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
-	local ally = e.attacker
-	local builds = require('builds')
-
 	local spell = eq.get_spell(e.spell_id)
 	if spell == nil then
 		-- only spells valid
@@ -36,7 +35,7 @@ function skill.CommonDamage(e, is_my_spell, rank)
 	-- DoT damage is increased by <em data-base='6'>6</em>%<span class='perLevel'> per rank</span>.",
 	e.return_value = e.value * (rank * 0.06)
 
-	builds.Debug(ally, string.format("Corruption increased DoT damage by %d.", e.return_value))
+	builds.Debug(attacker, string.format("Corruption increased DoT damage by %d.", e.return_value))
 	e.ignore_default = true
 	e.return_value = e.value + e.return_value
 	return e
