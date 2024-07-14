@@ -4,9 +4,9 @@ local skill = {}
 local builds = require('builds')
 
 ---@param e ModCommonDamage
----@param origin Client
----@param attacker Mob
----@param defender Mob
+---@param origin Client # Person who owns the build skill triggering this event
+---@param attacker Mob # Mob who is instigating/casting/attacking
+---@param defender Mob # Mob who is defender/target of spell/receiving
 ---@param rank integer -- the rank of the skill
 function skill.CommonDamage(e, origin, attacker, defender, rank)
 	if origin:GetID() ~= attacker:GetID() then
