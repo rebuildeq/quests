@@ -87,6 +87,9 @@ function builds.Init()
 			if type(skill.Event.CheckHitChance) == "function" then
 				skill.CheckHitChance = skill.Event.CheckHitChance
 			end
+			if type(skill.Event.SpellEffect) == "function" then
+				skill.SpellEffect = skill.Event.SpellEffect
+			end
 		end
 	end
 end
