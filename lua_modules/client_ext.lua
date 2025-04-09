@@ -8,52 +8,52 @@ function Client:GiveCash(copper, silver, gold, platinum)
 	silver = silver or 0;
 	gold = gold or 0;
 	platinum = platinum or 0;
-
+	
 	if(copper == 0 and silver == 0 and gold == 0 and platinum == 0) then
 		return;
 	end
-
+	
 	self:AddMoneyToPP(copper, silver, gold, platinum, true);
-
+	
 	local tmp = "You receive ";
 	local first = true;
 	if(platinum > 0) then
 		tmp = tmp .. tostring(platinum) .. " platinum";
 		first = false;
 	end
-
+	
 	if(gold > 0) then
 		if(first) then
 			first = false;
 		else
 			tmp = tmp .. ", ";
 		end
-
+	
 		tmp = tmp .. tostring(gold) .. " gold";
 	end
-
+	
 	if(silver > 0) then
 		if(first) then
 			first = false;
 		else
 			tmp = tmp .. ", ";
 		end
-
+	
 		tmp = tmp .. tostring(silver) .. " silver";
 	end
-
+	
 	if(copper > 0) then
 		if(first) then
 			first = false;
 		else
 			tmp = tmp .. ", ";
 		end
-
+	
 		tmp = tmp .. tostring(copper) .. " copper";
 	end
-
+	
 	tmp = tmp .. " pieces.";
-
+	
 	self:Message(260, tmp);
 end
 
@@ -67,7 +67,7 @@ end
 
 function Client:Class()
 	local class = self:GetClass();
-
+	
 	do
 		local c = {
 		 [1] = "Warrior",
@@ -94,7 +94,7 @@ end
 
 function Client:Race()
 	local race = self:GetRace();
-
+	
 	do
 		local r = {
 		 [1] = "Human",
@@ -166,7 +166,7 @@ function Client:HasItem(itemid, trade)
 			return true;
 		end
 	end
-
+	
 	--general and cursor containers
 	for i = Slot.GeneralBagsBegin, Slot.CursorBagEnd, 1 do
 		local thisitem = self:GetItemIDAt(i);
@@ -208,7 +208,7 @@ function Client:HasItem(itemid, trade)
 			return true;
 		end
 	end
-
+	
 	--shared bank
 	for i = Slot.SharedBankBegin, Slot.SharedBankEnd, 1 do
 		local thisitem = self:GetItemIDAt(i);
@@ -222,7 +222,7 @@ function Client:HasItem(itemid, trade)
 			return true;
 		end
 	end
-
+	
 	--shared bank containers
 	for i = Slot.SharedBankBagsBegin, Slot.SharedBankBagsEnd, 1 do
 		local thisitem = self:GetItemIDAt(i);
@@ -266,7 +266,7 @@ function Client:CountHateList(cond)
 			ret = ret + 1;
 		end
 	end
-
+	
 	return ret;
 end
 
