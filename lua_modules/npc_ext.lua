@@ -22,7 +22,6 @@ function NPC:CountHateList(cond)
 			ret = ret + 1;
 		end
 	end
-
 	return ret;
 end
 
