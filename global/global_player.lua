@@ -22,9 +22,6 @@ function event_enter_zone(e)
 	mysterious_voice(e)
 	builds.OnEnterZone(e)
 
-	if eq.is_lost_dungeons_of_norrath_enabled() and eq.get_zone_short_name() == "lavastorm" and e.self:GetGMStatus() >= 80 then
-
-function event_enter_zone(e)
 	mysterious_voice(e)
 
 	if eq.is_lost_dungeons_of_norrath_enabled() and eq.get_zone_short_name() == "lavastorm" and e.self:GetGMStatus() >= 80 then 
