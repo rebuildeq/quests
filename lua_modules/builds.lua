@@ -4,64 +4,64 @@ local builds_path = "lua_modules/builds/"
 
 local skills = {
 	war = {
-		jarringstrike = { ID = 0 },
-		ironcladchallenge = { ID = 2 },
+		-- jarringstrike = { ID = 0 },
+		-- ironcladchallenge = { ID = 2 },
 	},
 	clr = {
-		believe = { ID = 0 },
-		divinebash = { ID = 2 },
+		-- believe = { ID = 0 },
+		-- divinebash = { ID = 2 },
 	},
 	pal = {
-		rodcetsgift = { ID = 0 },
-		handofpiety = { ID = 2 },
+		-- rodcetsgift = { ID = 0 },
+		-- handofpiety = { ID = 2 },
 	},
 	rng = {
-		venomousvolley = { ID = 0 },
-		reinforcedbowstring = { ID = 2 },
+		-- venomousvolley = { ID = 0 },
+		-- reinforcedbowstring = { ID = 2 },
 	},
 	shd = {
-		lifesap = { ID = 0 },
-		gougingskin = { ID = 2 },
-		zevfeersfeast = { ID = 8},
+		-- lifesap = { ID = 0 },
+		-- gougingskin = { ID = 2 },
+		-- zevfeersfeast = { ID = 8},
 	},
 	dru = {
-		verdantrenewal = { ID = 0 },
-		onewithnature = { ID = 2 },
+		-- verdantrenewal = { ID = 0 },
+		-- onewithnature = { ID = 2 },
 	},
 	mnk = {
-		intensifiedtraining = { ID = 0 },
-		familiarity = { ID = 2 },
+		-- intensifiedtraining = { ID = 0 },
+		-- familiarity = { ID = 2 },
 	},
 	brd = {
-		trainingofzek = { ID = 0 },
-		healingtreble = { ID = 2 },
+		-- trainingofzek = { ID = 0 },
+		-- healingtreble = { ID = 2 },
 	},
 	rog = {
-		appraisal = { ID = 0 },
-		jarringstab = { ID = 20 },
+		-- appraisal = { ID = 0 },
+		-- jarringstab = { ID = 20 },
 	},
 	shm = {
-		spiritualinfusion = { ID = 0 },
+		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
-		corruption = { ID = 0 },
+		-- corruption = { ID = 0 },
 	},
 	wiz = {
-		weave = { ID = 0 },
+		-- weave = { ID = 0 },
 	},
 	mag = {
-		arcanesurge = { ID = 0 },
-		hydrosophist = { ID = 2 },
+		-- arcanesurge = { ID = 0 },
+		-- hydrosophist = { ID = 2 },
 	},
 	enc = {
-		nightmare = { ID = 0 },
+		-- nightmare = { ID = 0 },
 	},
 	bst = {
-		animalbond = { ID = 0 },
+		-- animalbond = { ID = 0 },
 	},
 	ber = {
-		frenziedstrike = { ID = 0 },
-		frenzyricochet = { ID = 2 },
+		-- frenziedstrike = { ID = 0 },
+		-- frenzyricochet = { ID = 2 },
 	},
 }
 
@@ -403,20 +403,7 @@ function builds.Rank(self, skillID)
 		return 0
 	end
 
-	local build = self:GetBucket("build")
-	if build == "" then
-		build = string.rep("0", 53)
-		self:SetBucket("build", build)
-	end
-	if skillID > string.len(build) then
-		return 0
-	end
-
-	local rank = tonumber(string.sub(build, skillID+1, skillID+1))
-	if rank then
-		return rank
-	end
-	return 0
+	return self:GetAAByAAID(skillID)
 end
 
 --- Send a debug message
