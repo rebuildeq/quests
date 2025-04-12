@@ -104,7 +104,6 @@ function autoscribe.OnSay(e)
 		[Class.BERSERKER] = Class.BERSERKERGM,
 	}
 	if classes[player_class] ~= nil and npc_class ~= classes[player_class] then
-		eq.debug("invalid class")
 		return
 	end
 

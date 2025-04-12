@@ -4,7 +4,7 @@ local ability_db = require("ability_db")
 ---@param e PlayerEventCommand
 local function builds(e)
 	if #e.args == 0 then
-		builds_pkg.OnBuildCommand(e)
+		e.self:Message(MT.White, "Usage: #builds [debug]")
 		return
 	end
 
@@ -14,10 +14,6 @@ local function builds(e)
 		subsubcommand = ""
 	end
 
-	if subcommand == "reset" then
-		builds_pkg.OnBuildResetCommand(e)
-		return
-	end
 	if subcommand == "debug" then
 		if subsubcommand == "off" then
 			e.self:SetBucket("build_debug", string.rep("0", 53))
@@ -49,6 +45,12 @@ local function builds(e)
 
 	-- guide flags
 
+	if subcommand == "reset" then
+		builds_pkg.OnBuildResetCommand(e)
+		return
+	end
+
+
 	if subcommand == "inspect" then
 		builds_pkg.OnBuildInspectCommand(e)
 		return
@@ -76,6 +78,21 @@ local function builds(e)
 			return
 		end
 		ability_db.emit(e.self, 0x0000FFFF) -- BB
+		return
+	end
+
+	if subcommand == "vitality" then
+		eq.debug("sending vitality packet")
+		local pack = Packet(0x4b15, 4612, true) -- 28 bytes
+		pack:WriteInt32(0) -- kills
+		pack:WriteInt32(0) -- death
+		pack:WriteInt32(0) -- pvppointsAVAIL
+		pack:WriteInt32(0) -- totalpvp
+		pack:WriteInt32(0) -- worstkillstreak
+		pack:WriteInt32(0) -- currentkillstream
+		pack:WriteInt32(0) -- infamy
+		pack:WriteInt32(5) -- vitality
+		e.self:QueuePacket(pack) -- send packet
 		return
 	end
 
@@ -120,6 +137,7 @@ local function builds(e)
 		end
 		e.self:SetBucket("build", subsubcommand)
 		e.self:Message(MT.White, "Build set to: " .. subsubcommand)
+		return
 	end
 	e.self:Message(MT.White, "Usage: #builds [target, inspect, set, reset, debug]")
 end
