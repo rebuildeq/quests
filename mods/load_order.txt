@@ -1,2 +1,4 @@
 damage.lua
 spell.lua
+exp.lua
+register_bug.lua

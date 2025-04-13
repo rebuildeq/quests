@@ -11,6 +11,9 @@ function salvage.OnCombine(e)
 
     local part_value = 0
 
+    local total_quantity = 0
+    local is_valid_combine = false
+
     -- e.self:UseAugmentContainer(bag_id)
     local inv = e.self:GetInventory()
     for i = 0, 20 do
@@ -21,11 +24,20 @@ function salvage.OnCombine(e)
             item_quantity = item:GetCharges()
         end
         if item.valid then
-            part_value = part_value + (eq.get_item_stat(item:GetID(), "price") * item_quantity)
+            local item_value = eq.get_item_stat(item:GetID(), "price")
+            if item_value == nil or item_value < 1 then
+                item_value = 1
+            end
+            part_value = part_value + item_value * item_quantity
             e.self:Message(MT.Yellow, "Container Slot: " .. e.container_slot .. ", Item Slot: " .. slot_id .. " Price: " .. eq.get_item_stat(item:GetID(), "price") ..  " StackSize: " .. item_quantity .. " Name: " .. item:GetName())
 
+            is_valid_combine = true
             e.self:DeleteItemInInventory(slot_id, item:GetCharges(), true)
         end
+    end
+    if not is_valid_combine then
+        e.self:Message(MT.Red, "You need to put valid items in the container to salvage.")
+        return false
     end
 
     e.self:Message(MT.Yellow, "Pre 10 percent tax: " .. part_value)
@@ -50,6 +62,7 @@ function salvage.OnCombine(e)
         part_value = part_value / 1000
         currency = "platinum"
         context = "gem encrusted"
+
     elseif penalty_value > 1000 then
         part_id = 151104
         final_value = (final_value / 1000)
@@ -77,6 +90,9 @@ function salvage.OnCombine(e)
 
     if final_value < 1 then
         final_value = 1
+    end
+    if context == "gem encrusted" and final_value > 1000 then
+        final_value = 1000
     end
 
     e.self:Message(MT.Yellow, "You have salvaged " .. part_value .. " " .. currency .. " worth of items to make " .. final_value .. " " .. context .. " parts.")

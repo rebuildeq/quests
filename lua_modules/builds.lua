@@ -41,6 +41,7 @@ local skills = {
 		-- jarringstab = { ID = 20 },
 	},
 	shm = {
+		feralinfusion = { ID = 3526 },
 		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
@@ -74,6 +75,7 @@ function builds.Init()
 		for skillName, skill in pairs(skillEntry) do
 
 			local skill_path = className .. "/" .. skillName
+			eq.debug(builds_path .. skill_path)
 			skill.Event = require(builds_path .. skill_path)
 			if type(skill.Event.CommonDamage) == "function" then
 				skill.CommonDamage = skill.Event.CommonDamage
