@@ -1,5 +1,6 @@
 local ability = require("ability")
 local guildmaster = require("guildmaster")
+local townporter = require("townporter")
 local autoscribe = require("autoscribe")
 
 ---@param e NPCEventSpawn
@@ -69,5 +70,7 @@ end
 ---@param e NPCEventSay
 function event_say(e)
 	guildmaster.OnSay(e)
+    townporter.OnSay(e)
 	autoscribe.OnSay(e)
+
 end
