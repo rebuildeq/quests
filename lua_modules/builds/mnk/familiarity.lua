@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCheckHitChance
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -19,7 +19,7 @@ function CheckHitChance(e, origin, attacker, defender, rank)
 	local old_hit = e.hit.tohit
 	e.IgnoreDefault = true
 	e.hit.tohit = e.hit.tohit * (acc_bonus * 0.01)
-	builds.Debug(origin, string.format("Familiarity increased accuracy from %d to %d.", old_hit, e.hit.tohit))
+	rb.Debug(origin, string.format("Familiarity increased accuracy from %d to %d.", old_hit, e.hit.tohit))
 	return e
 end
 
@@ -47,7 +47,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		defender:SetBucket(string.format("%d_familiarity", attacker:CastToClient():CharacterID()), acc_bonus)
 	end
 
-	builds.Debug(origin, string.format("Familiarity increased accuracy to %d/%d.", acc_bonus, acc_max))
+	rb.Debug(origin, string.format("Familiarity increased accuracy to %d/%d.", acc_bonus, acc_max))
 	return e
 end
 

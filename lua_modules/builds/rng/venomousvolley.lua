@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -35,7 +35,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	-- DoT damage is increased by <em data-base='8'>8</em>%<span class='perLevel'> per rank</span>.",
 	e.return_value = e.value * (rank * 0.08)
 
-	builds.Debug(attacker, string.format("Venomous Volley increased DoT damage by %d.", e.return_value))
+	rb.Debug(attacker, string.format("Venomous Volley increased DoT damage by %d.", e.return_value))
 	e.ignore_default = true
 	e.return_value = e.value + e.return_value
 	return e

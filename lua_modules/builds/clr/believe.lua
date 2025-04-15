@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -20,14 +20,14 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		return e
 	end
 
-	if not builds.IsProcSuccess(attacker, 300, Slot.Primary) then
+	if not rb.IsProcSuccess(attacker, 300, Slot.Primary) then
 		return e
 	end
 
 	local damage = attacker:GetLevel() * 0.75 * (rank * 0.2)
 	defender:Damage(attacker, damage, 0, Skill['1HBlunt'], false)
 	attacker:HealDamage(damage / 2)
-	builds.Debug(origin, string.format("Believe dealt %d points of damage to %s and healed you for %d.", damage, defender:GetCleanName(), damage / 2))
+	rb.Debug(origin, string.format("Believe dealt %d points of damage to %s and healed you for %d.", damage, defender:GetCleanName(), damage / 2))
 	return e
 end
 

@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -22,7 +22,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		return e
 	end
 
-	if not builds.IsProcSuccess(attacker, 300, Slot.Primary) then
+	if not rb.IsProcSuccess(attacker, 300, Slot.Primary) then
 		return e
 	end
 
@@ -30,7 +30,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	defender:Damage(attacker, damage, 0, Skill['1HBlunt'], false)
 	local mana_gain = 2 * rank
 	attacker:SetMana(attacker:GetMana() + mana_gain)
-	builds.Debug(attacker, string.format("Verdant Renewal dealt %d points of damage to %s and restored %d mana.", damage, defender:GetCleanName(), damage / 2))
+	rb.Debug(attacker, string.format("Verdant Renewal dealt %d points of damage to %s and restored %d mana.", damage, defender:GetCleanName(), damage / 2))
 	return e
 end
 

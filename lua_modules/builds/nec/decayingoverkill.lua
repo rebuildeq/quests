@@ -10,6 +10,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
+
 	local spell = eq.get_spell(e.spell_id)
 	if spell == nil then
 		-- only spells valid

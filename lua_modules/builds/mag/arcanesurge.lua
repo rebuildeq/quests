@@ -525,7 +525,7 @@ spell_levels[93] = 1
 spell_levels[94] = 4
 spell_levels[9980] = 71
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -597,7 +597,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	attacker:SetBucket("surge_cooldown", string.format("%d", next_cooldown))
 
 	local damage = attacker:GetLevel() * (rank * 3)
-	builds.Debug(attacker, string.format("Arcane Surge (%d) dealt %d damage to %s.", rank, damage, defender:GetCleanName()))
+	rb.Debug(attacker, string.format("Arcane Surge (%d) dealt %d damage to %s.", rank, damage, defender:GetCleanName()))
 	defender:Damage(origin, damage, spell:ID(), 0)
 	return e
 end

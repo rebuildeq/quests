@@ -1,7 +1,7 @@
 local skill = {}
 
 local race = require("race_name")
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -24,7 +24,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		local damage_increase = 0.1 * rank
 		e.return_value = e.value + (e.value * damage_increase)
 		e.ignore_default = true
-		builds.Debug(origin, string.format("Pyromancy (%d) increased outgoing damage from pet by %d.", rank, e.value - e.return_value))
+		rb.Debug(origin, string.format("Pyromancy (%d) increased outgoing damage from pet by %d.", rank, e.value - e.return_value))
 		return e
 	end
 
@@ -42,7 +42,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	local damage_boost = 0.1 * rank
 	e.return_value = e.value + (e.value * damage_boost)
 	e.ignore_default = true
-	builds.Debug(origin, string.format("Pyromancy (%d) increased incoming to pet damage by %d.", rank, e.return_value - e.value))
+	rb.Debug(origin, string.format("Pyromancy (%d) increased incoming to pet damage by %d.", rank, e.return_value - e.value))
 	return e
 end
 
@@ -94,7 +94,7 @@ function skill.Tick(self, rank)
 	local hate_list = ally:GetHateList()
 	for ent in hate_list.entries do
 		if not ent:IsMezzed() and ent:CalculateDistance(ally:GetX(), ally:GetY(), ally:GetZ()) <= 30 then -- within range
-			local damage = damage * builds.ResistSpell(pet, target, 100, 0, false)/100
+			local damage = damage * rb.ResistSpell(pet, target, 100, 0, false)/100
 			ent:Damage(pet, damage, 0, Skill['Evocation'], false)
 			ally:AddToHateList(ent, damage, 0)
 			pet:Damage(pet, damage/2, 0, Skill['Evocation'], false)
@@ -109,7 +109,7 @@ function skill.Tick(self, rank)
 
 
 	ally:SetBucket("pyro_timer", string.format("%d", next_pyro))
-	builds.Debug(ally, string.format("Pyromancy (%d) dealt %d fire damage to %d enemies pre-resists.", rank, damage, enemy_count))
+	rb.Debug(ally, string.format("Pyromancy (%d) dealt %d fire damage to %d enemies pre-resists.", rank, damage, enemy_count))
 end
 
 return skill

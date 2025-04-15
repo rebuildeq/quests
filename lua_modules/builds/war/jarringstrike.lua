@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -26,7 +26,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 
 	local stun_duration = 0.5 * rank
 	defender:Stun(stun_duration)
-	builds.Debug(attacker, string.format("Jarring Strike stunned %s for %d seconds.", defender:GetCleanName(), stun_duration))
+	rb.Debug(attacker, string.format("Jarring Strike stunned %s for %d seconds.", defender:GetCleanName(), stun_duration))
 end
 
 return skill

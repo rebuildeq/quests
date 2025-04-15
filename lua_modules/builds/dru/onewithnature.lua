@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -18,7 +18,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 
 	local mana_gain = e.value * 0.02 * rank
 	attacker:SetMana(attacker:GetMana() + mana_gain)
-	builds.Debug(origin, string.format("One With Nature restored %d mana.", defender:GetCleanName(), mana_gain))
+	rb.Debug(origin, string.format("One With Nature restored %d mana.", defender:GetCleanName(), mana_gain))
 	return e
 end
 

@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -29,7 +29,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	local damage = 4 * rank
 
 	attacker:Damage(defender, damage, 0, Skill['Conjuration'], false)
-	builds.Debug(origin, string.format("Gouging Skin (%d) dealt %d points of damage to %s.", rank, damage, attacker:GetCleanName()))
+	rb.Debug(origin, string.format("Gouging Skin (%d) dealt %d points of damage to %s.", rank, damage, attacker:GetCleanName()))
 end
 
 return skill

@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -32,14 +32,14 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	end
 
 	-- TODO: Appraisal doesn't currently benefit from ranks
-	if not builds.IsProcSuccess(attacker, 400, Slot.Primary) then
+	if not rb.IsProcSuccess(attacker, 400, Slot.Primary) then
 	  return e
 	end
 
 	attacker:ApplySpellBuff(271) -- Fleeting Fury
 	local damage = attacker:GetLevel() * 0.6
 	defender:Damage(attacker, damage, 0, Skill['Evocation'], false) -- Evocation so appraisal doesn't proc itself
-	builds.Debug(attacker, string.format("Appraisal (%d) dealt %d points of damage to %s.", rank, damage, defender:GetCleanName()))
+	rb.Debug(attacker, string.format("Appraisal (%d) dealt %d points of damage to %s.", rank, damage, defender:GetCleanName()))
 	return e
 end
 

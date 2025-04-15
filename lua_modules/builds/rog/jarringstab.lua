@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -24,7 +24,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		ent.damage = ent.damage - hate_reduction -- Assuming ent.damage is hate amount
 	end
 
-	builds.Debug(origin, string.format("Jarring Stab (%d) reduced your hate by your enemies by %d.", rank, hate_reduction))
+	rb.Debug(origin, string.format("Jarring Stab (%d) reduced your hate by your enemies by %d.", rank, hate_reduction))
 	return e
 end
 

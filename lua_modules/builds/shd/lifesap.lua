@@ -1,5 +1,5 @@
 local skill = {}
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -28,7 +28,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 
 	local heal_amount = e.value * (0.1 * rank)
 	attacker:HealDamage(heal_amount)
-	builds.Debug(attacker, string.format("Life Sap healed you for %d points of damage.", heal_amount))
+	rb.Debug(attacker, string.format("Life Sap healed you for %d points of damage.", heal_amount))
 end
 
 return skill

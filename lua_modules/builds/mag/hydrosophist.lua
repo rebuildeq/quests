@@ -1,7 +1,7 @@
 local skill = {}
 
 local race = require("race_name")
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -23,7 +23,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		local damage_reduction = 0.1 * rank
 		e.return_value = e.value - (e.value * damage_reduction)
 		e.ignore_default = true
-		builds.Debug(origin, string.format("Hydrosophist reduced outgoing damage to pet by %d.", e.value - e.return_value))
+		rb.Debug(origin, string.format("Hydrosophist reduced outgoing damage to pet by %d.", e.value - e.return_value))
 		return e
 	end
 
@@ -40,7 +40,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	local damage_boost = 0.05 * rank
 	e.return_value = e.value + (e.value * damage_boost)
 	e.ignore_default = true
-	builds.Debug(origin, string.format("Hydrosophist increased incoming to pet damage by %d.", e.return_value - e.value))
+	rb.Debug(origin, string.format("Hydrosophist increased incoming to pet damage by %d.", e.return_value - e.value))
 	return e
 end
 
@@ -117,7 +117,7 @@ function skill.Tick(self, rank)
 		return
 	end
 
-	builds.Debug(attacker, string.format("Hydrophist (%d) healed %s for %d points of damage.", rank, most_hurt_mob:GetCleanName(), heal_amount))
+	rb.Debug(attacker, string.format("Hydrophist (%d) healed %s for %d points of damage.", rank, most_hurt_mob:GetCleanName(), heal_amount))
 end
 
 return skill

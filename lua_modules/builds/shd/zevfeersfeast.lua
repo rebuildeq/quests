@@ -1,7 +1,7 @@
 local skill = {}
 
 --Zevfeer's Feast - When lifetapping, Zevfeer's Hunger has a  <em data-base='10'>10</em>% chance, to deal an additional <em data-base='2'>2</em>% damage. This damage is returned in the form of mana for yourself and party."
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -46,7 +46,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
 				member:SetMana(member:GetMana() + mana_given)
 				member:Message(MT.Spells, string.format("You were gifted %d mana from %s.", mana_given, attacker:GetCleanName()))
-				builds.Debug(attacker, string.format("Zevfeer's Feast (%d) has gifted %d mana to %s.",rank, mana_given, member:GetCleanName()))
+				rb.Debug(attacker, string.format("Zevfeer's Feast (%d) has gifted %d mana to %s.",rank, mana_given, member:GetCleanName()))
 				total_mana = total_mana + mana_given
 			end
 		end
@@ -62,7 +62,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		total_mana = total_mana + mana_given
 
 	end
-	builds.Debug(attacker, string.format("Zevfeer's Feast (%d) dealed an additional %d damage, returning it in the form of mana, for a total of %d mana.", rank, dmg_amount, total_mana))
+	rb.Debug(attacker, string.format("Zevfeer's Feast (%d) dealed an additional %d damage, returning it in the form of mana, for a total of %d mana.", rank, dmg_amount, total_mana))
 
 	return e
 end

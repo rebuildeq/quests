@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModHealDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -56,7 +56,7 @@ function skill.HealDamage(e, origin, attacker, defender, rank)
 			defender:CalculateDistance(member:GetX(), member:GetY(), member:GetZ()) <= distance then -- within range
 			member:HealDamage(heal_amount)
 			member:Message(MT.Spells, string.format("You were healed for %d points of damage by %s.", heal_amount, attacker:GetCleanName()))
-			builds.Debug(origin, string.format("Rodcet's Gift healed %s for %d points of damage.", member:GetCleanName(), heal_amount))
+			rb.Debug(origin, string.format("Rodcet's Gift healed %s for %d points of damage.", member:GetCleanName(), heal_amount))
 		end
 	end
 

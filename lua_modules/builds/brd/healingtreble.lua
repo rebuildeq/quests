@@ -1,7 +1,7 @@
 local skill = {}
 
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e SpellEventSpellBuffTic
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -31,7 +31,7 @@ function skill.SpellBuffTic(e, origin, attacker, defender, rank)
 			end
 			local bonus_healing = effect_value * (rank * 0.1)
 			e.target:HealDamage(bonus_healing, attacker)
-			builds.Debug(attacker, string.format("Healing Treble healed for %d.", bonus_healing))
+			rb.Debug(attacker, string.format("Healing Treble healed for %d.", bonus_healing))
 		end
 	end
 end

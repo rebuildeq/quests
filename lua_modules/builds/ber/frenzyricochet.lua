@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -29,7 +29,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	for ent in hatelist.entries do
 		if not ent:IsMezzed() and ent:CalculateDistance(attacker:GetX(), attacker:GetY(), attacker:GetZ()) <= 15 then -- within range
 			defender:Damage(attacker, e.value, 0, Skill['2HBlunt'], false)
-			builds.Debug(origin, string.format("Frenzy Ricochet dealt %d points of damage to %s.", e.value, defender:GetCleanName()))
+			rb.Debug(origin, string.format("Frenzy Ricochet dealt %d points of damage to %s.", e.value, defender:GetCleanName()))
 			return e
 		end
 	end

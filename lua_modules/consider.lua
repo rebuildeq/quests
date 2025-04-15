@@ -1,5 +1,4 @@
 local consider = {}
-local affinity = require("affinity")
 local ability = require("ability")
 
 ---@param e PlayerEventConsider
@@ -56,7 +55,7 @@ function consider.con_npc(e)
 		tag_string = "None"
 	end
 
-    e.self:Message(MT.White, string.format("%s {%s} (%s) is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), tag_string, npc:AffinityName(npc:AffinityDefense()), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
+    e.self:Message(MT.White, string.format("%s (%s) is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), tag_string, rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
 	return true
 end
 
@@ -79,7 +78,7 @@ function consider.con_player(e)
 
 
     local client = target:CastToClient()
-    e.self:Message(MT.White, string.format("%s {%s} (%s Defense, %s Offense) is a player", target:GetCleanName(), tag_string, target:AffinityName(target:AffinityDefense()), target:AffinityName(target:AffinityOffense())));
+    e.self:Message(MT.White, string.format("%s (%s) is a player", target:GetCleanName(), tag_string));
     return true
 end
 

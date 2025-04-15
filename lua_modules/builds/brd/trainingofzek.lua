@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -21,7 +21,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	end
 
 	e.return_value = e.value * (rank * 0.2)
-	builds.Debug(attacker, string.format("Training of Zek increased damage by %d.", e.return_value))
+	rb.Debug(attacker, string.format("Training of Zek increased damage by %d.", e.return_value))
 	e.return_value = e.return_value + e.value
 	return e
 end

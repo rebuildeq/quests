@@ -50,8 +50,7 @@ end
 function guildmaster.OnSay(e)
     local mob_class = e.self:GetClass()
 
-    if (e.self:GetCleanName() == "Priest of Discord") then guildmaster.OnSayWizard(e)
-    elseif (mob_class == Class.CLERICGM) then guildmaster.OnSayCleric(e)
+    if (mob_class == Class.CLERICGM) then guildmaster.OnSayCleric(e)
     elseif (mob_class == Class.DRUIDGM) then guildmaster.OnSayDruid(e)
     elseif (mob_class == Class.SHAMANGM) then guildmaster.OnSayShaman(e)
     elseif (mob_class == Class.WIZARDGM) then guildmaster.OnSayWizard(e)
@@ -69,8 +68,28 @@ function guildmaster.BuffCalculateCost(client)
         return 0
     end
 
-    -- Otherwise, charge the player 1pp per level. 11 = 1pp, 60 = 50pp
-    return (level-10)
+    if level <= 20 then
+        return level*5
+    end
+
+    if level <= 30 then
+        return level*6
+    end
+
+    if level <= 40 then
+        return level*7
+    end
+
+    if level <= 50 then
+        return level*8
+    end
+
+    if level <= 60 then
+        return level*9
+    end
+
+    -- Otherwise, charge the player 10pp per level. 11 = 55pp, 60 = 600pp
+    return (level*10)
 end
 
 ---@param client Client
@@ -95,8 +114,28 @@ function guildmaster.PortCalculateCost(client)
         return 0
     end
 
+    if level <= 20 then
+        return level*10
+    end
+
+    if level <= 30 then
+        return level*30
+    end
+
+    if level <= 40 then
+        return level*50
+    end
+
+    if level <= 50 then
+        return level*80
+    end
+
+    if level <= 60 then
+        return level*100
+    end
+
     -- Otherwise, charge the player 1pp per level. 11 = 1pp, 60 = 50pp
-    return (level-10)
+    return level*40
 end
 
 

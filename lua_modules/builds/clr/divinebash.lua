@@ -1,6 +1,6 @@
 local skill = {}
 
-local builds = require('builds')
+local rb = require('rb')
 
 ---@param e ModCommonDamage
 ---@param origin Client # Person who owns the build skill triggering this event
@@ -44,7 +44,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 
 
 	most_hurt:HealDamage(heal_amount)
-	builds.Debug(origin, string.format("Divine Bash healed %s for %d.", most_hurt:GetCleanName(), heal_amount))
+	rb.Debug(origin, string.format("Divine Bash healed %s for %d.", most_hurt:GetCleanName(), heal_amount))
 	return e
 end
 

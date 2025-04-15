@@ -16,12 +16,21 @@ local function builds(e)
 
 	if subcommand == "debug" then
 		if subsubcommand == "off" then
-			e.self:SetBucket("build_debug", string.rep("0", 53))
+
+			build_ids = builds_pkg.BuildIDs(e.self)
+			for _, build_id in ipairs(build_ids) do
+				e.self:SetBucket("build_debug_" .. build_id, "0")
+			end
+
 			e.self:Message(MT.White, "Build debug messages disabled.")
 			return
 		end
 		if subsubcommand == "on" then
-			e.self:SetBucket("build_debug", string.rep("1", 53))
+			build_ids = builds_pkg.BuildIDs(e.self)
+			for _, build_id in ipairs(build_ids) do
+				e.self:SetBucket("build_debug_" .. build_id, "1")
+			end
+
 			e.self:Message(MT.White, "Build debug messages enabled.")
 			return
 		end
@@ -83,15 +92,11 @@ local function builds(e)
 
 	if subcommand == "vitality" then
 		eq.debug("sending vitality packet")
-		local pack = Packet(0x4b15, 4612, true) -- 28 bytes
-		pack:WriteInt32(0) -- kills
-		pack:WriteInt32(0) -- death
-		pack:WriteInt32(0) -- pvppointsAVAIL
-		pack:WriteInt32(0) -- totalpvp
-		pack:WriteInt32(0) -- worstkillstreak
-		pack:WriteInt32(0) -- currentkillstream
-		pack:WriteInt32(0) -- infamy
-		pack:WriteInt32(5) -- vitality
+		local pack = Packet(0x2CC6, 32, true) -- 28 bytes
+		pack:WriteInt64(50) -- curVitality
+		pack:WriteInt64(100) -- maxVitality
+		pack:WriteInt64(25) -- curAAVitality
+		pack:WriteInt64(100) -- maxAAVitality
 		e.self:QueuePacket(pack) -- send packet
 		return
 	end
