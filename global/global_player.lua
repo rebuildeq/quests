@@ -24,10 +24,6 @@ function event_combine(e)
 	return 0
 end
 
----@param e PlayerEventCast
-function event_cast(e)
-end
-
 ---@param e PlayerEventEnterZone
 function event_enter_zone(e)
 	eq.set_timer("build", 6000)
@@ -328,6 +324,7 @@ vet_aa = {
 function event_connect(e)
 	grant_veteran_aa(e)
 	don.fix_invalid_faction_state(e.self)
+	builds.SyncBuildPoints(e.self)
 end
 
 function grant_veteran_aa(e)
@@ -425,6 +422,7 @@ end
 ]]--
 
 function event_level_up(e)
+  builds.SyncBuildPoints(e.self)
   local free_skills =  {0,1,2,3,4,5,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,31,32,33,34,36,37,38,39,41,42,43,44,45,46,47,49,51,52,54,67,70,71,72,73,74,76};
 
   for k,v in ipairs(free_skills) do
