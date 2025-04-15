@@ -1,6 +1,8 @@
+rb = require('rb')
+
 local builds = {}
 
-local builds_path = "lua_modules/builds/"
+local builds_path = "builds/"
 
 local skills = {
 	war = {
@@ -41,7 +43,7 @@ local skills = {
 		-- jarringstab = { ID = 20 },
 	},
 	shm = {
-		feralinfusion = { ID = 3526 },
+		feralinfusion = { ID = 706 },
 		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
@@ -67,15 +69,12 @@ local skills = {
 	},
 }
 
-local current_skill_id = 0
-
 --- Initialize the builds module
 function builds.Init()
 	for className, skillEntry in pairs(skills) do
 		for skillName, skill in pairs(skillEntry) do
 
 			local skill_path = className .. "/" .. skillName
-			eq.debug(builds_path .. skill_path)
 			skill.Event = require(builds_path .. skill_path)
 			if type(skill.Event.CommonDamage) == "function" then
 				skill.CommonDamage = skill.Event.CommonDamage
@@ -109,7 +108,8 @@ function builds.OnModCommonDamage(e)
 			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
@@ -119,7 +119,7 @@ function builds.OnModCommonDamage(e)
 			origin = defender
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
@@ -129,7 +129,7 @@ function builds.OnModCommonDamage(e)
 			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
@@ -139,7 +139,7 @@ function builds.OnModCommonDamage(e)
 			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CommonDamage then
 					skill.CommonDamage(e, origin, attacker, defender, rank)
 				end
@@ -160,7 +160,7 @@ function builds.OnModHealDamage(e)
 			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, origin, attacker, defender, rank)
 				end
@@ -170,7 +170,7 @@ function builds.OnModHealDamage(e)
 			origin = defender
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, origin, attacker, defender, rank)
 				end
@@ -180,7 +180,7 @@ function builds.OnModHealDamage(e)
 			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, origin, attacker, defender, rank)
 				end
@@ -190,7 +190,7 @@ function builds.OnModHealDamage(e)
 			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.HealDamage then
 					skill.HealDamage(e, origin, attacker, defender, rank)
 				end
@@ -212,7 +212,7 @@ function builds.OnCheckHitChance(e)
 			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CheckHitChance then
 					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
@@ -222,7 +222,7 @@ function builds.OnCheckHitChance(e)
 			origin = defender
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CheckHitChance then
 					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
@@ -232,7 +232,7 @@ function builds.OnCheckHitChance(e)
 			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CheckHitChance then
 					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
@@ -242,7 +242,7 @@ function builds.OnCheckHitChance(e)
 			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.CheckHitChance then
 					skill.CheckHitChance(e, origin, attacker, defender, rank)
 				end
@@ -262,7 +262,7 @@ function builds.OnTick(self)
 		if className == self:GetClassShortName() then
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(self, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Tick then
 					skill.Tick(self, rank)
 				end
@@ -283,7 +283,7 @@ function builds.OnSpellBuffTic(e)
 			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Tick then
 					skill.Tick(e, origin, attacker, defender, rank)
 				end
@@ -293,7 +293,7 @@ function builds.OnSpellBuffTic(e)
 			origin = defender
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Tick then
 					skill.Tick(e, origin, attacker, defender, rank)
 				end
@@ -303,7 +303,7 @@ function builds.OnSpellBuffTic(e)
 			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Tick then
 					skill.Tick(e, origin, attacker, defender, rank)
 				end
@@ -313,7 +313,7 @@ function builds.OnSpellBuffTic(e)
 			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Tick then
 					skill.Tick(e, origin, attacker, defender, rank)
 				end
@@ -334,7 +334,7 @@ function builds.OnSpellEffect(e)
 			origin = attacker
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
 					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
@@ -345,7 +345,7 @@ function builds.OnSpellEffect(e)
 			origin = defender
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
 					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
@@ -356,7 +356,7 @@ function builds.OnSpellEffect(e)
 			origin = attacker:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
 					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
@@ -367,7 +367,7 @@ function builds.OnSpellEffect(e)
 			origin = defender:GetOwner()
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
-				current_skill_id = skill.ID
+				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
 					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
@@ -388,7 +388,7 @@ end
 -- 		if className == caster:GetClassShortName() then
 -- 			for skillName, skill in pairs(skillEntry) do
 -- 				local rank = builds.Rank(caster, skill.ID)
--- 				current_skill_id = skill.ID
+--					rb.SetCurrentSkillID(= skill.ID)
 -- 				if rank > 0 and skill.Tick then
 -- 					skill.SpellBuffTic(e, caster, rank)
 -- 				end
@@ -407,27 +407,6 @@ function builds.Rank(self, skillID)
 	end
 
 	return self:GetAAByAAID(skillID)
-end
-
---- Send a debug message
----@param self Mob
----@param message string
-function builds.Debug(self, message)
-	local debug_string = self:GetBucket("build_debug")
-	if debug_string == "" then
-		return
-	end
-
-	if current_skill_id > string.len(debug_string) then
-		return
-	end
-
-	local is_enabled = tonumber(string.sub(debug_string, current_skill_id, current_skill_id))
-	if is_enabled == 0 then
-		return
-	end
-
-	self:Message(MT.FocusEffect, message)
 end
 
 --- Set a debug message enabled or not for a skill ID
@@ -466,80 +445,6 @@ function builds.SetDebugAll(self, is_enabled)
 	self:SetBucket("build_debug", new_debug_string)
 end
 
---- IsProcSuccess returns true if the proc is successful
----@param self Mob
----@param mod integer # proc mod
----@param hand number # hand
----@return boolean
-function builds.IsProcSuccess(self, mod, hand)
-
-	-- Mob::TryWeaponProc and Mob::GetProcChances influenced
-
-	local proc_chance = 0
-	local weapon_speed = 0
-	-- TODO: Get weapon speed by hand
-	if hand == Slot.Primary then
-		-- attack timer
-	end
-	if hand == Slot.Secondary then
-		-- attack_dw
-	end
-	if hand == Slot.Range then
-		-- range timer
-	end
-	-- TODO: Add MinWeaponSpeed rule
-	-- if weapon_speed < RuleI.Get(Rule['MinWeaponSpeed']) then
-	-- 	weapon_speed = RuleI.Get(Rule['MinWeaponSpeed'])
-	-- end
-
-
-	proc_chance = ((mod + 100)/100)
-
-	local dex = self:GetDEX()
-
-	if RuleB.Get(Rule['AdjustProcPerMinute']) then
-		proc_chance = (weapon_speed * RuleR.Get(Rule['AvgProcsPerMinute']) / 60000)
-		proc_chance = proc_chance + (dex * RuleR.Get(Rule['ProcPerMinDexContrib']))
-	else
-		proc_chance = RuleR.Get(Rule['BaseProcChance']) + (dex / RuleR.Get(Rule['ProcDexDivideBy']))
-	end
-
-	eq.debug(string.format("Proc chance: %f", proc_chance))
-
-	if hand == Slot.Secondary then
-		proc_chance = proc_chance / 2
-	end
-
-	local chance = 	proc_chance * (100 + mod)/100
-
-	local roll = math.random(100)
-
-	eq.debug(string.format("Proc roll: %d vs chance: %d", roll, chance))
-
-	if roll < chance then
-		return false
-	end
-
-	return true
-end
-
---- Get the number of unspent build points
----@param level number
----@param build string
----@return number
-function builds.UnspentPoints(level, build)
-	local totalSpent = 0
-    for i = 1, 53 do
-        local points = tonumber(string.sub(build, i, i))
-        if points and points >= 1 and points <= 5 then
-            totalSpent = totalSpent + points
-        end
-    end
-    if totalSpent >= level then
-        return 0
-    end
-    return level - totalSpent
-end
 
 --- Triggered when a player enters a zone
 ---@param e PlayerEventEnterZone
@@ -584,26 +489,45 @@ function builds.OnBuildInspectCommand(e)
 end
 
 
----@param caster Mob
----@param target Mob
----@param mod integer
----@param resist_type integer
----@param level_override boolean
----@return integer
-function builds.ResistSpell(caster, target, mod, resist_type, level_override)
-	if caster == nil or not caster.valid then
-		return 100
+---@param client Client
+---@return string[]
+function builds.BuildIDs(client)
+	build_ids = {}
+	if not client or not client.valid then
+		return build_ids
 	end
-	if target:GetSpecialAbility(SpecialAbility.immune_casting_from_range) > 0 and not target:CombatRange(caster) then
-		return 0
+	if not client:IsClient() then
+		return build_ids
+	end
+	for className, skillEntry in pairs(skills) do
+		if className == client:GetClassShortName() then
+			for skillName, skill in pairs(skillEntry) do
+				table.insert(build_ids, skill.ID)
+			end
+		end
+	end
+	return build_ids
+end
+
+
+---@param client Client
+function builds.SyncBuildPoints(client)
+	if not client or not client.valid then
+		return
 	end
 
-	if target:GetSpecialAbility(SpecialAbility.immune_magic) > 0 then
-		return 0
+	local player_level = client:GetLevel()
+	local unspent_points = client:GetAAPoints()
+	local spent_points = client:GetSpentAA()
+
+	if player_level <= unspent_points + spent_points then
+		return
 	end
 
+	local aas_to_gain = player_level - spent_points
+	client:SetAAPoints(aas_to_gain)
 
-	return 100
+	-- client:Message(MT.Experience, string.format("You have %d unspent build points.", unspent_points))
 end
 
 builds.Init()
