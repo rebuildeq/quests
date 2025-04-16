@@ -1,9 +1,12 @@
+local vitality = require("vitality")
+
 ---@param e ModSetEXP
 function SetEXP(e)
     if not e.self:IsClient() then
         return e
     end
     local client = e.self:CastToClient()
+
 
     eq.debug(string.format("exp source: %d, cur: %d, set: %d, diff: %d", e.exp_source, e.current_exp, e.set_exp, e.set_exp - e.current_exp))
     return_check(e)
@@ -85,4 +88,24 @@ function return_check(e)
     e.self:SetBucket("return_z", tostring(e.self:GetZ()))
     e.self:SetBucket("return_h", tostring(e.self:GetHeading()))
     -- e.self:Message(MT.Say, "You can [" .. eq.say_link("#opt return", true, "return") .. "] to your death location.")
+end
+
+---@param e ModGetEXPForLevel
+function GetEXPForLevel(e)
+
+    e.ReturnValue = vitality.GetEXPForLevel(e.level)
+    e.IgnoreDefault = true;
+	if(e.level < 1) then
+		e.ReturnValue = 0;
+		e.IgnoreDefault = false;
+		return e;
+	end
+
+	if(e.level > 100) then
+		e.ReturnValue = 0
+		e.IgnoreDefault = false;
+		return e;
+	end
+
+	return e;
 end

@@ -454,9 +454,10 @@ function builds.OnEnterZone(e)
 		build = string.rep("0", 53)
 		e.self:SetBucket("build", build)
 	end
-	local unspent_points = builds.UnspentPoints(e.self:GetLevel(), build)
+
+	local unspent_points = e.self:GetAAPoints()
 	if unspent_points > 0 then
-		e.self:Message(MT.Experience, string.format("You have unspent build points. Visit %s to spend them.", eq.say_link("#builds")))
+		e.self:Message(MT.Experience, "You have unspent AA points. Visit your AAs to spend them.")
 	end
 end
 
