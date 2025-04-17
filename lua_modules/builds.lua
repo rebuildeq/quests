@@ -43,7 +43,7 @@ local skills = {
 		-- jarringstab = { ID = 20 },
 	},
 	shm = {
-		feralinfusion = { ID = 706 },
+		feralinfusion = { ID = 707 },
 		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
