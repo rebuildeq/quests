@@ -16,4 +16,4 @@ inside settings:
 ```
 
 
-clone https://github.com/xackery/eqemu-definitions to any path you like, and change /src/rebuildeq/server/eqemu-definitions to that path
+clone https://github.com/xackery/eqemu-definitions to your server dir, and change /src/rebuildeq/server/eqemu-definitions to that path
