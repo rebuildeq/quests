@@ -165,17 +165,85 @@ end
 --- @return boolean
 function vitality.InRestedArea(client)
 
+	if eq.get_zone_id() == Zone.qeynos then
+		return true
+	end
+	if eq.get_zone_id() == Zone.qeynos2 then
+		return true
+	end
+	if eq.get_zone_id() == Zone.qrg then
+		return true
+	end
+	if eq.get_zone_id() == Zone.freportn then
+		return true
+	end
+	if eq.get_zone_id() == Zone.freportw then
+		return true
+	end
+	if eq.get_zone_id() == Zone.freporte then
+		return true
+	end
+	if eq.get_zone_id() == Zone.rivervale then
+		return true
+	end
+	if eq.get_zone_id() == Zone.erudnint then
+		return true
+	end
+	if eq.get_zone_id() == Zone.erudnext then
+		return true
+	end
+	if eq.get_zone_id() == Zone.halas then
+		return true
+	end
+	if eq.get_zone_id() == Zone.neriaka then
+		return true
+	end
+	if eq.get_zone_id() == Zone.neriakb then
+		return true
+	end
+	if eq.get_zone_id() == Zone.neriakc then
+		return true
+	end
+	if eq.get_zone_id() == Zone.neriakd then
+		return true
+	end
+	if eq.get_zone_id() == Zone.oggok then
+		return true
+	end
+	if eq.get_zone_id() == Zone.grobb then
+		return true
+	end
+	if eq.get_zone_id() == Zone.gfaydark then
+		return true
+	end
+	if eq.get_zone_id() == Zone.akanon then
+		return true
+	end
+	if eq.get_zone_id() == Zone.kaladima then
+		return true
+	end
+	if eq.get_zone_id() == Zone.felwithea then
+		return true
+	end
+	if eq.get_zone_id() == Zone.felwitheb then
+		return true
+	end
+	if eq.get_zone_id() == Zone.kaladimb then
+		return true
+	end
+
     if eq.get_zone_id() >= 40 and eq.get_zone_id() <= 42 then -- neriaka to c
         return true
     end
 
-    if eq.get_zone_id() == 82 then -- cabwest
+    if eq.get_zone_id() == Zone.cabwest then -- cabwest
         return true
     end
 
-    if eq.get_zone_id() == 106 then -- cabwest
+    if eq.get_zone_id() == Zone.cabwest then -- cabwest
         return true
     end
+
 
     if eq.get_zone_id() == 22 and -- ecommons
         client:GetX() < 100 and client:GetX() > -800 and
