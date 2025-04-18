@@ -10,6 +10,10 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	if origin:GetID() ~= attacker:GetID() then
 		return e
 	end
+
+	if e.value <= 0 then
+		return e
+	end
 	-- All melee attacks gain a 300 mod proc that deals (level * 1.5 * 0.2) magic damage and restores <em data-base='2'>2</em> mana from the target<span class='perLevel'> per rank</span>.",
 
 	-- Only proc off of regular attacks (1hs, 1hb, piercing, etc)
@@ -18,7 +22,10 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		return e
 	end
 
-	if not rb.IsProcSuccess(attacker, 300, Slot.Primary) then
+
+
+
+	if not rb.IsProcSuccess(attacker, 75, Slot.Primary) then
 		return e
 	end
 
