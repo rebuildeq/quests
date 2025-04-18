@@ -38,8 +38,6 @@ function vitality.OnConnect(client, last_login)
     if not is_rested then
         return
     end
-
-    vitality.AddRestedVitality(client, seconds_since_last_login, true)
 end
 
 --- Triggers when a player zones
@@ -104,7 +102,7 @@ function vitality.UpdateUI(client)
         vitality_pool = exp_next_level
     end
 
-    eq.debug("vitality pool: " .. total_vitality .. " exp_next_level: " .. exp_next_level)
+    --eq.debug("vitality pool: " .. total_vitality .. " exp_next_level: " .. exp_next_level)
     local pack = Packet(0x2CC6, 32, true) -- 28 bytes
     pack:WriteInt64(total_vitality) -- curVitality
     pack:WriteInt64(exp_next_level) -- maxVitality
@@ -126,14 +124,21 @@ function vitality.AddRestedVitality(client, seconds, is_login)
     if vitality_amount < 1 then
         vitality_amount = 1
     end
-    if vitality_amount > exp_needed then
-        vitality_amount = exp_needed
-    end
 
-    eq.debug("needed: " .. exp_needed .. " multi: " .. exp_multi .. " result " .. vitality_amount)
+    eq.debug("needed: " .. exp_needed .. " multi: " .. exp_multi .. " amount " .. vitality_amount)
 
     if is_login then
-        client:Message(MT.Experience, "You have acquired " .. vitality_amount .. " vitality while signed off.")
+        local exp_cap = vitality.GetEXPForLevel(client:GetLevel()+2)
+        local exp_current = tonumber(client:GetBucket("vitality_v1")) or 0
+        local vitality_total = exp_current + vitality_amount
+        local cap_message = ""
+
+        if vitality_total > exp_cap then
+            vitality_amount = exp_cap - exp_current
+            cap_message = ", reaching maximum capacity"
+        end
+
+        client:Message(MT.Experience, string.format("You have acquired " .. vitality_amount .. " vitality while signed off%s.", cap_message))
     end
 
     vitality.AddVitality(client, 1, vitality_amount)
@@ -148,15 +153,23 @@ function vitality.AddVitality(client, category, amount)
         eq.debug("Invalid category " .. category .. " for vitality")
         return
     end
-    local vitality = tonumber(client:GetBucket("vitality_v" .. category))
-    if vitality == nil then
-        vitality = 0
+    local vitality_pool = tonumber(client:GetBucket("vitality_v" .. category))
+    if vitality_pool == nil then
+        vitality_pool = 0
     end
-    vitality = vitality + amount
+    vitality_pool = vitality_pool + amount
 
-    client:SetBucket("vitality_v" .. category, tostring(vitality))
+    local exp_needed = vitality.GetEXPForLevel(client:GetLevel()+1)
+    if category == 1 then
+        exp_needed = vitality.GetEXPForLevel(client:GetLevel()+2)
+    end
+    if vitality_pool > exp_needed then
+        vitality_pool = exp_needed
+    end
+
+    client:SetBucket("vitality_v" .. category, tostring(vitality_pool))
     if category == 3 then
-        client:Message(MT.Experience, "You have acquired " .. amount .. " vitality. You now have " .. vitality .. " activity vitality.")
+        client:Message(MT.Experience, "You have acquired " .. amount .. " vitality. You now have " .. vitality_pool .. " activity vitality.")
     end
 end
 
