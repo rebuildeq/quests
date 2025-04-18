@@ -20,6 +20,7 @@ function rb.IsProcSuccess(self, mod, hand)
 		-- attack timer
 	end
 	if hand == Slot.Secondary then
+		return false
 		-- attack_dw
 	end
 	if hand == Slot.Range then
@@ -54,7 +55,7 @@ function rb.IsProcSuccess(self, mod, hand)
 
 	eq.debug(string.format("Proc roll: %d vs chance: %d", roll, chance))
 
-	if roll < chance then
+	if roll > chance then
 		return false
 	end
 
