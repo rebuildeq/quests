@@ -1061,8 +1061,9 @@ function guildmaster.PairsByKeys(t, f)
 end
 
 function guildmaster.MergeTables(t1, ...)
-    for i,v in ipairs(arg) do
-        for k, v in pairs(v) do
+    local tables = {...}
+    for _, tbl in ipairs(tables) do
+        for k, v in pairs(tbl) do
             t1[k] = v
         end
     end
