@@ -4,11 +4,10 @@ local townporter = {}
 ---@param e NPCEventSay
 function townporter.OnSay(e)
     local mob_class = e.self:GetClass()
-
-    if (e.self:GetCleanName() == "Priest of Discord") then townporter.OnSayTownPorter(e)
-    elseif (e.self:GetNPCTypeID() == 345004) then townporter.OnSayTownPorter(e) -- porter in guildhall
-    elseif (eq.get_zone_id() == Zone.guildlobby and e.self:GetCleanName():find("Guardian")) then townporter.OnSayTownPorter(e) -- guards in guildlobby
-    end
+    -- if (e.self:GetCleanName() == "Priest of Discord") then townporter.OnSayTownPorter(e)
+    -- elseif (e.self:GetNPCTypeID() == 345004) then townporter.OnSayTownPorter(e) -- porter in guildhall
+    -- elseif (eq.get_zone_id() == Zone.guildlobby and e.self:GetCleanName():find("Guardian")) then townporter.OnSayTownPorter(e) -- guards in guildlobby
+    -- end
 end
 
 
@@ -16,10 +15,12 @@ end
 function townporter.PortCalculateCost(client)
     local level = client:GetLevel()
     -- If the player is less than or equal to level 10, don't charge the player anything
-    if level <= 20 then
+    if level <= 10 then
         return 0
     end
-
+    if level <= 20 then
+        return level*20
+    end
 
     if level <= 30 then
         return level*30
