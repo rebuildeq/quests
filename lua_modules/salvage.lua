@@ -40,16 +40,46 @@ function salvage.OnCombine(e)
         return false
     end
 
-    e.self:Message(MT.Yellow, "Pre 10 percent tax: " .. part_value)
+    e.self:Message(MT.Yellow, "Pre 20 percent tax: " .. part_value)
 
-    local final_value = part_value - (part_value * 0.20) -- 10% salvage loss
-    e.self:Message(MT.Yellow, "Post 10 percent tax: " .. final_value)
+    local final_value = part_value - (part_value * 0.20) -- 20% salvage loss
+    e.self:Message(MT.Yellow, "Post 20 percent tax: " .. final_value)
 
-    local penalty = math.random(10)
+    local dice_size = 50
+    local min_roll = 20 -- 4 slotter
+    if bag_id == 151002 then -- 6 slotter
+        dice_size = 40
+        min_roll = 18
+    end
+    if bag_id == 151003 then -- 8 slotter
+        dice_size = 30
+        min_roll = 16
+    end
+    if bag_id == 151004 then -- 10 slotter
+        dice_size = 20
+        min_roll = 14
+    end
+    if bag_id == 151005 then -- 12 slotter
+        dice_size = 20
+        min_roll = 12
+    end
+    if bag_id == 151006 then -- 14 slotter
+        dice_size = 20
+        min_roll = 10
+    end
+    if bag_id == 151007 then -- 16 slotter
+        dice_size = 20
+        min_roll = 5
+    end
+
+    local penalty = math.random(dice_size)
+    if penalty < min_roll then
+        penalty = min_roll
+    end
+
     e.self:Message(MT.Yellow, "Penalty percent: " .. penalty .. "%")
-    local penalty_value = final_value - (final_value * (0.01 * penalty))
-    local final_value = penalty_value
-
+    local penalty_value = (part_value * (0.01 * penalty))
+    final_value = final_value - penalty_value
 
     e.self:Message(MT.Yellow, "pre-cut: " .. final_value)
     part_id = 151101
