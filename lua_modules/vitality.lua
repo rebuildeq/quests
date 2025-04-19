@@ -125,7 +125,7 @@ function vitality.AddRestedVitality(client, seconds, is_login)
         vitality_amount = 1
     end
 
-    eq.debug("needed: " .. exp_needed .. " multi: " .. exp_multi .. " amount " .. vitality_amount)
+    -- eq.debug("needed: " .. exp_needed .. " multi: " .. exp_multi .. " amount " .. vitality_amount)
 
     if is_login then
         local exp_cap = vitality.GetEXPForLevel(client:GetLevel()+2)
