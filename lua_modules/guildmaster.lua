@@ -50,15 +50,41 @@ end
 function guildmaster.OnSay(e)
     local mob_class = e.self:GetClass()
 
-    if (mob_class == Class.CLERICGM) then guildmaster.OnSayCleric(e)
-    elseif (mob_class == Class.DRUIDGM) then guildmaster.OnSayDruid(e)
-    elseif (mob_class == Class.SHAMANGM) then guildmaster.OnSayShaman(e)
-    elseif (mob_class == Class.WIZARDGM) then guildmaster.OnSayWizard(e)
-    elseif (mob_class == Class.ENCHANTERGM) then guildmaster.OnSayEnchanter(e)
-    elseif (e.self:GetNPCTypeID() == 345004) then guildmaster.OnSayWizard(e) -- porter in guildhall
-    elseif (eq.get_zone_id() == Zone.guildlobby and e.self:GetCleanName():find("Guardian")) then guildmaster.OnSayWizard(e) -- guards in guildlobby
+    local gms = {
+        [Class.WARRIORGM] = { guildmaster.OnSayBind },
+        [Class.CLERICGM] = { guildmaster.OnSayCleric },
+        [Class.PALADINGM] = { guildmaster.OnSayBind },
+        [Class.RANGERGM] = { guildmaster.OnSayBind },
+        [Class.SHADOWKNIGHTGM] = { guildmaster.OnSayBind },
+        [Class.DRUIDGM] = { guildmaster.OnSayDruid },
+        [Class.MONKGM] = { guildmaster.OnSayBind },
+        [Class.BARDGM] = { guildmaster.OnSayBind },
+        [Class.ROGUEGM] = { guildmaster.OnSayBind },
+        [Class.SHAMANGM] = { guildmaster.OnSayShaman },
+        [Class.NECROMANCERGM] = { guildmaster.OnSayBind },
+        [Class.WIZARDGM] = { guildmaster.OnSayWizard },
+        [Class.MAGICIANGM] = { guildmaster.OnSayBind },
+        [Class.ENCHANTERGM] = { guildmaster.OnSayEnchanter },
+        [Class.BEASTLORDGM] = { guildmaster.OnSayBind },
+        [Class.BERSERKERGM] = { guildmaster.OnSayBind },
+    }
+
+    for k, v in pairs(gms) do
+        if (mob_class == k) then
+            v[1](e)
+            return
+        end
+    end
+
+    if (e.self:GetNPCTypeID() == 345004) then
+        guildmaster.OnSayWizard(e) -- porter in guildhall
+        return
+    end
+    if (eq.get_zone_id() == Zone.guildlobby and e.self:GetCleanName():find("Guardian")) then
+        guildmaster.OnSayWizard(e) -- guards in guildlobby
     end
 end
+
 
 ---@param client Client
 function guildmaster.BuffCalculateCost(client)
@@ -155,6 +181,11 @@ end
 
 ---@param e NPCEventSay
 function guildmaster.OnSayCleric(e)
+    if (e.message:findi("bind")) then
+        e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
+        e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
+        return true
+    end
     if (e.message:findi("buffs")) then
         if (guildmaster.BuffTakeMoney(e.other) ~= true) then
             e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
@@ -263,18 +294,17 @@ function guildmaster.OnSayCleric(e)
         elseif e.other:GetLevel() >= 19 then
             eq.SelfCast(228)
         end
-    elseif (e.message:findi("bind")) then
-		e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
-		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
-    else
+   else
         local plat = guildmaster.BuffCalculateCost(e.other)
         if plat > 0 then
             e.other:Message(MT.Say, "As a cleric guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs", true) .. "] to assist you in your adventures.")
         else
             e.other:Message(MT.Say, "As a cleric guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs", true) .. "] to assist you in your adventures.")
         end
+        e.other:Message(MT.Say, string.format("I can %s your soul.", eq.say_link("bind", true)))
     end
 end
+
 
 ---@param e NPCEventSay
 function guildmaster.OnSayDruid(e)
@@ -563,6 +593,11 @@ end
 
 ---@param e NPCEventSay
 function guildmaster.OnSayEnchanter(e)
+    if (e.message:findi("bind")) then
+        e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
+        e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
+        return true
+    end
     if (e.message:findi("buffs")) then
         if (guildmaster.BuffTakeMoney(e.other) ~= true) then
             e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
@@ -627,11 +662,6 @@ function guildmaster.OnSayEnchanter(e)
                 eq.SelfCast(1408)
             end
         end
-		return
-	end
-    if (e.message:findi("bind")) then
-		e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
-		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
 		return
 	end
 
@@ -1043,6 +1073,17 @@ function guildmaster.OnSayWizard(e)
 		e.other:Message(MT.Say, "As a wizard guildmaster, for no fee, I can [" .. eq.say_link("teleport", true) .. "] you.")
 	end
 	e.other:Message(MT.Say, string.format("I can %s your soul.", eq.say_link("bind", true)))
+end
+
+
+---@param e NPCEventSay
+function guildmaster.OnSayBind(e)
+    if (e.message:findi("bind")) then
+        e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
+        e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
+        return
+    end
+    e.other:Message(MT.Say, string.format("I can %s your soul.", eq.say_link("bind", true)))
 end
 
 -- Helper functions
