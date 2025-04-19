@@ -44,6 +44,7 @@ local skills = {
 	},
 	shm = {
 		feralinfusion = { ID = 707 },
+		cannibalization = { ID = 743 },
 		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
@@ -322,8 +323,9 @@ function builds.OnSpellBuffTic(e)
 	end
 end
 
---- Triggered On Tick
+--- Triggered On SpellEvent
 ---@param e SpellEventSpellEffect
+---@return boolean
 function builds.OnSpellEffect(e)
 	local origin = nil
 	local attacker = eq.get_entity_list():GetClientByID(e.caster_id)
@@ -336,7 +338,7 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
 			end
 		end
@@ -347,7 +349,7 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
 			end
 		end
@@ -358,7 +360,7 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
 			end
 		end
@@ -369,7 +371,7 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
 				end
 			end
 		end
