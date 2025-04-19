@@ -178,6 +178,10 @@ end
 --- @return boolean
 function vitality.InRestedArea(client)
 
+    if eq.get_zone_id() == Zone.qcat then
+        return true
+    end
+
 	if eq.get_zone_id() == Zone.qeynos then
 		return true
 	end
