@@ -547,7 +547,7 @@ function guildmaster.OnSayDruid(e)
         if plat > 0 then
             e.other:Message(MT.Say, string.format("As a druid guildmaster, I can %s you for a fee of %d platinum pieces.", eq.say_link("teleport", true), plat))
         else
-			e.other:Message(MT.Say, string.format("As a druid guildmaster, I can %s you for no fee up to level 10."))
+			e.other:Message(MT.Say, string.format("As a druid guildmaster, I can %s you for no fee up to level 10.", eq.say_link("teleport", true)))
         end
 
 		local plat = guildmaster.PortCalculateCost(e.other)
