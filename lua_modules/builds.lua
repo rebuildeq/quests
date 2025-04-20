@@ -76,22 +76,36 @@ function builds.Init()
 		for skillName, skill in pairs(skillEntry) do
 
 			local skill_path = className .. "/" .. skillName
-			skill.Event = require(builds_path .. skill_path)
-			if type(skill.Event.CommonDamage) == "function" then
-				skill.CommonDamage = skill.Event.CommonDamage
+
+			local skill_module = require(builds_path .. skill_path)
+			skill.Event = skill_module
+
+
+			if type(skill_module.CommonDamage) == "function" then
+				skill.CommonDamage = function(e, origin, attacker, defender, rank)
+					return skill_module.CommonDamage(e, origin, attacker, defender, rank)
+				end
 				--eq.debug("Added CommonDamage for " .. skillName)
 			end
-			if type(skill.Event.HealDamage) == "function" then
-				skill.HealDamage = skill.Event.HealDamage
+			if type(skill_module.HealDamage) == "function" then
+				skill.HealDamage = function(e, origin, attacker, defender, rank)
+					return skill_module.HealDamage(e, origin, attacker, defender, rank)
+				end
 			end
-			if type(skill.Event.Tick) == "function" then
-				skill.Tick = skill.Event.Tick
+			if type(skill_module.Tick) == "function" then
+				skill.Tick = function(e, origin, attacker, defender, rank)
+					return skill_module.Tick(e, origin, attacker, defender, rank)
+				end
 			end
-			if type(skill.Event.CheckHitChance) == "function" then
-				skill.CheckHitChance = skill.Event.CheckHitChance
+			if type(skill_module.CheckHitChance) == "function" then
+				skill.CheckHitChance = function(e, origin, attacker, defender, rank)
+					return skill_module.CheckHitChance(e, origin, attacker, defender, rank)
+				end
 			end
-			if type(skill.Event.SpellEffect) == "function" then
-				skill.SpellEffect = skill.Event.SpellEffect
+			if type(skill_module.SpellEffect) == "function" then
+				skill.SpellEffect = function(e, origin, attacker, defender, rank)
+					return skill_module.SpellEffect(e, origin, attacker, defender, rank)
+				end
 			end
 		end
 	end
