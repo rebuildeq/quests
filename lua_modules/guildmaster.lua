@@ -141,15 +141,15 @@ function guildmaster.PortCalculateCost(client)
     end
 
     if level <= 20 then
-        return level*10
+        return level*1
     end
 
     if level <= 30 then
-        return level*30
+        return level*5
     end
 
     if level <= 40 then
-        return level*50
+        return level*20
     end
 
     if level <= 50 then
