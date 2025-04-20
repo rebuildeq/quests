@@ -352,7 +352,10 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					local result = skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					if result == false then
+						return false -- consumed
+					end
 				end
 			end
 		end
@@ -363,7 +366,10 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					local result = skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					if result == false then
+						return false -- consumed
+					end
 				end
 			end
 		end
@@ -374,7 +380,10 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					local result = skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					if result == false then
+						return false -- consumed
+					end
 				end
 			end
 		end
@@ -385,11 +394,15 @@ function builds.OnSpellEffect(e)
 				local rank = builds.Rank(origin, skill.ID)
 				rb.SetCurrentSkillID(skill.ID)
 				if rank > 0 and skill.Event.SpellEffect then
-					return skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					local result = skill.Event.SpellEffect(e, origin, attacker, defender, rank)
+					if result == false then
+						return false -- consumed
+					end
 				end
 			end
 		end
 	end
+	return true
 end
 
 
