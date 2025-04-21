@@ -45,6 +45,7 @@ local skills = {
 	shm = {
 		feralinfusion = { ID = 707 },
 		cannibalization = { ID = 743 },
+		windsofmalaise = { ID = 744 },
 		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
