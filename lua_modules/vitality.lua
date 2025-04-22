@@ -95,17 +95,17 @@ function vitality.UpdateUI(client)
     total_vitality = total_vitality + vitality_pool
 
 
-    local exp_next_level = vitality.GetEXPForLevel(client:GetLevel()+1)
+    --local exp_next_level = vitality.GetEXPForLevel(client:GetLevel()+1) - vitality.GetEXPForLevel(client:GetLevel())
+	local vitality_cap = vitality.GetEXPForLevel(client:GetLevel()+2) - vitality.GetEXPForLevel(client:GetLevel())
 
-
-    if vitality_pool > exp_next_level then
-        vitality_pool = exp_next_level
+    if vitality_pool > vitality_cap then
+        vitality_pool = vitality_cap
     end
 
-    --eq.debug("vitality pool: " .. total_vitality .. " exp_next_level: " .. exp_next_level)
+    --eq.debug("vitality pool: " .. total_vitality .. " vitality cap: " .. vitality_cap)
     local pack = Packet(0x2CC6, 32, true) -- 28 bytes
     pack:WriteInt64(total_vitality) -- curVitality
-    pack:WriteInt64(exp_next_level) -- maxVitality
+    pack:WriteInt64(vitality_cap) -- maxVitality
     pack:WriteInt64(0) -- curAAVitality
     pack:WriteInt64(0) -- maxAAVitality
     client:QueuePacket(pack) -- send packet
@@ -116,32 +116,50 @@ end
 --- @param seconds integer
 --- @param is_login boolean
 function vitality.AddRestedVitality(client, seconds, is_login)
-    local vitality_amount = 0
+	local debug_mult = 1
+	local current_vitality = 0
+	-- TODO: Questionable optimization, can be double dipped with UpdateUI
+    local vitality_pool = tonumber(client:GetBucket("vitality_v1")) or 0
+    current_vitality = current_vitality + vitality_pool
+	-- TODO: Do other forms of vitality limit how much vitality you can store in your v1 pool? Im going to guess no but its here.
+    --[[
+	vitality_pool = tonumber(client:GetBucket("vitality_v2")) or 0
+    current_vitality = current_vitality + vitality_pool
+    vitality_pool = tonumber(client:GetBucket("vitality_v3")) or 0
+    current_vitality = current_vitality + vitality_pool
+	]]--
 
-    local exp_needed = vitality.GetEXPForLevel(client:GetLevel()+1)
-    local exp_multi = exp_needed / 20 / 60 / 60 -- 20 hrs of resting gives you rested exp worth of next level
-    vitality_amount = math.floor(exp_multi * seconds)
-    if vitality_amount < 1 then
-        vitality_amount = 1
+
+    local exp_to_level = vitality.GetEXPForLevel(client:GetLevel()+1) - vitality.GetEXPForLevel(client:GetLevel())
+	local vitality_cap = vitality.GetEXPForLevel(client:GetLevel()+2) - vitality.GetEXPForLevel(client:GetLevel())
+    local exp_multi = debug_mult * exp_to_level / 20 / 60 / 60 -- 20 hrs of resting gives you rested exp worth of next level
+
+	local overload_penalty = 20 / 22 -- 42 hours to vitality cap instead of 40 (42-20)
+
+
+    local first_vitality_gain = math.floor(exp_multi * seconds)
+
+	local vitality_gain = first_vitality_gain
+	local temp1 = current_vitality + first_vitality_gain -- unpenalized vitality gain
+	if (temp1 > exp_to_level) then
+		local temp2 = temp1 - exp_to_level -- penalized vitality gain
+		vitality_gain = temp2 * overload_penalty + temp1
+	end
+
+    if vitality_gain < 1 then
+        vitality_gain = 1
     end
 
-    -- eq.debug("needed: " .. exp_needed .. " multi: " .. exp_multi .. " amount " .. vitality_amount)
+	-- if vitality gain goes over cap, then we set it to cap.
+	vitality_gain = math.min(vitality_gain, vitality_cap - current_vitality)
+
+    eq.debug("needed: " .. vitality_cap .. " multi: " .. exp_multi .. " result " .. vitality_gain)
 
     if is_login then
-        local exp_cap = vitality.GetEXPForLevel(client:GetLevel()+2)
-        local exp_current = tonumber(client:GetBucket("vitality_v1")) or 0
-        local vitality_total = exp_current + vitality_amount
-        local cap_message = ""
-
-        if vitality_total > exp_cap then
-            vitality_amount = exp_cap - exp_current
-            cap_message = ", reaching maximum capacity"
-        end
-
-        client:Message(MT.Experience, string.format("You have acquired " .. vitality_amount .. " vitality while signed off%s.", cap_message))
+        client:Message(MT.Experience, "You have acquired " .. vitality_gain .. " vitality while signed off.")
     end
 
-    vitality.AddVitality(client, 1, vitality_amount)
+    vitality.AddVitality(client, 1, vitality_gain)
 end
 
 --- Adds vitality based on category. Category is 1 to 3
