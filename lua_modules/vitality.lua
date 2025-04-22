@@ -144,9 +144,8 @@ function vitality.AddRestedVitality(client, seconds, is_login)
 
 	if (current_vitality > soft_cap) then
         -- if we are over the cap, we need to penalize the gain
-        local penalty = math.floor((current_vitality - soft_cap) * overload_penalty)
-        vitality_goal = current_vitality + first_vitality_gain - penalty
-        vitality_gain = vitality_goal - current_vitality
+		vitality_gain = math.floor(first_vitality_gain * overload_penalty)
+        -- shouldnt be possible?
         if vitality_gain < 0 then
             vitality_gain = 0
         end
