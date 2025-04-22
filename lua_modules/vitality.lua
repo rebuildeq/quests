@@ -137,7 +137,7 @@ function vitality.AddRestedVitality(client, seconds, is_login)
 	local overload_penalty = 20 / 22 -- 42 hours to vitality cap instead of 40 (42-20)
 
     local first_vitality_gain = math.floor(exp_multi * seconds)
-    eq.debug("first vitality gain: " .. first_vitality_gain .. " seconds: " .. seconds .. " exp_multi: " .. exp_multi)
+    -- eq.debug("first vitality gain: " .. first_vitality_gain .. " seconds: " .. seconds .. " exp_multi: " .. exp_multi)
 
 	local vitality_gain = first_vitality_gain
 	local vitality_goal = current_vitality + first_vitality_gain -- unpenalized vitality gain
@@ -158,7 +158,7 @@ function vitality.AddRestedVitality(client, seconds, is_login)
         vitality_goal = vitality_cap
     end
 
-    eq.debug("temp1: " .. vitality_goal .. " vitality gain: " .. vitality_gain)
+    -- eq.debug("temp1: " .. vitality_goal .. " vitality gain: " .. vitality_gain)
     if vitality_gain < 1 then
         vitality_gain = 1
     end
@@ -166,7 +166,7 @@ function vitality.AddRestedVitality(client, seconds, is_login)
 	-- if vitality gain goes over cap, then we set it to cap.
 	vitality_gain = math.min(vitality_gain, vitality_cap - current_vitality)
 
-    eq.debug("needed: " .. vitality_cap .. " multi: " .. exp_multi .. " result " .. vitality_gain .. " seconds " .. seconds)
+    -- eq.debug("needed: " .. vitality_cap .. " multi: " .. exp_multi .. " result " .. vitality_gain .. " seconds " .. seconds)
 
     if not is_login then
         vitality.AddVitality(client, 1, vitality_gain)
