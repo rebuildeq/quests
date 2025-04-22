@@ -130,22 +130,36 @@ function vitality.AddRestedVitality(client, seconds, is_login)
 	]]--
 
 
-    local exp_to_level = vitality.GetEXPForLevel(client:GetLevel()+1) - vitality.GetEXPForLevel(client:GetLevel())
+    local soft_cap = vitality.GetEXPForLevel(client:GetLevel()+1) - vitality.GetEXPForLevel(client:GetLevel())
 	local vitality_cap = vitality.GetEXPForLevel(client:GetLevel()+2) - vitality.GetEXPForLevel(client:GetLevel())
-    local exp_multi = debug_mult * exp_to_level / 20 / 60 / 60 -- 20 hrs of resting gives you rested exp worth of next level
+    local exp_multi = debug_mult * soft_cap / 20 / 60 / 60 -- 20 hrs of resting gives you rested exp worth of next level
 
 	local overload_penalty = 20 / 22 -- 42 hours to vitality cap instead of 40 (42-20)
 
-
     local first_vitality_gain = math.floor(exp_multi * seconds)
+    eq.debug("first vitality gain: " .. first_vitality_gain .. " seconds: " .. seconds .. " exp_multi: " .. exp_multi)
 
 	local vitality_gain = first_vitality_gain
-	local temp1 = current_vitality + first_vitality_gain -- unpenalized vitality gain
-	if (temp1 > exp_to_level) then
-		local temp2 = temp1 - exp_to_level -- penalized vitality gain
-		vitality_gain = temp2 * overload_penalty + temp1
-	end
+	local vitality_goal = current_vitality + first_vitality_gain -- unpenalized vitality gain
 
+	if (current_vitality > soft_cap) then
+        -- if we are over the cap, we need to penalize the gain
+        local penalty = math.floor((current_vitality - soft_cap) * overload_penalty)
+        vitality_goal = current_vitality + first_vitality_gain - penalty
+        vitality_gain = vitality_goal - current_vitality
+        if vitality_gain < 0 then
+            vitality_gain = 0
+        end
+    elseif (vitality_goal > soft_cap) then
+        local to_soft_cap = math.floor(soft_cap - current_vitality)
+        local above_cap_gain = vitality_gain - to_soft_cap
+        vitality_gain = to_soft_cap + (above_cap_gain * overload_penalty)
+    end
+    if vitality_goal > vitality_cap then
+        vitality_goal = vitality_cap
+    end
+
+    eq.debug("temp1: " .. vitality_goal .. " vitality gain: " .. vitality_gain)
     if vitality_gain < 1 then
         vitality_gain = 1
     end
@@ -153,11 +167,27 @@ function vitality.AddRestedVitality(client, seconds, is_login)
 	-- if vitality gain goes over cap, then we set it to cap.
 	vitality_gain = math.min(vitality_gain, vitality_cap - current_vitality)
 
-    eq.debug("needed: " .. vitality_cap .. " multi: " .. exp_multi .. " result " .. vitality_gain)
+    eq.debug("needed: " .. vitality_cap .. " multi: " .. exp_multi .. " result " .. vitality_gain .. " seconds " .. seconds)
 
-    if is_login then
-        client:Message(MT.Experience, "You have acquired " .. vitality_gain .. " vitality while signed off.")
+    if not is_login then
+        vitality.AddVitality(client, 1, vitality_gain)
+        return
     end
+
+    if vitality_gain <= 0 then
+        client:Message(MT.Experience, "You have not acquired any vitality while signed off, due to being at cap.")
+        vitality.AddVitality(client, 1, vitality_gain)
+        return
+    end
+
+    if vitality_gain + current_vitality >= vitality_cap then
+        client:Message(MT.Experience, "You have acquired " .. vitality_gain .. " vitality while signed off and reached the cap.")
+        vitality.AddVitality(client, 1, vitality_gain)
+        return
+    end
+
+
+    client:Message(MT.Experience, "You have acquired " .. vitality_gain .. " vitality while signed off.")
 
     vitality.AddVitality(client, 1, vitality_gain)
 end

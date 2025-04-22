@@ -1,3 +1,5 @@
+local vitality = require("vitality")
+
 local function rested(e)
     local message =""
     local v1_pool = tonumber(e.self:GetBucket("vitality_v1")) or 0
@@ -13,6 +15,10 @@ local function rested(e)
     else
         message = message .. "No vitality<br>"
     end
+
+
+    local vitality_cap = vitality.GetEXPForLevel(e.self:GetLevel()+2) - vitality.GetEXPForLevel(e.self:GetLevel())
+    message = message .. "v1 cap: " .. vitality_cap .. "<br>"
 
     message = message .. "<br>In certain areas across Norrath, players are able to obtain rested vitality.<br>Rested vitality represents your character's rested state, and is consumed as a bonus to normal experience.<br>You are able to obtain rested Vitality while online or offline if you're within a rested area."
     eq.popup("Rested Vitality", message)
