@@ -49,6 +49,7 @@ local skills = {
 		-- spiritualinfusion = { ID = 0 },
 	},
 	nec = {
+		soulsiphon = { ID = 456 },
 		-- decayingoverkill = { ID = 2276 },
 		-- corruption = { ID = 0 },
 	},
