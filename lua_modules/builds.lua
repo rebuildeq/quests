@@ -64,6 +64,7 @@ local skills = {
 		-- nightmare = { ID = 0 },
 	},
 	bst = {
+		warderrecall = { ID = 113 },
 		-- animalbond = { ID = 0 },
 	},
 	ber = {
