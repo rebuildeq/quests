@@ -36,7 +36,7 @@ local tags = {
 	{ID = 148129, Name = "Dwarf", Chance = 500, Check = function(self) return self:GetBaseRace() == race_name.Dwarf end},
 	{ID = 148130, Name = "Troll", Chance = 500, Check = function(self) return self:GetBaseRace() == race_name.Troll end},
 	{ID = 148131, Name = "Ogre", Chance = 500, Check = function(self) return self:GetBaseRace() == race_name.Ogre end},
-	{ID = 148132, Name = "Halfling", Chance = 500, Check = function(self) return self:GetBaseRace() == race_name.Halfling end},
+	{ID = 148132, Name = "Halfling", Chance = 500, Check = function(self) return self:GetBaseRace() == race_name.Halfling or self:GetBaseRace() == race_name.RivervaleCitizen end},
 	{ID = 148133, Name = "Gnome", Chance = 500, Check = function(self) return self:GetBaseRace() == race_name.Gnome end},
 	{ID = 148134, Name = "Froglok", Chance = 500, Check = function(self) return (self:GetBaseRace() == race_name.Froglok or self:GetBaseRace() == 26 or self:GetBaseRace() == 27 ) end},
 	{ID = 148135, Name = "Shadowed Man", Chance = 500, Check = function(self) return (self:GetBaseRace() == race_name.Invisible_Man or self:GetBaseRace() == race_name.Dervish or self:GetBaseRace() == 431) end},
