@@ -61,7 +61,7 @@ function guildmaster.OnSay(e)
         [Class.BARDGM] = { guildmaster.OnSayBind },
         [Class.ROGUEGM] = { guildmaster.OnSayBind },
         [Class.SHAMANGM] = { guildmaster.OnSayShaman },
-        [Class.NECROMANCERGM] = { guildmaster.OnSayBind },
+        [Class.NECROMANCERGM] = { guildmaster.OnSayNecromancer },
         [Class.WIZARDGM] = { guildmaster.OnSayWizard },
         [Class.MAGICIANGM] = { guildmaster.OnSayBind },
         [Class.ENCHANTERGM] = { guildmaster.OnSayEnchanter },
@@ -85,6 +85,48 @@ function guildmaster.OnSay(e)
     end
 end
 
+---@param client Client
+function guildmaster.CorpseCalculateCost(client)
+    local level = client:GetLevel()
+
+    if level < 10 then
+        return 0
+    end
+
+    if level <= 20 then -- minor soulstone
+        return 10
+    end
+
+    if level <= 30 then -- lesser soulstone
+        return 25
+    end
+
+    if level <= 40 then -- soulstone
+        return 50
+    end
+
+    if level <= 50 then -- greater soulstone
+        return 80
+    end
+
+    if level <= 60 then -- faceted soulstone
+        return 110
+    end
+
+    if level <= 70 then -- pristine soulstone
+        return 150
+    end
+
+    if level <= 80 then -- glowing soulstone
+        return 250
+    end
+
+    if level <= 90 then -- prismatic soulstone
+        return 400
+    end
+
+    return 500
+end
 
 ---@param client Client
 function guildmaster.BuffCalculateCost(client)
@@ -122,6 +164,18 @@ end
 function guildmaster.BuffTakeMoney(client)
     local plat = guildmaster.BuffCalculateCost(client)
     local copper = 1000 * guildmaster.BuffCalculateCost(client)
+
+    local result = client:TakeMoneyFromPP(copper, true)
+    if result then
+        client:Message(15, plat .. " platinum pieces have been removed from your inventory")
+    end
+
+    return result
+end
+
+function guildmaster.CorpseTakeMoney(client)
+    local plat = guildmaster.CorpseCalculateCost(client)
+    local copper = 1000 * guildmaster.CorpseCalculateCost(client)
 
     local result = client:TakeMoneyFromPP(copper, true)
     if result then
@@ -1118,5 +1172,41 @@ function guildmaster.BuildSayLinks(t)
 
     return buff_links
 end
+
+---@param e NPCEventSay
+function guildmaster.OnSayNecromancer(e)
+    if (e.message:findi("bind")) then
+        e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
+        e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
+        return true
+    end
+    if (e.message:findi("corpse")) then
+        if (guildmaster.CorpseTakeMoney(e.other) ~= true) then
+            e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
+            return
+        end
+
+
+        local x, y, z, h = e.other:GetX(), e.other:GetY(), e.other:GetZ(), e.other:GetHeading();
+        local char_id = e.other:CharacterID();
+        local corpse_count = e.other:GetCorpseCount();
+
+        if corpse_count > 0 then
+            eq.summon_all_player_corpses(char_id,x,y,z,h)
+        end
+
+        e.self:Emote("Shadows begin to drift across the floor.  The necromancer's voice chants with intensity as the shadows slowly coalesce into a wispy mass that feels familiar. The lights in the room flare and there, before you, appears all that remains of your former life.");
+		return
+	end
+
+	local plat = guildmaster.CorpseCalculateCost(e.other)
+	if plat > 0 then
+		e.other:Message(MT.Say, "As an necromancer guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("corpse", true) .. "] summons for all of your corpses.")
+	else
+		e.other:Message(MT.Say, "As a necromancer guildmaster, for no fee, I can provide you with [" .. eq.say_link("corpse", true) .. "] summons for all of your corpses to assist you in your adventures.")
+	end
+	e.other:Message(MT.Say, string.format("I can %s your soul.", eq.say_link("bind", true)))
+end
+
 
 return guildmaster
