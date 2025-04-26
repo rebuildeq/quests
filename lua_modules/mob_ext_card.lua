@@ -51,6 +51,7 @@ local tags = {
 	{ID = 148144, Name = "Chromadrac", Chance = 500, Check = function(self) return (self:GetBaseRace() == 154) and self:GetCleanName():find("chroma") end},
 	{ID = 148145, Name = "Dozekar the Cursed", Chance = 1000, Check = function(self) return self:GetCleanName():find("Dozekar") end},
 	{ID = 148146, Name = "Drake", Chance = 500, Check = function(self) return self:GetBodyType() == BT['Dragon'] end},
+	{ID = 148147, Name = "Fish", Chance = 500, Check = function(self) return (self:GetBaseRace() == race_name.Fish or self:GetBaseRace() == race_name.Shark or self:GetBaseRace() == race_name.Piranha or self:GetBaseRace() == race_name.Swordfish or self:GetBaseRace() == race_name.KunarkFish) end},
 }
 
 ---@class RaceEntry # A card that can be dropped
