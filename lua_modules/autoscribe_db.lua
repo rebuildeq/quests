@@ -890,6 +890,7 @@ autoscribe_db.Spells = {
 		},
 		[5] = {
 			{ID = 203, Cost = 20, Expansion = 0}, -- Cure Poison
+			{ID = 42628, Cost = 20, Expansion = 0}, -- Selfish Cleansing lvl 5
 		},
 		[6] = {
 			{ID = 200, Cost = 20, Expansion = 0}, -- Minor Healing
@@ -906,6 +907,7 @@ autoscribe_db.Spells = {
 		},
 		[10] = {
 			{ID = 208, Cost = 20, Expansion = 0}, -- Lull
+			{ID = 42629, Cost = 150, Expansion = 0}, -- Prideful Cleansing lvl 10
 		},
 		[11] = {
 			{ID = 213, Cost = 20, Expansion = 0}, -- Cure Disease
@@ -922,6 +924,7 @@ autoscribe_db.Spells = {
 		},
 		[15] = {
 			{ID = 11, Cost = 20, Expansion = 0}, -- Holy Armor
+			{ID = 42630, Cost = 367, Expansion = 0}, -- Lone Cleansing lvl 15
 		},
 		[16] = {
 			{ID = 234, Cost = 71, Expansion = 0}, -- Halo of Light
@@ -938,6 +941,7 @@ autoscribe_db.Spells = {
 		},
 		[20] = {
 			{ID = 219, Cost = 42, Expansion = 0}, -- Center
+			{ID = 42631, Cost = 1260, Expansion = 0}, -- Solitary Cleansing lvl 20
 		},
 		[21] = {
 			{ID = 227, Cost = 34, Expansion = 0}, -- Endure Poison
@@ -970,6 +974,7 @@ autoscribe_db.Spells = {
 			{ID = 233, Cost = 195, Expansion = 0}, -- Expulse Undead
 			{ID = 2169, Cost = 544, Expansion = 0}, -- Reconstitution
 			{ID = 368, Cost = 297, Expansion = 0}, -- Spirit Armor
+			{ID = 42632, Cost = 2247, Expansion = 0}, -- Chosen Cleansing lvl 30
 		},
 		[31] = {
 			{ID = 2170, Cost = 1100, Expansion = 0}, -- Reparation
@@ -1002,6 +1007,9 @@ autoscribe_db.Spells = {
 			{ID = 18, Cost = 1718, Expansion = 0}, -- Guard
 			{ID = 391, Cost = 2247, Expansion = 0}, -- Revive
 			{ID = 3577, Cost = 13399, Expansion = 4}, -- Wave of Life
+		},
+		[40] = {
+			{ID = 42633, Cost = 13399, Expansion = 0}, -- Vain Cleansing lvl 40
 		},
 		[42] = {
 			{ID = 123, Cost = 371, Expansion = 0}, -- Holy Might
@@ -1037,6 +1045,7 @@ autoscribe_db.Spells = {
 		[50] = {
 			{ID = 1454, Cost = 28814, Expansion = 99}, -- Flame of Light
 			{ID = 63, Cost = 3358, Expansion = 0}, -- Resist Disease
+			{ID = 42634, Cost = 28814, Expansion = 0}, -- Personal Cleansing lvl 50
 		},
 		[51] = {
 			{ID = 4585, Cost = 3332, Expansion = 0}, -- Resistant Discipline
@@ -1064,6 +1073,7 @@ autoscribe_db.Spells = {
 			{ID = 64, Cost = 7374, Expansion = 0}, -- Resist Magic
 			{ID = 2172, Cost = 12177, Expansion = 0}, -- Restoration
 			{ID = 1455, Cost = 42566, Expansion = 99}, -- Wave of Healing
+			{ID = 42635, Cost = 12177, Expansion = 0}, -- Anointed Cleansing lvl 55
 		},
 		[56] = {
 			{ID = 2588, Cost = 49580, Expansion = 0}, -- Breath of Tunare
