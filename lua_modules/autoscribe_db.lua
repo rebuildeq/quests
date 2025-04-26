@@ -1,3 +1,10 @@
+
+--[[
+select CONCAT('{ID = ', sn.id, ', Cost = ', i.price, ', Expansion = 0}, -- ', sn.name, ' lvl ', sn.classes5) from spells_new sn
+inner join items i on i.scrolleffect = sn.id
+where sn.classes5 > 0 and sn.classes5 < 254 order by sn.classes5 asc;
+]]
+
 local autoscribe_db = {}
 
 autoscribe_db.Spells = {
@@ -1802,6 +1809,8 @@ autoscribe_db.Spells = {
 		},
 		[2] = {
 			{ID = 221, Cost = 20, Expansion = 0}, -- Sense the Dead
+			{ID = 42640, Cost = 20, Expansion = 0}, -- Dire Slander lvl 2
+			{ID = 221, Cost = 20, Expansion = 0}, -- Sense the Dead lvl 2
 		},
 		[3] = {
 			{ID = 342, Cost = 20, Expansion = 0}, -- Locate Corpse
@@ -1811,6 +1820,7 @@ autoscribe_db.Spells = {
 		},
 		[5] = {
 			{ID = 340, Cost = 20, Expansion = 0}, -- Disease Cloud
+			{ID = 42641, Cost = 151, Expansion = 0}, -- Dire Condemnation lvl 5
 		},
 		[6] = {
 			{ID = 343, Cost = 20, Expansion = 0}, -- Siphon Strength
@@ -1827,9 +1837,11 @@ autoscribe_db.Spells = {
 		},
 		[10] = {
 			{ID = 225, Cost = 20, Expansion = 0}, -- Endure Cold
+			{ID = 42642, Cost = 150, Expansion = 0}, -- Dire Verdict lvl 10
 		},
 		[11] = {
 			{ID = 344, Cost = 24, Expansion = 0}, -- Clinging Darkness
+			{ID = 2213, Cost = 154, Expansion = 0}, -- Lesser Summon Corpse lvl 12
 		},
 		[12] = {
 			{ID = 229, Cost = 20, Expansion = 0}, -- Fear
@@ -1844,6 +1856,7 @@ autoscribe_db.Spells = {
 		[15] = {
 			{ID = 502, Cost = 22, Expansion = 0}, -- Lifespike
 			{ID = 2572, Cost = 541, Expansion = 3}, -- Scream of Hate
+			{ID = 42643, Cost = 367, Expansion = 0}, -- Dire Proclamation lvl 15
 		},
 		[16] = {
 			{ID = 346, Cost = 22, Expansion = 0}, -- Grim Aura
@@ -1861,6 +1874,7 @@ autoscribe_db.Spells = {
 		[20] = {
 			{ID = 355, Cost = 118, Expansion = 0}, -- Engulfing Darkness
 			{ID = 209, Cost = 20, Expansion = 0}, -- Spook the Dead
+			{ID = 42644, Cost = 1260, Expansion = 0}, -- Dire Malediction lvl 20
 		},
 		[21] = {
 			{ID = 357, Cost = 34, Expansion = 0}, -- Dark Empathy
@@ -1875,7 +1889,10 @@ autoscribe_db.Spells = {
 		[24] = {
 			{ID = 366, Cost = 369, Expansion = 0}, -- Feign Death
 		},
-		[26] = {
+		[25] = {
+			{ID = 42645, Cost = 2247, Expansion = 0}, -- Dire Pronouncement lvl 25
+		},
+ 		[26] = {
 			{ID = 226, Cost = 55, Expansion = 0}, -- Endure Disease
 		},
 		[27] = {
@@ -1891,6 +1908,7 @@ autoscribe_db.Spells = {
 		[30] = {
 			{ID = 522, Cost = 43, Expansion = 0}, -- Gather Shadows
 			{ID = 492, Cost = 373, Expansion = 0}, -- Restless Bones
+			{ID = 42646, Cost = 5342, Expansion = 0}, -- Dire Inquisition lvl 30
 		},
 		[31] = {
 			{ID = 236, Cost = 192, Expansion = 0}, -- Shieldskin
@@ -1908,6 +1926,7 @@ autoscribe_db.Spells = {
 			{ID = 61, Cost = 1483, Expansion = 0}, -- Resist Cold
 			{ID = 1457, Cost = 7365, Expansion = 2}, -- Shroud of Hate
 			{ID = 3, Cost = 6013, Expansion = 4}, -- Summon Corpse
+			{ID = 42647, Cost = 10000, Expansion = 0}, -- Dire Persecution lvl 35
 		},
 		[36] = {
 			{ID = 48, Cost = 43, Expansion = 0}, -- Cancel Magic
@@ -1926,6 +1945,7 @@ autoscribe_db.Spells = {
 		},
 		[40] = {
 			{ID = 90, Cost = 1081, Expansion = 0}, -- Shadow Sight
+			{ID = 42648, Cost = 17683, Expansion = 0}, -- Dire Decree lvl 40
 		},
 		[41] = {
 			{ID = 3686, Cost = 17683, Expansion = 99}, -- Blood of Pain
@@ -1942,6 +1962,7 @@ autoscribe_db.Spells = {
 		[45] = {
 			{ID = 478, Cost = 927, Expansion = 0}, -- Breath of the Dead
 			{ID = 414, Cost = 1976, Expansion = 0}, -- Word of Spirit
+			{ID = 42649, Cost = 20000, Expansion = 0}, -- Dire Conviction lvl 45
 		},
 		[46] = {
 			{ID = 441, Cost = 2928, Expansion = 0}, -- Summon Dead
@@ -1960,6 +1981,7 @@ autoscribe_db.Spells = {
 		[50] = {
 			{ID = 199, Cost = 780, Expansion = 4}, -- Harmshield
 			{ID = 1458, Cost = 28872, Expansion = 99}, -- Shroud of Pain
+			{ID = 42650, Cost = 25000, Expansion = 0}, -- Dire Betrayal lvl 50
 		},
 		[51] = {
 			{ID = 4585, Cost = 3332, Expansion = 0}, -- Resistant Discipline
@@ -1994,6 +2016,7 @@ autoscribe_db.Spells = {
 			{ID = 524, Cost = 1950, Expansion = 0}, -- Spirit Tap
 			{ID = 4520, Cost = 39239, Expansion = 4}, -- Unholy Aura Discipline
 			{ID = 1227, Cost = 42998, Expansion = 4}, -- Voice of Death
+			{ID = 42651, Cost = 42000, Expansion = 0}, -- Dire Reproach lvl 55
 		},
 		[56] = {
 			{ID = 7005, Cost = 11000, Expansion = 0}, -- Ichor Guard
@@ -2027,6 +2050,7 @@ autoscribe_db.Spells = {
 			{ID = 447, Cost = 20881, Expansion = 0}, -- Drain Soul
 			{ID = 4504, Cost = 56818, Expansion = 4}, -- Leechcurse Discipline
 			{ID = 1228, Cost = 59914, Expansion = 9}, -- Voice of Terris
+			{ID = 42652, Cost = 59000, Expansion = 0}, -- Dire Sentence lvl 60
 		},
 		[61] = {
 			{ID = 3406, Cost = 71320, Expansion = 99}, -- Aura of Darkness
@@ -2064,6 +2088,7 @@ autoscribe_db.Spells = {
 			{ID = 4904, Cost = 115765, Expansion = 99}, -- Miasmic Spear
 			{ID = 3413, Cost = 99739, Expansion = 99}, -- Touch of Innoruuk
 			{ID = 3410, Cost = 99941, Expansion = 99}, -- Voice of Thule
+			{ID = 42653, Cost = 99000, Expansion = 0}, -- Dire Subjugation lvl 65
 		},
 		[66] = {
 			{ID = 5320, Cost = 130232, Expansion = 99}, -- Blood of Discord
@@ -2099,6 +2124,7 @@ autoscribe_db.Spells = {
 			{ID = 8483, Cost = 199475, Expansion = 99}, -- Theft of Agony
 			{ID = 5337, Cost = 167783, Expansion = 99}, -- Theft of Hate
 			{ID = 5338, Cost = 165726, Expansion = 99}, -- Touch of the Devourer
+			{ID = 42654, Cost = 270000, Expansion = 0}, -- Dire Edict lvl 70
 		},
 		[71] = {
 			{ID = 10245, Cost = 221016, Expansion = 4}, -- Blacktalon Bite
@@ -2135,6 +2161,7 @@ autoscribe_db.Spells = {
 			{ID = 10227, Cost = 272930, Expansion = 4}, -- Touch of the Wailing Three
 			{ID = 10228, Cost = 100000, Expansion = 99}, -- Touch of the Wailing Three Rk. II
 			{ID = 10229, Cost = 100000, Expansion = 99}, -- Touch of the Wailing Three Rk. III
+			{ID = 42655, Cost = 272000, Expansion = 0}, -- Dire Mandate lvl 75
 		},
 		[76] = {
 			{ID = 15148, Cost = 323597, Expansion = 4}, -- Blackwater Bite
@@ -2174,6 +2201,7 @@ autoscribe_db.Spells = {
 			{ID = 15136, Cost = 386585, Expansion = 4}, -- Touch of the Soulbleeder
 			{ID = 15214, Cost = 388018, Expansion = 99}, -- Umbral Skin
 			{ID = 15215, Cost = 879942, Expansion = 99}, -- Umbral Skin Rk. II
+			{ID = 42656, Cost = 386000, Expansion = 0}, -- Dire Impeachment lvl 80
 		},
 		[81] = {
 			{ID = 19295, Cost = 427582, Expansion = 99}, -- Bond of Laarthik

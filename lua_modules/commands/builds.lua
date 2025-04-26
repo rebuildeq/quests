@@ -4,7 +4,7 @@ local ability_db = require("ability_db")
 ---@param e PlayerEventCommand
 local function builds(e)
 	if #e.args == 0 then
-		e.self:Message(MT.White, "Usage: #builds [debug]")
+		e.self:Message(MT.White, "Usage: #builds [reset, debug]")
 		return
 	end
 
@@ -12,6 +12,11 @@ local function builds(e)
 	local subsubcommand = e.args[2]
 	if subsubcommand == nil then
 		subsubcommand = ""
+	end
+
+	if subcommand == "reset" then
+		builds_pkg.OnBuildResetCommand(e)
+		return
 	end
 
 	if subcommand == "debug" then
@@ -53,11 +58,6 @@ local function builds(e)
 	end
 
 	-- guide flags
-
-	if subcommand == "reset" then
-		builds_pkg.OnBuildResetCommand(e)
-		return
-	end
 
 
 	if subcommand == "inspect" then

@@ -502,11 +502,11 @@ end
 --- Triggered when a player uses the #builds reset command
 ---@param e PlayerEventCommand
 function builds.OnBuildResetCommand(e)
-	local target = e.self:GetTarget()
-	if not target.valid then
-		target = e.self
-	end
-	e.self:Message(MT.White, "TODO")
+
+	local target = e.self
+
+	e.self:ResetAA()
+	e.self:Message(MT.White, "You have reset your AA points.")
 end
 
 
