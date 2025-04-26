@@ -2,8 +2,8 @@ local autoscribe = {}
 
 local autoscribe_db = require("autoscribe_db")
 
-local expansion_name = "Kunark"
-local expansion_number = 1
+local expansion_name = "Planes of Power"
+local expansion_number = 8
 
 ---@param client Client
 ---@param total_cost number
@@ -50,6 +50,10 @@ function autoscribe.ConvienceFee(level)
 	end
 	if level > 100 then
 		fee = fee + 5120000
+	end
+	fee = fee / 50
+	if fee < 1 then
+		fee = 1
 	end
 	return fee
 end
@@ -108,8 +112,16 @@ function autoscribe.OnSay(e)
 	end
 
 	if e.message:findi("explain") then
-		e.self:Say("I calculate the cost by checking the spells you have scribed and comparing them to the spells I can teach you. I then add up the cost of the spells you do not have, with a convienence fee added.")
-		e.self:Say("I can only teach spells up to " ..expansion_name .. " for now.")
+		local fee_amount = autoscribe.ConvienceFee(e.other:GetLevel())
+		if fee_amount < 1000 then
+			fee_amount = 1000
+		end
+
+
+		fee_amount = fee_amount / 1000 -- convert to plat
+
+		e.self:Say("I calculate the cost by checking the spells you have scribed and comparing them to the spells I can teach you. I then add up the cost of the spells you do not have, with a convienence fee of " .. fee_amount .. " platinum.")
+
 		return
 	end
 
