@@ -1497,7 +1497,7 @@ autoscribe_db.Spells = {
 			{ID = 3601, Cost = 4837, Expansion = 4}, -- Harmony of Nature
 		},
 		[40] = {
-			{ID = 3687, Cost = 15964, Expansion = 99}, -- Swarm of Pain
+			{ID = 3687, Cost = 15964, Expansion = 4}, -- Swarm of Pain
 		},
 		[41] = {
 			{ID = 4054, Cost = 5901, Expansion = 0}, -- Spirit of the Shrew
@@ -3393,7 +3393,7 @@ autoscribe_db.Spells = {
 			{ID = 745, Cost = 14683, Expansion = 4}, -- Cassindra's Elegy
 		},
 		[45] = {
-			{ID = 3682, Cost = 24871, Expansion = 99}, -- Aria of Asceticism
+			{ID = 3682, Cost = 24871, Expansion = 4}, -- Aria of Asceticism
 			{ID = 749, Cost = 15995, Expansion = 0}, -- Jonthan's Provocation
 			{ID = 4083, Cost = 26390, Expansion = 0}, -- Rizlona's Embers
 		},
@@ -3421,8 +3421,8 @@ autoscribe_db.Spells = {
 			{ID = 1750, Cost = 28827, Expansion = 4}, -- Selo's Song of Travel
 		},
 		[52] = {
-			{ID = 3681, Cost = 42710, Expansion = 99}, -- Aria of Innocence
-			{ID = 2606, Cost = 36859, Expansion = 99}, -- Battlecry of the Vah Shir
+			{ID = 3681, Cost = 42710, Expansion = 4}, -- Aria of Innocence
+			{ID = 2606, Cost = 36859, Expansion = 4}, -- Battlecry of the Vah Shir
 			{ID = 1752, Cost = 31395, Expansion = 4}, -- Nillipus' March of the Wee
 		},
 		[53] = {
@@ -6046,21 +6046,21 @@ autoscribe_db.Spells = {
 			{ID = 2231, Cost = 1479, Expansion = 4}, -- Summon Silver Choker
 		},
 		[22] = {
-			{ID = 56, Cost = 1091, Expansion = 99}, -- Everfount
+			{ID = 56, Cost = 1091, Expansion = 4}, -- Everfount
 			{ID = 189, Cost = 1079, Expansion = 0}, -- Flame Flux
 			{ID = 110, Cost = 553, Expansion = 0}, -- Malaise
-			{ID = 570, Cost = 1091, Expansion = 99}, -- Summoning: Water
+			{ID = 570, Cost = 1091, Expansion = 4}, -- Summoning: Water
 		},
 		[23] = {
 			{ID = 113, Cost = 1262, Expansion = 0}, -- Shock of Spikes
-			{ID = 571, Cost = 1259, Expansion = 99}, -- Summoning: Fire
+			{ID = 571, Cost = 1259, Expansion = 4}, -- Summoning: Fire
 			{ID = 4256, Cost = 2922, Expansion = 0}, -- Wuggan's Appraisal
 		},
 		[24] = {
 			{ID = 7690, Cost = 776, Expansion = 4}, -- Focus Mass Makeshift Spellcaster's Empowering Essence
 			{ID = 65, Cost = 1267, Expansion = 0}, -- Major Shielding
 			{ID = 615, Cost = 1464, Expansion = 0}, -- Staff of Runes
-			{ID = 572, Cost = 1493, Expansion = 99}, -- Summoning: Air
+			{ID = 572, Cost = 1493, Expansion = 4}, -- Summoning: Air
 			{ID = 4268, Cost = 3355, Expansion = 0}, -- Wuggan's Discombobulation
 			{ID = 4280, Cost = 3360, Expansion = 0}, -- Wuggan's Extrication
 		},
@@ -6087,7 +6087,7 @@ autoscribe_db.Spells = {
 		},
 		[29] = {
 			{ID = 106, Cost = 2940, Expansion = 0}, -- Burnout II
-			{ID = 573, Cost = 2961, Expansion = 99}, -- Greater Summoning: Earth
+			{ID = 573, Cost = 2961, Expansion = 4}, -- Greater Summoning: Earth
 			{ID = 103, Cost = 2901, Expansion = 0}, -- Summon Coldstone
 		},
 		[30] = {
@@ -6099,7 +6099,7 @@ autoscribe_db.Spells = {
 		[31] = {
 			{ID = 120, Cost = 3811, Expansion = 0}, -- Blaze
 			{ID = 621, Cost = 3754, Expansion = 0}, -- Minor Conjuration: Water
-			{ID = 1401, Cost = 4792, Expansion = 99}, -- Summon Shard of the Core
+			{ID = 1401, Cost = 4792, Expansion = 4}, -- Summon Shard of the Core
 		},
 		[32] = {
 			{ID = 66, Cost = 3792, Expansion = 0}, -- Greater Shielding
@@ -6108,7 +6108,7 @@ autoscribe_db.Spells = {
 		},
 		[33] = {
 			{ID = 69, Cost = 4763, Expansion = 0}, -- Cinder Bolt
-			{ID = 623, Cost = 4792, Expansion = 99}, -- Minor Conjuration: Air
+			{ID = 623, Cost = 4792, Expansion = 4}, -- Minor Conjuration: Air
 			{ID = 616, Cost = 4813, Expansion = 0}, -- Staff of Symbols
 			{ID = 4257, Cost = 9128, Expansion = 0}, -- Wuggan's Greater Appraisal
 		},
@@ -6139,7 +6139,7 @@ autoscribe_db.Spells = {
 		},
 		[39] = {
 			{ID = 122, Cost = 9166, Expansion = 0}, -- Flame Arc
-			{ID = 624, Cost = 8972, Expansion = 99}, -- Lesser Conjuration: Earth
+			{ID = 624, Cost = 8972, Expansion = 4}, -- Lesser Conjuration: Earth
 		},
 		[40] = {
 			{ID = 7679, Cost = 1000, Expansion = 4}, -- Focus Modest Spellcaster's Empowering Essence
@@ -6159,14 +6159,14 @@ autoscribe_db.Spells = {
 		[43] = {
 			{ID = 67, Cost = 9999, Expansion = 0}, -- Arch Shielding
 			{ID = 631, Cost = 13416, Expansion = 7}, -- Conjuration: Air
-			{ID = 1403, Cost = 16000, Expansion = 99}, -- Elemental Maelstrom
+			{ID = 1403, Cost = 16000, Expansion = 4}, -- Elemental Maelstrom
 		},
 		[44] = {
 			{ID = 628, Cost = 14832, Expansion = 7}, -- Conjuration: Earth
 			{ID = 7692, Cost = 1000, Expansion = 4}, -- Focus Mass Modest Spellcaster's Empowering Essence
 			{ID = 111, Cost = 4257, Expansion = 0}, -- Malaisement
 			{ID = 1503, Cost = 15969, Expansion = 0}, -- Modulating Rod
-			{ID = 3699, Cost = 22512, Expansion = 99}, -- Primal Remedy
+			{ID = 3699, Cost = 22512, Expansion = 4}, -- Primal Remedy
 			{ID = 4028, Cost = 14495, Expansion = 4}, -- Summon Stone Bracelet
 		},
 		[45] = {
@@ -6178,12 +6178,12 @@ autoscribe_db.Spells = {
 		},
 		[47] = {
 			{ID = 107, Cost = 19236, Expansion = 0}, -- Burnout III
-			{ID = 634, Cost = 19274, Expansion = 99}, -- Greater Conjuration: Fire
+			{ID = 634, Cost = 19274, Expansion = 4}, -- Greater Conjuration: Fire
 			{ID = 70, Cost = 19066, Expansion = 0}, -- Lava Bolt
 		},
 		[48] = {
 			{ID = 116, Cost = 13200, Expansion = 0}, -- Banish Summoned
-			{ID = 635, Cost = 20580, Expansion = 99}, -- Greater Conjuration: Air
+			{ID = 635, Cost = 20580, Expansion = 4}, -- Greater Conjuration: Air
 			{ID = 2535, Cost = 26433, Expansion = 3}, -- Summon Elemental Blanket
 		},
 		[49] = {
@@ -6192,7 +6192,7 @@ autoscribe_db.Spells = {
 		},
 		[50] = {
 			{ID = 7680, Cost = 1000, Expansion = 4}, -- Focus Simple Spellcaster's Empowering Essence
-			{ID = 1402, Cost = 28887, Expansion = 99}, -- Monster Summoning II
+			{ID = 1402, Cost = 28887, Expansion = 4}, -- Monster Summoning II
 			{ID = 2232, Cost = 31118, Expansion = 4}, -- Summon Golden Choker
 		},
 		[51] = {
