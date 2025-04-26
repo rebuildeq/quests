@@ -229,6 +229,10 @@ function vitality.InRestedArea(client)
         return true
     end
 
+    if eq.get_zone_id() == Zone.highkeep then
+        return true
+    end
+
 	if eq.get_zone_id() == Zone.qeynos then
 		return true
 	end
