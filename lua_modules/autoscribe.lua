@@ -66,12 +66,16 @@ function autoscribe.CalculateCosts(e)
 	local last_level = 0
 	--local last_level = tonumber(e.other:GetBucket("autoscribe_last_level")) or 0
 	local class = e.other:GetClass()
+
 	for level = last_level + 1, e.other:GetLevel() do
-		for _, spell in ipairs(autoscribe_db.Spells[class][level]) do
-			if not e.other:HasSpellScribed(spell.ID) and
-				spell.Expansion <= expansion_number then
-				total_cost = total_cost + spell.Cost + autoscribe.ConvienceFee(level)
-				number_of_spells = number_of_spells + 1
+		local spells = autoscribe_db.Spells[class][level]
+		if spells ~= nil then
+			for _, spell in ipairs(spells) do
+				if not e.other:HasSpellScribed(spell.ID) and
+					spell.Expansion <= expansion_number then
+					total_cost = total_cost + spell.Cost + autoscribe.ConvienceFee(level)
+					number_of_spells = number_of_spells + 1
+				end
 			end
 		end
 	end
