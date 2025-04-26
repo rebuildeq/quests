@@ -136,11 +136,14 @@ function autoscribe.OnSay(e)
 		local last_level = 0
 		--local last_level = tonumber(e.other:GetBucket("autoscribe_last_level")) or 0
 		for level = last_level + 1, e.other:GetLevel() do
-			for _, spell in ipairs(autoscribe_db.Spells[player_class][level]) do
-				if not e.other:HasSpellScribed(spell.ID) and
-					spell.Expansion <= expansion_number then
-						spells[#spells + 1] = spell.ID
-						total_cost = total_cost + spell.Cost + autoscribe.ConvienceFee(level)
+			local temp_spells = autoscribe_db.Spells[player_class][level]
+			if temp_spells ~= nil then
+				for _, spell in ipairs(temp_spells) do
+					if not e.other:HasSpellScribed(spell.ID) and
+						spell.Expansion <= expansion_number then
+							spells[#spells + 1] = spell.ID
+							total_cost = total_cost + spell.Cost + autoscribe.ConvienceFee(level)
+					end
 				end
 			end
 		end
@@ -153,6 +156,11 @@ function autoscribe.OnSay(e)
 
 		if not autoscribe.TakeMoney(e.other, total_cost) then
 			e.self:Say("You do not have enough money.")
+			return
+		end
+
+		if #spells == 0 then
+			e.self:Say("You already have all the spells I can teach you.")
 			return
 		end
 
