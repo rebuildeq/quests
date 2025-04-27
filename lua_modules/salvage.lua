@@ -28,6 +28,10 @@ function salvage.OnCombine(e)
             if item_value == nil or item_value < 1 then
                 item_value = 1
             end
+
+            if eq.get_item_stat(item:GetID(), "norent") == 0 then
+                item_value = 1
+            end
             part_value = part_value + item_value * item_quantity
             e.self:Message(MT.Yellow, "Container Slot: " .. e.container_slot .. ", Item Slot: " .. slot_id .. " Price: " .. eq.get_item_stat(item:GetID(), "price") ..  " StackSize: " .. item_quantity .. " Name: " .. item:GetName())
 
