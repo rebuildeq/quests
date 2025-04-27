@@ -6187,7 +6187,7 @@ autoscribe_db.Spells = {
 			{ID = 2535, Cost = 26433, Expansion = 3}, -- Summon Elemental Blanket
 		},
 		[49] = {
-			{ID = 633, Cost = 22836, Expansion = 99}, -- Greater Conjuration: Water
+			{ID = 633, Cost = 22836, Expansion = 0}, -- Greater Conjuration: Water
 			{ID = 410, Cost = 22914, Expansion = 0}, -- Rain of Swords
 		},
 		[50] = {
@@ -6196,27 +6196,27 @@ autoscribe_db.Spells = {
 			{ID = 2232, Cost = 31118, Expansion = 4}, -- Summon Golden Choker
 		},
 		[51] = {
-			{ID = 1680, Cost = 28605, Expansion = 99}, -- Gift of Xev
+			{ID = 1680, Cost = 28605, Expansion = 0}, -- Gift of Xev
 			{ID = 112, Cost = 20764, Expansion = 0}, -- Malosi
 			{ID = 1659, Cost = 28608, Expansion = 99}, -- Scintillation
 			{ID = 2235, Cost = 34258, Expansion = 4}, -- Summon Silken Mantle
 			{ID = 1671, Cost = 29014, Expansion = 1}, -- Vocarate: Earth
 		},
 		[52] = {
-			{ID = 1681, Cost = 31554, Expansion = 99}, -- Bristlebane's Bundle
+			{ID = 1681, Cost = 31554, Expansion = 0}, -- Bristlebane's Bundle
 			{ID = 1660, Cost = 31015, Expansion = 1}, -- Char
-			{ID = 3700, Cost = 42228, Expansion = 99}, -- Elemental Empathy
+			{ID = 3700, Cost = 42228, Expansion = 0}, -- Elemental Empathy
 			{ID = 1666, Cost = 31175, Expansion = 1}, -- Phantom Armor
 			{ID = 2244, Cost = 36983, Expansion = 4}, -- Summon Brilliant Bauble
-			{ID = 2536, Cost = 37028, Expansion = 99}, -- Transon's Elemental Infusion
-			{ID = 1673, Cost = 31286, Expansion = 99}, -- Vocarate: Fire
+			{ID = 2536, Cost = 37028, Expansion = 0}, -- Transon's Elemental Infusion
+			{ID = 1673, Cost = 31286, Expansion = 0}, -- Vocarate: Fire
 		},
 		[53] = {
 			{ID = 1526, Cost = 33468, Expansion = 1}, -- Annul Magic
-			{ID = 1668, Cost = 33550, Expansion = 99}, -- Boon of Immolation
-			{ID = 1682, Cost = 33456, Expansion = 99}, -- Quiver of Marr
+			{ID = 1668, Cost = 33550, Expansion = 0}, -- Boon of Immolation
+			{ID = 1682, Cost = 33456, Expansion = 0}, -- Quiver of Marr
 			{ID = 2241, Cost = 39283, Expansion = 4}, -- Summon Studded Ring
-			{ID = 1674, Cost = 33436, Expansion = 99}, -- Vocarate: Air
+			{ID = 1674, Cost = 33436, Expansion = 0}, -- Vocarate: Air
 		},
 		[54] = {
 			{ID = 1683, Cost = 36885, Expansion = 99}, -- Bandoleer of Luclin
