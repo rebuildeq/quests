@@ -503,9 +503,17 @@ end
 ---@param e PlayerEventCommand
 function builds.OnBuildResetCommand(e)
 
-	local target = e.self
-
+	--e.self:Message(MT.White, "exp: " .. e.self:GetAA(4500))
 	e.self:ResetAA()
+	e.self:SetAAPoints(e.self:GetLevel())
+	if e.self:IsTaskActive(1) then
+		e.self:GrantAlternateAdvancementAbility(2001, 1, true)
+	end
+	if e.self:IsTaskCompleted(1) then
+		e.self:GrantAlternateAdvancementAbility(2001, 2, true)
+	end
+	e.self:SyncAA()
+
 	e.self:Message(MT.White, "You have reset your AA points.")
 end
 

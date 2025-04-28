@@ -6,7 +6,7 @@ local consider = require("consider")
 local salvage = require("salvage")
 local vitality = require("vitality")
 local claim = require("claim")
-
+local unlock = require("unlock")
 
 ---@param e PlayerEventConsider
 function event_consider(e)
@@ -482,6 +482,8 @@ function event_test_buff(e)
     end
 end
 
+---@param e PlayerEventTaskComplete
 function event_task_complete(e)
-  don.on_task_complete(e.self, e.task_id)
+	don.on_task_complete(e.self, e.task_id)
+	unlock.OnTaskComplete(e)
 end
