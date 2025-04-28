@@ -3976,12 +3976,12 @@ autoscribe_db.Spells = {
 		},
 		[16] = {
 			{ID = 308, Cost = 375, Expansion = 0}, -- Frenzy
-			{ID = 2522, Cost = 650, Expansion = 3}, -- Grow
+			{ID = 2522, Cost = 650, Expansion = 0}, -- Grow
 			{ID = 3583, Cost = 373, Expansion = 0}, -- Tiny Companion
 		},
 		[17] = {
 			{ID = 526, Cost = 455, Expansion = 0}, -- Insidious Fever
-			{ID = 580, Cost = 451, Expansion = 1}, -- Vision
+			{ID = 580, Cost = 451, Expansion = 0}, -- Vision
 		},
 		[18] = {
 			{ID = 110, Cost = 553, Expansion = 0}, -- Malaise
@@ -4029,7 +4029,7 @@ autoscribe_db.Spells = {
 		[26] = {
 			{ID = 95, Cost = 1100, Expansion = 0}, -- Counteract Poison
 			{ID = 39, Cost = 300, Expansion = 0}, -- Quickness
-			{ID = 46, Cost = 1951, Expansion = 1}, -- Ultravision
+			{ID = 46, Cost = 1951, Expansion = 0}, -- Ultravision
 		},
 		[27] = {
 			{ID = 42, Cost = 24, Expansion = 0}, -- Invisibility
@@ -4042,11 +4042,11 @@ autoscribe_db.Spells = {
 		},
 		[29] = {
 			{ID = 15, Cost = 783, Expansion = 0}, -- Greater Healing
-			{ID = 1885, Cost = 2972, Expansion = 1}, -- Imbue Amber
-			{ID = 1895, Cost = 2933, Expansion = 4}, -- Imbue Diamond
-			{ID = 1884, Cost = 2910, Expansion = 4}, -- Imbue Ivory
-			{ID = 1891, Cost = 2937, Expansion = 4}, -- Imbue Jade
-			{ID = 1886, Cost = 2981, Expansion = 4}, -- Imbue Sapphire
+			{ID = 1885, Cost = 2972, Expansion = 0}, -- Imbue Amber
+			{ID = 1895, Cost = 2933, Expansion = 0}, -- Imbue Diamond
+			{ID = 1884, Cost = 2910, Expansion = 0}, -- Imbue Ivory
+			{ID = 1891, Cost = 2937, Expansion = 0}, -- Imbue Jade
+			{ID = 1886, Cost = 2981, Expansion = 0}, -- Imbue Sapphire
 			{ID = 162, Cost = 1689, Expansion = 0}, -- Listless Power
 			{ID = 3994, Cost = 2936, Expansion = 0}, -- Mass Imbue Amber
 			{ID = 3997, Cost = 2970, Expansion = 4}, -- Mass Imbue Diamond
@@ -4081,11 +4081,11 @@ autoscribe_db.Spells = {
 			{ID = 4055, Cost = 36826, Expansion = 0}, -- Pack Shrew
 			{ID = 4287, Cost = 9981, Expansion = 0}, -- Reebo's Greater Cleansing
 			{ID = 4275, Cost = 9036, Expansion = 0}, -- Reebo's Greater Exorcism
-			{ID = 1427, Cost = 6654, Expansion = 2}, -- Shock of the Tainted
+			{ID = 1427, Cost = 6654, Expansion = 0}, -- Shock of the Tainted
 		},
 		[35] = {
 			{ID = 62, Cost = 3332, Expansion = 0}, -- Resist Poison
-			{ID = 1428, Cost = 7316, Expansion = 99}, -- Tumultuous Strength
+			{ID = 1428, Cost = 7316, Expansion = 0}, -- Tumultuous Strength
 		},
 		[36] = {
 			{ID = 384, Cost = 6641, Expansion = 0}, -- Assiduous Vision
@@ -4110,7 +4110,7 @@ autoscribe_db.Spells = {
 			{ID = 153, Cost = 9127, Expansion = 0}, -- Furious Strength
 		},
 		[40] = {
-			{ID = 1285, Cost = 3719, Expansion = 4}, -- Summon Companion
+			{ID = 1285, Cost = 3719, Expansion = 0}, -- Summon Companion
 			{ID = 168, Cost = 10090, Expansion = 0}, -- Talisman of Altuna
 		},
 		[41] = {
@@ -4120,7 +4120,7 @@ autoscribe_db.Spells = {
 		},
 		[42] = {
 			{ID = 170, Cost = 930, Expansion = 0}, -- Alacrity
-			{ID = 1429, Cost = 14637, Expansion = 99}, -- Blast of Poison
+			{ID = 1429, Cost = 14637, Expansion = 0}, -- Blast of Poison
 			{ID = 389, Cost = 12043, Expansion = 0}, -- Guardian
 		},
 		[43] = {
@@ -4131,7 +4131,7 @@ autoscribe_db.Spells = {
 		[44] = {
 			{ID = 510, Cost = 14559, Expansion = 0}, -- Blizzard Blast
 			{ID = 49, Cost = 4197, Expansion = 0}, -- Nullify Magic
-			{ID = 3694, Cost = 22667, Expansion = 99}, -- Stoicism
+			{ID = 3694, Cost = 22667, Expansion = 0}, -- Stoicism
 		},
 		[45] = {
 			{ID = 166, Cost = 15799, Expansion = 0}, -- Frenzied Spirit
@@ -4143,7 +4143,7 @@ autoscribe_db.Spells = {
 		},
 		[47] = {
 			{ID = 156, Cost = 19192, Expansion = 0}, -- Charisma
-			{ID = 3573, Cost = 26805, Expansion = 4}, -- Shock of Venom
+			{ID = 3573, Cost = 26805, Expansion = 0}, -- Shock of Venom
 		},
 		[48] = {
 			{ID = 98, Cost = 20869, Expansion = 0}, -- Abolish Disease
@@ -4152,18 +4152,18 @@ autoscribe_db.Spells = {
 		},
 		[49] = {
 			{ID = 436, Cost = 22534, Expansion = 0}, -- Envenomed Bolt
-			{ID = 3454, Cost = 31144, Expansion = 4}, -- Infusion of Spirit
+			{ID = 3454, Cost = 31144, Expansion = 0}, -- Infusion of Spirit
 			{ID = 32, Cost = 22801, Expansion = 0}, -- Plague
 		},
 		[50] = {
-			{ID = 6906, Cost = 48639, Expansion = 4}, -- Spirit of the Puma
-			{ID = 1430, Cost = 29158, Expansion = 99}, -- Spirit Quickening
+			{ID = 6906, Cost = 48639, Expansion = 0}, -- Spirit of the Puma
+			{ID = 1430, Cost = 29158, Expansion = 0}, -- Spirit Quickening
 			{ID = 1570, Cost = 26639, Expansion = 4}, -- Talisman of Jasinth
 		},
 		[51] = {
-			{ID = 2881, Cost = 30946, Expansion = 4}, -- Everlasting Breath
+			{ID = 2881, Cost = 30946, Expansion = 0}, -- Everlasting Breath
 			{ID = 132, Cost = 9141, Expansion = 0}, -- Immobilize
-			{ID = 2894, Cost = 31257, Expansion = 4}, -- Levitation
+			{ID = 2894, Cost = 31257, Expansion = 0}, -- Levitation
 			{ID = 9, Cost = 3346, Expansion = 0}, -- Superior Healing
 			{ID = 1588, Cost = 28637, Expansion = 0}, -- Turgur's Insects
 		},
@@ -4184,10 +4184,10 @@ autoscribe_db.Spells = {
 		[54] = {
 			{ID = 4094, Cost = 52266, Expansion = 0}, -- Anathema
 			{ID = 3574, Cost = 45875, Expansion = 4}, -- Blast of Venom
-			{ID = 1572, Cost = 36070, Expansion = 99}, -- Cannibalize III
+			{ID = 1572, Cost = 36070, Expansion = 0}, -- Cannibalize III
 			{ID = 21400, Cost = 311127, Expansion = 4}, -- Eradicate Curse
 			{ID = 1586, Cost = 36953, Expansion = 0}, -- Ice Strike
-			{ID = 2527, Cost = 42556, Expansion = 99}, -- Plague of Insects
+			{ID = 2527, Cost = 42556, Expansion = 0}, -- Plague of Insects
 			{ID = 2880, Cost = 0, Expansion = 0}, -- Remove Greater Curse
 			{ID = 1595, Cost = 36698, Expansion = 0}, -- Riotous Health
 			{ID = 1584, Cost = 36537, Expansion = 99}, -- Shroud of the Spirits
@@ -6071,7 +6071,7 @@ autoscribe_db.Spells = {
 			{ID = 569, Cost = 1711, Expansion = 0}, -- Summoning: Earth
 		},
 		[26] = {
-			{ID = 574, Cost = 1956, Expansion = 99}, -- Greater Summoning: Water
+			{ID = 574, Cost = 1956, Expansion = 0}, -- Greater Summoning: Water
 			{ID = 409, Cost = 1945, Expansion = 0}, -- Rain of Spikes
 			{ID = 617, Cost = 1966, Expansion = 0}, -- Sword of Runes
 		},
@@ -6103,7 +6103,7 @@ autoscribe_db.Spells = {
 		},
 		[32] = {
 			{ID = 66, Cost = 3792, Expansion = 0}, -- Greater Shielding
-			{ID = 622, Cost = 4304, Expansion = 99}, -- Minor Conjuration: Fire
+			{ID = 622, Cost = 4304, Expansion = 0}, -- Minor Conjuration: Fire
 			{ID = 49, Cost = 4197, Expansion = 0}, -- Nullify Magic
 		},
 		[33] = {
@@ -6198,7 +6198,7 @@ autoscribe_db.Spells = {
 		[51] = {
 			{ID = 1680, Cost = 28605, Expansion = 0}, -- Gift of Xev
 			{ID = 112, Cost = 20764, Expansion = 0}, -- Malosi
-			{ID = 1659, Cost = 28608, Expansion = 99}, -- Scintillation
+			{ID = 1659, Cost = 28608, Expansion = 0}, -- Scintillation
 			{ID = 2235, Cost = 34258, Expansion = 4}, -- Summon Silken Mantle
 			{ID = 1671, Cost = 29014, Expansion = 1}, -- Vocarate: Earth
 		},
@@ -6219,28 +6219,28 @@ autoscribe_db.Spells = {
 			{ID = 1674, Cost = 33436, Expansion = 0}, -- Vocarate: Air
 		},
 		[54] = {
-			{ID = 1683, Cost = 36885, Expansion = 99}, -- Bandoleer of Luclin
+			{ID = 1683, Cost = 36885, Expansion = 0}, -- Bandoleer of Luclin
 			{ID = 3582, Cost = 45417, Expansion = 0}, -- Elemental Cloak
 			{ID = 5133, Cost = 46292, Expansion = 4}, -- Elemental Draw
 			{ID = 7693, Cost = 1000, Expansion = 4}, -- Focus Mass Simple Spellcaster's Empowering Essence
 			{ID = 4011, Cost = 42015, Expansion = 4}, -- Kindle
-			{ID = 2879, Cost = 42550, Expansion = 99}, -- Phantasmal Armor
-			{ID = 1661, Cost = 36274, Expansion = 99}, -- Scars of Sigil
+			{ID = 2879, Cost = 42550, Expansion = 0}, -- Phantasmal Armor
+			{ID = 1661, Cost = 36274, Expansion = 0}, -- Scars of Sigil
 			{ID = 1610, Cost = 36574, Expansion = 1}, -- Shield of the Magi
 			{ID = 4029, Cost = 36431, Expansion = 4}, -- Summon Iron Bracelet
 			{ID = 2238, Cost = 42810, Expansion = 4}, -- Summon Ruby Bracelet
-			{ID = 2537, Cost = 42649, Expansion = 99}, -- Veil of Elements
-			{ID = 1672, Cost = 36414, Expansion = 99}, -- Vocarate: Water
+			{ID = 2537, Cost = 42649, Expansion = 0}, -- Veil of Elements
+			{ID = 1672, Cost = 36414, Expansion = 0}, -- Vocarate: Water
 		},
 		[55] = {
-			{ID = 1472, Cost = 42202, Expansion = 99}, -- Burnout IV
-			{ID = 1771, Cost = 39706, Expansion = 99}, -- Call of the Hero
-			{ID = 8933, Cost = 80155, Expansion = 99}, -- Earthen Strength
+			{ID = 1472, Cost = 42202, Expansion = 0}, -- Burnout IV
+			{ID = 1771, Cost = 39706, Expansion = 0}, -- Call of the Hero
+			{ID = 8933, Cost = 80155, Expansion = 0}, -- Earthen Strength
 			{ID = 7681, Cost = 1000, Expansion = 4}, -- Focus Spellcaster's Empowering Essence
-			{ID = 1684, Cost = 39705, Expansion = 99}, -- Pouch of Quellious
-			{ID = 1770, Cost = 39212, Expansion = 99}, -- Rage of Zomm
+			{ID = 1684, Cost = 39705, Expansion = 0}, -- Pouch of Quellious
+			{ID = 1770, Cost = 39212, Expansion = 0}, -- Rage of Zomm
 			{ID = 1662, Cost = 39260, Expansion = 1}, -- Sirocco
-			{ID = 1405, Cost = 43008, Expansion = 99}, -- Wrath of the Elements
+			{ID = 1405, Cost = 43008, Expansion = 0}, -- Wrath of the Elements
 		},
 		[56] = {
 			{ID = 1667, Cost = 42365, Expansion = 1}, -- Cadeau of Flame
@@ -6256,16 +6256,16 @@ autoscribe_db.Spells = {
 			{ID = 1663, Cost = 45796, Expansion = 1}, -- Shock of Steel
 		},
 		[58] = {
-			{ID = 1677, Cost = 49544, Expansion = 99}, -- Greater Vocaration: Fire
+			{ID = 1677, Cost = 49544, Expansion = 0}, -- Greater Vocaration: Fire
 			{ID = 4080, Cost = 70319, Expansion = 0}, -- Guard of Calliav
 			{ID = 1577, Cost = 45718, Expansion = 1}, -- Malosini
 			{ID = 4100, Cost = 69702, Expansion = 0}, -- Reflect
-			{ID = 2539, Cost = 57151, Expansion = 99}, -- Transon's Phantasmal Protection
-			{ID = 1670, Cost = 48755, Expansion = 99}, -- Velocity
+			{ID = 2539, Cost = 57151, Expansion = 0}, -- Transon's Phantasmal Protection
+			{ID = 1670, Cost = 48755, Expansion = 0}, -- Velocity
 		},
 		[59] = {
 			{ID = 7694, Cost = 1000, Expansion = 4}, -- Focus Mass Spellcaster's Empowering Essence
-			{ID = 1678, Cost = 53440, Expansion = 99}, -- Greater Vocaration: Air
+			{ID = 1678, Cost = 53440, Expansion = 0}, -- Greater Vocaration: Air
 			{ID = 1665, Cost = 53049, Expansion = 9}, -- Manastorm
 			{ID = 1664, Cost = 52955, Expansion = 1}, -- Seeking Flame of Seukor
 			{ID = 1284, Cost = 55842, Expansion = 4}, -- Valiant Companion
