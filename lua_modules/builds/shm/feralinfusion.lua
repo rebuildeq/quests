@@ -11,9 +11,6 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 		return e
 	end
 
-	if e.value <= 0 then
-		return e
-	end
 	-- All melee attacks gain a 300 mod proc that deals (level * 1.5 * 0.2) magic damage and restores <em data-base='2'>2</em> mana from the target<span class='perLevel'> per rank</span>.",
 
 	-- Only proc off of regular attacks (1hs, 1hb, piercing, etc)
@@ -21,9 +18,6 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	if melee_skills[e.skill_used] == nil then
 		return e
 	end
-
-
-
 
 	if not rb.IsProcSuccess(attacker, 75, Slot.Primary) then
 		return e
@@ -34,7 +28,7 @@ function skill.CommonDamage(e, origin, attacker, defender, rank)
 	local mana_gain = 2 * rank
 	attacker:SetMana(attacker:GetMana() + mana_gain)
 
-	rb.Debug(origin, string.format("Spiritual Renewal dealt %d points of damage to %s and restored %d mana.", damage, defender:GetCleanName(), damage / 2))
+	rb.Debug(origin, string.format("Feral Infusion dealt %d points of damage to %s and restored %d mana.", damage, defender:GetCleanName(), mana_gain))
 	return e
 end
 

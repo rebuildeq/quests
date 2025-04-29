@@ -43,7 +43,7 @@ function rb.IsProcSuccess(self, mod, hand)
 		proc_chance = RuleR.Get(Rule['BaseProcChance']) + (dex / RuleR.Get(Rule['ProcDexDivideBy']))
 	end
 
-	eq.debug(string.format("Proc chance: %f", proc_chance))
+	-- eq.debug(string.format("Proc chance: %f", proc_chance))
 
 	if hand == Slot.Secondary then
 		proc_chance = proc_chance / 2
@@ -53,7 +53,7 @@ function rb.IsProcSuccess(self, mod, hand)
 
 	local roll = math.random(100)
 
-	eq.debug(string.format("Proc roll: %d vs chance: %d", roll, chance))
+	-- eq.debug(string.format("Proc roll: %d vs chance: %d", roll, chance))
 
 	if roll > chance then
 		return false
