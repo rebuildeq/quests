@@ -7,6 +7,7 @@ activity_db.Records = {
 			Hail = "Activity 1 Hail Message [start]",
 			Keyword = "start",
 			Request = "Insert activity directions on how to do activity",
+			QuestType = 0, -- 0 = click quest
 			QuestItemID = 12345,
 			ObjectiveModelType = 0, -- 0 = #race, 1 = weapontype?
 			ObjectiveModel = "stu",
