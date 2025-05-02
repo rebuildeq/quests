@@ -27,6 +27,7 @@ local skills = {
 		-- zevfeersfeast = { ID = 8},
 	},
 	dru = {
+		verdantruin = { ID = 237 },
 		-- verdantrenewal = { ID = 0 },
 		-- onewithnature = { ID = 2 },
 	},
