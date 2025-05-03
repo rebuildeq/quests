@@ -36,9 +36,7 @@ function skill.SpellEffect(e, origin, attacker, defender, rank)
 						found_spells[spell_id] = spell:Mana()
 						break
 					end
-					--eq.debug(tostring(i))
 				end
-				--found_spells[spell_id] = spell:Mana()
 			end
 		end
 	end
