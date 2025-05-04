@@ -29,6 +29,7 @@ local skills = {
 	dru = {
 		verdantruin = { ID = 237 },
 		naturesjudgment = { ID = 240 },
+		branchinglife = { ID = 253 },
 		-- verdantrenewal = { ID = 0 },
 		-- onewithnature = { ID = 2 },
 	},
@@ -186,7 +187,7 @@ function builds.OnModHealDamage(e)
 				end
 			end
 		end
-		if defender:IsClient() and className == defender:GetClassShortName() then
+		if defender:IsClient() and className == defender:GetClassShortName() and defender:GetID() ~= attacker:GetID() then
 			origin = defender
 			for skillName, skill in pairs(skillEntry) do
 				local rank = builds.Rank(origin, skill.ID)
