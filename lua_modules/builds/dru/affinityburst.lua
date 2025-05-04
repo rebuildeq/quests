@@ -12,7 +12,7 @@ function skill.SpellEffect(e, origin, attacker, defender, rank)
 		return true
 	end
 
-	if e.spell_id ~= 42844 then -- affinity burst spellid
+	if e.spell_id ~= 99999 then -- affinity burst spellid
 		return true
 	end
 
@@ -25,7 +25,6 @@ function skill.SpellEffect(e, origin, attacker, defender, rank)
 
 	local spells = attacker:CastToClient():GetMemmedSpells()
 	if spells ~= nil then
-		local found_spells = {}
 		for _, spell_id in pairs(spells) do
 			local spell = eq.get_spell(spell_id)
 			if spell ~= nil and eq.is_detrimental_spell(spell_id) then

@@ -28,7 +28,7 @@ local skills = {
 	},
 	dru = {
 		verdantruin = { ID = 237 },
-		affinityburst = { ID = 240 },
+		naturesjudgment = { ID = 240 },
 		-- verdantrenewal = { ID = 0 },
 		-- onewithnature = { ID = 2 },
 	},
