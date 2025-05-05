@@ -4159,6 +4159,7 @@ autoscribe_db.Spells = {
 			{ID = 6906, Cost = 48639, Expansion = 0}, -- Spirit of the Puma
 			{ID = 1430, Cost = 29158, Expansion = 0}, -- Spirit Quickening
 			{ID = 1570, Cost = 26639, Expansion = 4}, -- Talisman of Jasinth
+			{ID = 6877, Cost = 12297, Expansion = 1}, -- Kragg's Salve
 		},
 		[51] = {
 			{ID = 2881, Cost = 30946, Expansion = 0}, -- Everlasting Breath
