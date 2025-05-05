@@ -1823,7 +1823,6 @@ autoscribe_db.Spells = {
 		[2] = {
 			{ID = 221, Cost = 20, Expansion = 0}, -- Sense the Dead
 			{ID = 42640, Cost = 20, Expansion = 0}, -- Dire Slander lvl 2
-			{ID = 221, Cost = 20, Expansion = 0}, -- Sense the Dead lvl 2
 		},
 		[3] = {
 			{ID = 342, Cost = 20, Expansion = 0}, -- Locate Corpse
