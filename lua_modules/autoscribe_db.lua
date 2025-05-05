@@ -200,6 +200,7 @@ autoscribe_db.Spells = {
 			{ID = 560, Cost = 28, Expansion = 0}, -- Furor
 			{ID = 36, Cost = 24, Expansion = 0}, -- Gate
 			{ID = 501, Cost = 28, Expansion = 0}, -- Soothe
+			{ID = 42605, Cost = 20, Expansion = 0}, -- Rekindle
 		},
 		[6] = {
 			{ID = 227, Cost = 34, Expansion = 0}, -- Endure Poison
@@ -224,6 +225,7 @@ autoscribe_db.Spells = {
 			{ID = 35, Cost = 93, Expansion = 0}, -- Bind Affinity
 			{ID = 12, Cost = 92, Expansion = 0}, -- Healing
 			{ID = 4258, Cost = 374, Expansion = 0}, -- Iony's Lesser Augury
+			{ID = 42606, Cost = 200, Expansion = 0}, -- Requiescence
 		},
 		[11] = {
 			{ID = 226, Cost = 55, Expansion = 0}, -- Endure Disease
@@ -340,6 +342,7 @@ autoscribe_db.Spells = {
 			{ID = 62, Cost = 3332, Expansion = 0}, -- Resist Poison
 			{ID = 9, Cost = 3346, Expansion = 0}, -- Superior Healing
 			{ID = 135, Cost = 3301, Expansion = 0}, -- Word of Health
+			{ID = 42607, Cost = 1200, Expansion = 0}, -- Renaissance
 		},
 		[31] = {
 			{ID = 124, Cost = 3810, Expansion = 0}, -- Force
