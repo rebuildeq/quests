@@ -2366,7 +2366,7 @@ autoscribe_db.Spells = {
 		},
 		[11] = {
 			{ID = 234, Cost = 71, Expansion = 0}, -- Halo of Light
-			{ID = 4261, Cost = 447, Expansion = 0}, -- Reebo's Lesser Augury
+			{ID = 4261, Cost = 447, Expansion = 99}, -- Reebo's Lesser Augury
 			{ID = 50, Cost = 20, Expansion = 0}, -- Summon Food
 		},
 		[12] = {
@@ -2380,8 +2380,8 @@ autoscribe_db.Spells = {
 		},
 		[14] = {
 			{ID = 261, Cost = 92, Expansion = 0}, -- Levitate
-			{ID = 4285, Cost = 782, Expansion = 0}, -- Reebo's Lesser Cleansing
-			{ID = 4273, Cost = 663, Expansion = 0}, -- Reebo's Lesser Exorcism
+			{ID = 4285, Cost = 782, Expansion = 99}, -- Reebo's Lesser Cleansing
+			{ID = 4273, Cost = 663, Expansion = 99}, -- Reebo's Lesser Exorcism
 			{ID = 263, Cost = 245, Expansion = 0}, -- Skin like Rock
 		},
 		[15] = {
@@ -2427,7 +2427,7 @@ autoscribe_db.Spells = {
 		},
 		[21] = {
 			{ID = 76, Cost = 937, Expansion = 0}, -- Ensnaring Roots
-			{ID = 4262, Cost = 2260, Expansion = 0}, -- Reebo's Augury
+			{ID = 4262, Cost = 2260, Expansion = 99}, -- Reebo's Augury
 			{ID = 537, Cost = 918, Expansion = 4}, -- Ring of Steamfont
 			{ID = 220, Cost = 926, Expansion = 0}, -- Spirit of Cheetah
 			{ID = 405, Cost = 920, Expansion = 0}, -- Tremor
@@ -2446,8 +2446,8 @@ autoscribe_db.Spells = {
 		},
 		[24] = {
 			{ID = 99, Cost = 1466, Expansion = 3}, -- Creeping Crud
-			{ID = 4286, Cost = 3342, Expansion = 0}, -- Reebo's Cleansing
-			{ID = 4274, Cost = 2916, Expansion = 0}, -- Reebo's Exorcism
+			{ID = 4286, Cost = 3342, Expansion = 99}, -- Reebo's Cleansing
+			{ID = 4274, Cost = 2916, Expansion = 99}, -- Reebo's Exorcism
 			{ID = 1326, Cost = 1460, Expansion = 4}, -- Ring of the Combines
 			{ID = 421, Cost = 1482, Expansion = 0}, -- Skin like Steel
 		},
@@ -2500,7 +2500,7 @@ autoscribe_db.Spells = {
 			{ID = 557, Cost = 3754, Expansion = 4}, -- Circle of Steamfont
 			{ID = 406, Cost = 3754, Expansion = 0}, -- Earthquake
 			{ID = 418, Cost = 3718, Expansion = 4}, -- Lightning Strike
-			{ID = 4263, Cost = 7371, Expansion = 0}, -- Reebo's Greater Augury
+			{ID = 4263, Cost = 7371, Expansion = 99}, -- Reebo's Greater Augury
 			{ID = 1433, Cost = 4812, Expansion = 0}, -- Ring of Iceclad
 		},
 		[32] = {
@@ -2522,8 +2522,8 @@ autoscribe_db.Spells = {
 		},
 		[34] = {
 			{ID = 228, Cost = 373, Expansion = 0}, -- Endure Magic
-			{ID = 4287, Cost = 9981, Expansion = 0}, -- Reebo's Greater Cleansing
-			{ID = 4275, Cost = 9036, Expansion = 0}, -- Reebo's Greater Exorcism
+			{ID = 4287, Cost = 9981, Expansion = 99}, -- Reebo's Greater Cleansing
+			{ID = 4275, Cost = 9036, Expansion = 99}, -- Reebo's Greater Exorcism
 			{ID = 144, Cost = 1265, Expansion = 0}, -- Regeneration
 			{ID = 429, Cost = 5321, Expansion = 4}, -- Strength of Stone
 			{ID = 25899, Cost = 5356, Expansion = 99}, -- Zephyr: Karana
@@ -3963,13 +3963,13 @@ autoscribe_db.Spells = {
 			{ID = 230, Cost = 22, Expansion = 0}, -- Root
 		},
 		[13] = {
-			{ID = 4261, Cost = 447, Expansion = 0}, -- Reebo's Lesser Augury
+			{ID = 4261, Cost = 447, Expansion = 99}, -- Reebo's Lesser Augury
 			{ID = 505, Cost = 194, Expansion = 0}, -- Walking Sleep
 		},
 		[14] = {
 			{ID = 35, Cost = 93, Expansion = 0}, -- Bind Affinity
-			{ID = 4285, Cost = 782, Expansion = 0}, -- Reebo's Lesser Cleansing
-			{ID = 4273, Cost = 663, Expansion = 0}, -- Reebo's Lesser Exorcism
+			{ID = 4285, Cost = 782, Expansion = 99}, -- Reebo's Lesser Cleansing
+			{ID = 4273, Cost = 663, Expansion = 99}, -- Reebo's Lesser Exorcism
 			{ID = 282, Cost = 243, Expansion = 0}, -- Spirit Strike
 		},
 		[15] = {
@@ -4013,13 +4013,13 @@ autoscribe_db.Spells = {
 		[23] = {
 			{ID = 265, Cost = 1288, Expansion = 0}, -- Cannibalize
 			{ID = 508, Cost = 1269, Expansion = 0}, -- Frost Strike
-			{ID = 4262, Cost = 2260, Expansion = 0}, -- Reebo's Augury
+			{ID = 4262, Cost = 2260, Expansion = 99}, -- Reebo's Augury
 			{ID = 144, Cost = 1265, Expansion = 0}, -- Regeneration
 		},
 		[24] = {
 			{ID = 434, Cost = 1488, Expansion = 0}, -- Envenomed Breath
-			{ID = 4286, Cost = 3342, Expansion = 0}, -- Reebo's Cleansing
-			{ID = 4274, Cost = 2916, Expansion = 0}, -- Reebo's Exorcism
+			{ID = 4286, Cost = 3342, Expansion = 99}, -- Reebo's Cleansing
+			{ID = 4274, Cost = 2916, Expansion = 99}, -- Reebo's Exorcism
 			{ID = 4057, Cost = 10031, Expansion = 0}, -- Remove Lesser Curse
 			{ID = 61, Cost = 1483, Expansion = 0}, -- Resist Cold
 		},
@@ -4075,14 +4075,14 @@ autoscribe_db.Spells = {
 		},
 		[33] = {
 			{ID = 131, Cost = 457, Expansion = 0}, -- Instill
-			{ID = 4263, Cost = 7371, Expansion = 0}, -- Reebo's Greater Augury
+			{ID = 4263, Cost = 7371, Expansion = 99}, -- Reebo's Greater Augury
 			{ID = 509, Cost = 4803, Expansion = 0}, -- Winter's Roar
 		},
 		[34] = {
 			{ID = 4092, Cost = 9915, Expansion = 0}, -- Curse
 			{ID = 4055, Cost = 36826, Expansion = 0}, -- Pack Shrew
-			{ID = 4287, Cost = 9981, Expansion = 0}, -- Reebo's Greater Cleansing
-			{ID = 4275, Cost = 9036, Expansion = 0}, -- Reebo's Greater Exorcism
+			{ID = 4287, Cost = 9981, Expansion = 99}, -- Reebo's Greater Cleansing
+			{ID = 4275, Cost = 9036, Expansion = 99}, -- Reebo's Greater Exorcism
 			{ID = 1427, Cost = 6654, Expansion = 0}, -- Shock of the Tainted
 		},
 		[35] = {
@@ -4628,12 +4628,12 @@ autoscribe_db.Spells = {
 		[13] = {
 			{ID = 213, Cost = 20, Expansion = 0}, -- Cure Disease
 			{ID = 367, Cost = 192, Expansion = 0}, -- Heart Flutter
-			{ID = 4273, Cost = 663, Expansion = 0}, -- Reebo's Lesser Exorcism
+			{ID = 4273, Cost = 663, Expansion = 99}, -- Reebo's Lesser Exorcism
 			{ID = 4255, Cost = 658, Expansion = 0}, -- Wuggan's Lesser Appraisal
 		},
 		[14] = {
-			{ID = 4261, Cost = 447, Expansion = 0}, -- Reebo's Lesser Augury
-			{ID = 4285, Cost = 782, Expansion = 0}, -- Reebo's Lesser Cleansing
+			{ID = 4261, Cost = 447, Expansion = 99}, -- Reebo's Lesser Augury
+			{ID = 4285, Cost = 782, Expansion = 99}, -- Reebo's Lesser Cleansing
 			{ID = 236, Cost = 192, Expansion = 0}, -- Shieldskin
 			{ID = 4267, Cost = 786, Expansion = 0}, -- Wuggan's Lesser Discombobulation
 			{ID = 4279, Cost = 783, Expansion = 0}, -- Wuggan's Lesser Extrication
@@ -4693,7 +4693,7 @@ autoscribe_db.Spells = {
 		},
 		[23] = {
 			{ID = 449, Cost = 1284, Expansion = 99}, -- Intensify Death
-			{ID = 4274, Cost = 2916, Expansion = 0}, -- Reebo's Exorcism
+			{ID = 4274, Cost = 2916, Expansion = 99}, -- Reebo's Exorcism
 			{ID = 448, Cost = 1256, Expansion = 0}, -- Rest the Dead
 			{ID = 4256, Cost = 2922, Expansion = 0}, -- Wuggan's Appraisal
 		},
@@ -4701,8 +4701,8 @@ autoscribe_db.Spells = {
 			{ID = 7690, Cost = 776, Expansion = 4}, -- Focus Mass Makeshift Spellcaster's Empowering Essence
 			{ID = 493, Cost = 1478, Expansion = 99}, -- Haunting Corpse
 			{ID = 65, Cost = 1267, Expansion = 0}, -- Major Shielding
-			{ID = 4262, Cost = 2260, Expansion = 0}, -- Reebo's Augury
-			{ID = 4286, Cost = 3342, Expansion = 0}, -- Reebo's Cleansing
+			{ID = 4262, Cost = 2260, Expansion = 99}, -- Reebo's Augury
+			{ID = 4286, Cost = 3342, Expansion = 99}, -- Reebo's Cleansing
 			{ID = 61, Cost = 1483, Expansion = 0}, -- Resist Cold
 			{ID = 4268, Cost = 3355, Expansion = 0}, -- Wuggan's Discombobulation
 			{ID = 4280, Cost = 3360, Expansion = 0}, -- Wuggan's Extrication
@@ -4744,13 +4744,13 @@ autoscribe_db.Spells = {
 		[33] = {
 			{ID = 66, Cost = 3792, Expansion = 0}, -- Greater Shielding
 			{ID = 494, Cost = 4741, Expansion = 99}, -- Invoke Shadow
-			{ID = 4275, Cost = 9036, Expansion = 0}, -- Reebo's Greater Exorcism
+			{ID = 4275, Cost = 9036, Expansion = 99}, -- Reebo's Greater Exorcism
 			{ID = 4257, Cost = 9128, Expansion = 0}, -- Wuggan's Greater Appraisal
 		},
 		[34] = {
 			{ID = 7691, Cost = 1000, Expansion = 4}, -- Focus Mass Elementary Spellcaster's Empowering Essence
-			{ID = 4263, Cost = 7371, Expansion = 0}, -- Reebo's Greater Augury
-			{ID = 4287, Cost = 9981, Expansion = 0}, -- Reebo's Greater Cleansing
+			{ID = 4263, Cost = 7371, Expansion = 99}, -- Reebo's Greater Augury
+			{ID = 4287, Cost = 9981, Expansion = 99}, -- Reebo's Greater Cleansing
 			{ID = 230, Cost = 22, Expansion = 0}, -- Root
 			{ID = 435, Cost = 5275, Expansion = 0}, -- Venom of the Snake
 			{ID = 4269, Cost = 9894, Expansion = 0}, -- Wuggan's Greater Discombobulation
